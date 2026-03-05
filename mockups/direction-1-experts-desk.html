@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saadiq Rodgers-King — AI Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Base ──────────────────────────────────── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0c0c0c;
+    --text: #f0ece4;
+    --text-dim: #8a857d;
+    --accent: #d4a843;
+    --accent-dim: rgba(212, 168, 67, 0.15);
+    --mono: 'JetBrains Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Inter', sans-serif;
+    --gutter: clamp(1.5rem, 5vw, 4rem);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── Noise overlay ─────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* ── Layout helpers ────────────────────────────────── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  section {
+    padding: clamp(4rem, 10vh, 8rem) 0;
+    border-bottom: 1px solid rgba(240, 236, 228, 0.06);
+  }
+
+  /* ── Section label ─────────────────────────────────── */
+  .label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  /* ── Blinking cursor ───────────────────────────────── */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+
+  .cursor-block {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.15em;
+    background: var(--accent);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    opacity: 0.7;
+  }
+
+  /* ── Navigation ────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 1.25rem var(--gutter);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(12, 12, 12, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(240, 236, 228, 0.06);
+  }
+
+  nav .brand {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  nav .links {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+  }
+
+  nav .links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav .links a:hover {
+    color: var(--accent);
+  }
+
+  /* ── Hero ───────────────────────────────────────────── */
+  .hero {
+    padding-top: clamp(8rem, 20vh, 14rem);
+    padding-bottom: clamp(5rem, 12vh, 10rem);
+  }
+
+  .hero .container {
+    max-width: 960px;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    max-width: 18em;
+  }
+
+  .hero .subtext {
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: var(--text-dim);
+    max-width: 36em;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .cta {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.85rem 1.75rem;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .cta:hover {
+    background: #e2b84e;
+    transform: translateY(-1px);
+  }
+
+  .cta-ghost {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(212, 168, 67, 0.35);
+  }
+
+  .cta-ghost:hover {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  /* ── Stats / Problem ───────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+    margin: 2.5rem 0;
+  }
+
+  .stat {
+    background: rgba(240, 236, 228, 0.025);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgba(240, 236, 228, 0.04);
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .stat:hover {
+    border-color: rgba(212, 168, 67, 0.2);
+    background: rgba(240, 236, 228, 0.035);
+  }
+
+  .stat .number {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .stats-caption {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--text);
+    margin-top: 2.5rem;
+    max-width: 38em;
+    line-height: 1.5;
+  }
+
+  /* ── Tracks ────────────────────────────────────────── */
+  .tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .tracks { grid-template-columns: 1fr; }
+  }
+
+  .track {
+    padding: clamp(2rem, 4vw, 3rem);
+    border: 1px solid rgba(240, 236, 228, 0.06);
+    transition: border-color 0.3s;
+  }
+
+  .track:hover {
+    border-color: rgba(212, 168, 67, 0.2);
+  }
+
+  .track .track-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .track h3 {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .track p {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  /* ── How I Work ────────────────────────────────────── */
+  .engagements {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 800px) {
+    .engagements { grid-template-columns: 1fr; }
+  }
+
+  .engagement {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgba(240, 236, 228, 0.06);
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .engagement:hover {
+    border-color: rgba(212, 168, 67, 0.2);
+  }
+
+  .engagement .step {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .engagement h4 {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 0.35rem;
+  }
+
+  .engagement .scope {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .engagement p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ── About ─────────────────────────────────────────── */
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 700px) {
+    .about-content { grid-template-columns: 1fr; }
+  }
+
+  .about-meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    line-height: 2.2;
+  }
+
+  .about-meta .key {
+    color: var(--accent);
+  }
+
+  .about-text {
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--text-dim);
+  }
+
+  .about-text strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── Footer CTA ────────────────────────────────────── */
+  .footer-cta {
+    text-align: center;
+    padding: clamp(5rem, 12vh, 9rem) 0;
+    border-bottom: none;
+  }
+
+  .footer-cta p {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    max-width: 32em;
+    margin: 0 auto 2.5rem;
+    line-height: 1.45;
+  }
+
+  .footer-cta .cta-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Status bar ────────────────────────────────────── */
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0.55rem var(--gutter);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: rgba(12, 12, 12, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(240, 236, 228, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status-bar .status-left {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-bar .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .status-bar .status-right {
+    color: rgba(240, 236, 228, 0.2);
+  }
+
+  /* ── Footer bottom ─────────────────────────────────── */
+  footer.bottom {
+    padding: 1.5rem 0 4rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: rgba(240, 236, 228, 0.15);
+    border-bottom: none;
+  }
+
+  /* ── Responsive ────────────────────────────────────── */
+  @media (max-width: 600px) {
+    nav .links { gap: 1rem; }
+    nav .links .hide-mobile { display: none; }
+  }
+
+  /* ── Selection color ───────────────────────────────── */
+  ::selection {
+    background: rgba(212, 168, 67, 0.3);
+    color: var(--text);
+  }
+
+  /* ── Scroll reveal ─────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────── -->
+<nav>
+  <a href="#" class="brand">saadiq_</a>
+  <div class="links">
+    <a href="#problem" class="hide-mobile">// problem</a>
+    <a href="#tracks">// tracks</a>
+    <a href="#how" class="hide-mobile">// how</a>
+    <a href="#about">// about</a>
+    <a href="/newsletter">/ newsletter</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="label">// ai transformation</div>
+    <h1>Smart leaders are stuck on AI. I show them the future and build the path there.<span class="cursor"></span></h1>
+    <p class="subtext">You have the mandate, the tools, and the urgency. What you don't have is a picture of what success actually looks like. I do.</p>
+    <a href="https://cal.com/saadiq/free-ai-consultation" class="cta">Book a conversation &rarr;</a>
+  </div>
+</section>
+
+<!-- ── The Problem ─────────────────────────────────── -->
+<section id="problem">
+  <div class="container">
+    <div class="label reveal">// the problem</div>
+    <div class="stats-grid">
+      <div class="stat reveal">
+        <div class="number">74%</div>
+        <p>of CEOs fear losing their jobs over AI within 2 years</p>
+      </div>
+      <div class="stat reveal">
+        <div class="number">95%</div>
+        <p>of AI pilots fail to deliver ROI</p>
+      </div>
+      <div class="stat reveal">
+        <div class="number">80%+</div>
+        <p>report NO productivity gains despite 70% using AI</p>
+      </div>
+      <div class="stat reveal">
+        <div class="number">42%</div>
+        <p>abandoned majority of AI projects before production</p>
+      </div>
+    </div>
+    <p class="stats-caption reveal">The tools exist. The results don&rsquo;t. The gap is not access&nbsp;&mdash; it&rsquo;s knowing what to aim for.</p>
+  </div>
+</section>
+
+<!-- ── Two Tracks ──────────────────────────────────── -->
+<section id="tracks">
+  <div class="container">
+    <div class="label reveal">// two tracks</div>
+    <div class="tracks">
+      <div class="track reveal">
+        <div class="track-label">Track A</div>
+        <h3>Tech Companies &mdash; Level Up How You Work</h3>
+        <p>Your board said &ldquo;leverage AI.&rdquo; Nobody knows what that means. I embed with your product team, demonstrate what high performance actually looks like, and transfer the capability. When I leave, the pattern stays.</p>
+      </div>
+      <div class="track reveal">
+        <div class="track-label">Track B</div>
+        <h3>Non-Tech Companies &mdash; Get More Help</h3>
+        <p>You don&rsquo;t have a software team. What you want is for things to work that never worked before. I come in as your technical brain&nbsp;&mdash; build automations, replace manual processes, expand from there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── How I Work ──────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="label reveal">// how i work</div>
+    <div class="engagements">
+      <div class="engagement reveal">
+        <div class="step">01</div>
+        <h4>Discovery</h4>
+        <div class="scope">2&ndash;3 conversations</div>
+        <p>I learn where you are. I talk to your people, watch how they work, and identify the first concrete problem worth solving with AI.</p>
+      </div>
+      <div class="engagement reveal">
+        <div class="step">02</div>
+        <h4>Sprint</h4>
+        <div class="scope">Defined scope</div>
+        <p>We pick one project and deliver it with your own data. Your team sees the future. That&rsquo;s the unlock.</p>
+      </div>
+      <div class="engagement reveal">
+        <div class="step">03</div>
+        <h4>Embedded</h4>
+        <div class="scope">Ongoing</div>
+        <p>I work alongside your team on real outcomes. They participate, the pattern transfers, and the capability becomes theirs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ───────────────────────────────────────── -->
+<section id="about">
+  <div class="container">
+    <div class="label reveal">// about</div>
+    <div class="about-content reveal">
+      <div class="about-meta">
+        <span class="key">name</span>: Saadiq Rodgers-King<br>
+        <span class="key">location</span>: Brooklyn, NY<br>
+        <span class="key">education</span>: Princeton CS, MIT Sloan MBA<br>
+        <span class="key">experience</span>: 20+ years<br>
+        <span class="key">domains</span>: consumer internet, fintech, Web3, enterprise SaaS<br>
+        <span class="key">status</span>: available<span class="cursor-block"></span>
+      </div>
+      <div class="about-text">
+        <strong>I&rsquo;ve spent my career at the intersection of product, engineering, and strategy.</strong> I know what high performance with these tools looks like&nbsp;&mdash; not the LinkedIn version. 20+ years building products across consumer internet, fintech, Web3, and enterprise SaaS. I help organizations get ahead with AI&nbsp;&mdash; embedding with teams, working on real outcomes, and transferring capability.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer CTA ──────────────────────────────────── -->
+<section class="footer-cta">
+  <div class="container">
+    <p class="reveal">If you&rsquo;re a leader feeling the pressure of AI and you don&rsquo;t know how to get your organization there, I&rsquo;m the person who does this work.</p>
+    <div class="cta-group reveal">
+      <a href="https://cal.com/saadiq/free-ai-consultation" class="cta">Book a conversation &rarr;</a>
+      <a href="/newsletter" class="cta cta-ghost">Read the newsletter &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<footer class="bottom">
+  <div class="container">&copy; 2026 Saadiq Rodgers-King</div>
+</footer>
+
+<!-- ── Status bar ──────────────────────────────────── -->
+<div class="status-bar">
+  <div class="status-left">
+    <span class="dot"></span>
+    <span>&gt; saadiq &mdash; available for engagement<span class="cursor"></span></span>
+  </div>
+  <div class="status-right">brooklyn, ny</div>
+</div>
+
+<!-- ── Scroll reveal observer ──────────────────────── -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

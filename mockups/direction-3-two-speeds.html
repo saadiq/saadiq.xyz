@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRK — AI Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --dark-bg: #0f0f0f;
+  --accent-electric: #4d7cfe;
+  --accent-coral: #ff6b4a;
+  --warm-bg: #faf7f2;
+  --warm-text: #2a2420;
+  --warm-accent: #b87333;
+  --warm-muted: #8a7e74;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  color: #fff;
+  background: var(--dark-bg);
+  overflow-x: hidden;
+}
+
+/* ============================
+   GEOMETRIC BACKGROUND
+   ============================ */
+.dark-zone {
+  position: relative;
+}
+
+.dark-zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(77, 124, 254, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 124, 254, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark-zone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(77, 124, 254, 0.06) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark-zone > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================
+   NAVIGATION
+   ============================ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+nav.scrolled {
+  background: rgba(15, 15, 15, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent-electric);
+}
+
+/* ============================
+   HERO SECTION (DARK)
+   ============================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 2.5rem 6rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.08;
+  color: #fff;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.hero-punchline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--accent-electric);
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-subtext {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.btn-accent {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 2.25rem;
+  border: 2px solid var(--accent-electric);
+  color: #fff;
+  background: transparent;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.btn-accent:hover {
+  background: var(--accent-electric);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ============================
+   STATS SECTION (DARK)
+   ============================ */
+.stats {
+  padding: 6rem 2.5rem 8rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 2rem 1rem;
+  border: 1px solid rgba(77, 124, 254, 0.12);
+  background: rgba(77, 124, 254, 0.03);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.stat-item:hover {
+  border-color: rgba(77, 124, 254, 0.3);
+  transform: translateY(-4px);
+}
+
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--accent-electric);
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.stat-label {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+
+.stats-punchline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  color: #fff;
+  text-align: center;
+  opacity: 0.9;
+}
+
+/* ============================
+   TRANSITION ZONE
+   ============================ */
+.transition-zone {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.transition-zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--dark-bg) 0%,
+    #1a1714 30%,
+    #2e2820 50%,
+    #5c4f3e 65%,
+    #a08c74 78%,
+    var(--warm-bg) 100%
+  );
+}
+
+.transition-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent-electric) 30%,
+    var(--warm-accent) 70%,
+    transparent 100%
+  );
+  transform: translateY(-50%);
+  opacity: 0.6;
+}
+
+/* ============================
+   WARM ZONE SHARED
+   ============================ */
+.warm-zone {
+  background: var(--warm-bg);
+  color: var(--warm-text);
+}
+
+.warm-section {
+  padding: 6rem 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--warm-accent);
+  margin-bottom: 1rem;
+}
+
+.section-heading {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  color: var(--warm-text);
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+}
+
+/* ============================
+   TWO TRACKS (WARM)
+   ============================ */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.track {
+  padding: 2.5rem;
+  border: 1px solid rgba(184, 115, 51, 0.2);
+  background: rgba(184, 115, 51, 0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.track:hover {
+  border-color: var(--warm-accent);
+  box-shadow: 0 8px 40px rgba(184, 115, 51, 0.08);
+}
+
+.track-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--warm-accent);
+  margin-bottom: 0.75rem;
+}
+
+.track h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--warm-text);
+  margin-bottom: 1.25rem;
+  line-height: 1.25;
+}
+
+.track p {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.95rem;
+  color: var(--warm-muted);
+  line-height: 1.8;
+}
+
+/* ============================
+   HOW I WORK (WARM)
+   ============================ */
+.how-section {
+  border-top: 1px solid rgba(42, 36, 32, 0.1);
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.step-number {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  color: var(--warm-accent);
+  opacity: 0.3;
+  line-height: 1;
+}
+
+.step h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--warm-text);
+  margin-bottom: 0.75rem;
+}
+
+.step h3 span {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--warm-muted);
+  margin-left: 0.5rem;
+}
+
+.step p {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.95rem;
+  color: var(--warm-muted);
+  line-height: 1.8;
+}
+
+/* ============================
+   ABOUT (WARM)
+   ============================ */
+.about-section {
+  border-top: 1px solid rgba(42, 36, 32, 0.1);
+}
+
+.about-section p {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1.05rem;
+  color: var(--warm-text);
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+
+.about-section p:last-of-type {
+  color: var(--warm-muted);
+  font-size: 0.95rem;
+}
+
+/* ============================
+   FINAL CTA
+   ============================ */
+.final-cta {
+  background: var(--dark-bg);
+  color: #fff;
+  padding: 8rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(77, 124, 254, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 124, 254, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.final-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.final-cta-text {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 650px;
+  margin: 0 auto 3rem;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 2.25rem;
+  background: var(--accent-electric);
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  border: 2px solid var(--accent-electric);
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #3a66e0;
+  border-color: #3a66e0;
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 1rem 2.25rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 768px) {
+  nav {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.25rem;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+  }
+
+  .hero {
+    padding: 7rem 1.5rem 4rem;
+  }
+
+  .stats {
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-item {
+    padding: 1.5rem 1rem;
+  }
+
+  .warm-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .tracks-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .track {
+    padding: 2rem 1.5rem;
+  }
+
+  .step {
+    grid-template-columns: 50px 1fr;
+    gap: 1.25rem;
+  }
+
+  .step-number {
+    font-size: 2.25rem;
+  }
+
+  .final-cta {
+    padding: 5rem 1.5rem;
+  }
+
+  .transition-zone {
+    height: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .step-number {
+    font-size: 1.75rem;
+    opacity: 0.5;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <a href="#" class="nav-logo">SRK</a>
+  <ul class="nav-links">
+    <li><a href="#tracks">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#">Newsletter</a></li>
+  </ul>
+</nav>
+
+<!-- ======================== DARK ZONE ======================== -->
+<div class="dark-zone">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="hero-headline">Your board said &ldquo;leverage AI.&rdquo; Nobody knows what that means.</h1>
+    <p class="hero-punchline">I do.</p>
+    <p class="hero-subtext">I embed with your team, work on real outcomes, and when I&rsquo;m done, the capability is theirs.</p>
+    <a href="#final-cta" class="btn-accent">Book a conversation &rarr;</a>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <span class="stat-number">74%</span>
+        <span class="stat-label">of CEOs fear losing their jobs over AI</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">95%</span>
+        <span class="stat-label">of AI pilots fail to deliver ROI</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">80%+</span>
+        <span class="stat-label">report NO productivity gains</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">42%</span>
+        <span class="stat-label">abandoned majority of AI projects</span>
+      </div>
+    </div>
+    <p class="stats-punchline reveal">The tools exist. The results don&rsquo;t.</p>
+  </section>
+
+</div>
+
+<!-- ======================== TRANSITION ======================== -->
+<div class="transition-zone">
+  <div class="transition-line"></div>
+</div>
+
+<!-- ======================== WARM ZONE ======================== -->
+<div class="warm-zone">
+
+  <!-- TWO TRACKS -->
+  <section class="warm-section" id="tracks">
+    <p class="section-label">Two tracks</p>
+    <h2 class="section-heading reveal">The path depends on where you&rsquo;re starting.</h2>
+    <div class="tracks-grid">
+      <div class="track reveal">
+        <p class="track-label">Track A</p>
+        <h3>Tech Companies &mdash; Level Up How You Work</h3>
+        <p>Transform how your product team operates. Speed to intelligence, not speed to shipping. Small teams with AI augmentation doing what large teams used to do.</p>
+      </div>
+      <div class="track reveal">
+        <p class="track-label">Track B</p>
+        <h3>Non-Tech Companies &mdash; Get More Help</h3>
+        <p>You don&rsquo;t need a software team. You need things to work that never worked before. I come in as your technical brain&mdash;build automations, replace manual processes, expand from there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I WORK -->
+  <section class="warm-section how-section" id="how">
+    <p class="section-label">How I work</p>
+    <h2 class="section-heading reveal">Three phases. Real outcomes at every step.</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="step-number">01</span>
+        <div>
+          <h3>Discovery <span>(2&ndash;3 conversations)</span></h3>
+          <p>I learn where you are. I talk to your people, watch how they work, and identify the first concrete problem worth solving with AI.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-number">02</span>
+        <div>
+          <h3>Sprint <span>(Defined scope)</span></h3>
+          <p>We pick one project and deliver it with your own data. Your team sees the future. That&rsquo;s the unlock.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-number">03</span>
+        <div>
+          <h3>Embedded <span>(Ongoing)</span></h3>
+          <p>I work alongside your team on real outcomes. They participate, the pattern transfers, and the capability becomes theirs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="warm-section about-section" id="about">
+    <p class="section-label">About</p>
+    <h2 class="section-heading reveal">Saadiq Rodgers-King</h2>
+    <p class="reveal">Brooklyn, NY. Computer Science from Princeton, MBA from MIT Sloan. 20+ years building products across consumer internet, fintech, Web3, and enterprise SaaS.</p>
+    <p class="reveal">I&rsquo;ve spent my career at the intersection of product, engineering, and strategy. I know what high performance with these tools looks like&mdash;not the LinkedIn version.</p>
+  </section>
+
+</div>
+
+<!-- ======================== FINAL CTA (DARK) ======================== -->
+<section class="final-cta" id="final-cta">
+  <p class="final-cta-text reveal">&ldquo;If you&rsquo;re a leader feeling the pressure of AI and you don&rsquo;t know how to get your organization there, I&rsquo;m the person who does this work.&rdquo;</p>
+  <div class="cta-buttons reveal">
+    <a href="#" class="btn-primary">Book a conversation &rarr;</a>
+    <a href="#" class="btn-outline">Read the newsletter &rarr;</a>
+  </div>
+</section>
+
+<script>
+// Intersection Observer for scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -40px 0px'
+});
+
+reveals.forEach(el => observer.observe(el));
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+</script>
+
+</body>
+</html>
