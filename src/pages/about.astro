@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import StatusBar from "../components/StatusBar.astro";
+---
+
+<BaseLayout
+  title="About — Saadiq Rodgers-King"
+  description="Saadiq Rodgers-King. Princeton CS, MIT Sloan MBA. 20+ years building products. I help organizations get ahead with AI."
+>
+  <Nav />
+  <main class="pt-40 md:pt-48 pb-20 md:pb-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Name block -->
+      <p class="section-label mb-8">// about</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
+        Saadiq Rodgers-King
+      </h1>
+      <p class="text-xl md:text-2xl text-text-muted mb-12 max-w-2xl">
+        I help organizations get ahead with AI.
+      </p>
+
+      <!-- Metadata block -->
+      <div class="border-t border-rule pt-12 mb-12">
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <p class="font-mono text-xs text-text-muted">location_</p>
+            <p class="font-mono text-sm text-text">Brooklyn, NY</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-text-muted">edu_</p>
+            <p class="font-mono text-sm text-text">Princeton CS, MIT Sloan MBA</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-text-muted">exp_</p>
+            <p class="font-mono text-sm text-text">20+ years</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-text-muted">focus_</p>
+            <p class="font-mono text-sm text-text">AI transformation consulting</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio section -->
+      <div class="border-t border-rule pt-12">
+        <div class="grid md:grid-cols-3 gap-12">
+          <div></div>
+          <div class="md:col-span-2">
+            <p class="text-lg md:text-xl leading-relaxed mb-8">
+              I've spent my career at the intersection of product, engineering, and strategy.
+              Consumer internet, fintech, Web3, enterprise SaaS. I've built products, led teams,
+              and shipped things across every stage — from zero-to-one startups to public companies.
+            </p>
+            <p class="text-text-muted leading-relaxed mb-8">
+              Now I help organizations figure out AI. Not the conference-talk version. The real
+              version — where your team actually changes how they work, where the tools are set up
+              for your context, where the results show up in the work product.
+            </p>
+            <p class="text-text-muted leading-relaxed mb-8">
+              I embed with your team, work on real outcomes, and when I'm done, the capability is
+              theirs. I know what high performance with these tools looks like. Not the LinkedIn
+              version.
+            </p>
+            <p class="text-text-muted leading-relaxed mb-12">
+              If you are a CEO or company leader who feels the pressure of AI transforming your
+              industry and you don't know how to get your organization there, I'm the person who
+              does this work.
+            </p>
+            <a
+              href="https://cal.com/saadiq/free-ai-consultation"
+              class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+            >
+              Book a conversation →
+            </a>
+            <div class="mt-8">
+              <a
+                href="/"
+                class="font-mono text-sm text-text-muted hover:text-text transition-colors"
+              >
+                ← Back to home
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <StatusBar />
+</BaseLayout>
