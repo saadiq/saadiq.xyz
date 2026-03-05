@@ -1,0 +1,50 @@
+---
+const metadata = [
+  { key: "name_", value: "Saadiq Rodgers-King" },
+  { key: "location_", value: "Brooklyn, NY" },
+  { key: "edu_", value: "Princeton CS, MIT Sloan MBA" },
+  { key: "exp_", value: "20+ years" },
+  { key: "focus_", value: "AI transformation" },
+];
+---
+
+<section id="about" class="py-20 md:py-28 border-t border-rule">
+  <div class="max-w-5xl mx-auto px-6">
+    <p class="section-label mb-12">// about</p>
+
+    <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+      <!-- Left column: metadata -->
+      <div class="font-mono text-sm space-y-3">
+        {
+          metadata.map(({ key, value }) => (
+            <div>
+              <span class="text-text-muted">{key}</span>{" "}
+              <span class="text-text">{value}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Right column: prose -->
+      <div class="md:col-span-2">
+        <p class="text-lg md:text-xl leading-relaxed mb-6">
+          I've spent my career at the intersection of product, engineering, and
+          strategy — consumer internet, fintech, Web3, enterprise SaaS. I know
+          what high performance with these tools looks like. Not the LinkedIn
+          version.
+        </p>
+        <p class="text-text-muted leading-relaxed mb-8">
+          If you are a CEO or company leader who feels the pressure of AI
+          transforming your industry and you don't know how to get your
+          organization there, I'm the person who does this work.
+        </p>
+        <a
+          href="/about"
+          class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+        >
+          More about me &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
