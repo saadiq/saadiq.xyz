@@ -33,9 +33,9 @@
   if (nav) {
     const onScroll = () => {
       if (window.scrollY > 50) {
-        nav.classList.add("backdrop-blur-md", "bg-bg/80");
+        nav.classList.add("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
       } else {
-        nav.classList.remove("backdrop-blur-md", "bg-bg/80");
+        nav.classList.remove("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
