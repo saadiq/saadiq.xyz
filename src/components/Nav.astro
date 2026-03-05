@@ -1,0 +1,44 @@
+<nav
+  id="main-nav"
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 transition-colors duration-300 md:px-10"
+>
+  <a href="/" class="font-display text-lg text-text tracking-wide no-underline">
+    saadiq_
+  </a>
+
+  <div class="flex items-center gap-8 font-mono text-sm">
+    <a
+      href="#work"
+      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
+    >
+      work
+    </a>
+    <a
+      href="/about"
+      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
+    >
+      about
+    </a>
+    <a
+      href="/newsletter"
+      class="text-text-muted transition-colors duration-200 hover:text-text"
+    >
+      /newsletter
+    </a>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById("main-nav");
+  if (nav) {
+    const onScroll = () => {
+      if (window.scrollY > 50) {
+        nav.classList.add("backdrop-blur-md", "bg-bg/80");
+      } else {
+        nav.classList.remove("backdrop-blur-md", "bg-bg/80");
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>
