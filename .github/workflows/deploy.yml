@@ -5,11 +5,23 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Verify this is still the latest commit on main
+        run: |
+          git fetch origin main
+          if [ "$GITHUB_SHA" != "$(git rev-parse origin/main)" ]; then
+            echo "Newer commit exists on main — skipping deploy."
+            exit 1
+          fi
 
       - uses: oven-sh/setup-bun@v2
 
