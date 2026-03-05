@@ -1,0 +1,31 @@
+---
+const stats = [
+  { number: "74%", caption: "CEOs who fear losing their jobs over AI within 2 years" },
+  { number: "95%", caption: "AI pilots that fail to deliver ROI" },
+  { number: "80%+", caption: "Report NO productivity gains despite 70% using AI" },
+  { number: "42%", caption: "Abandoned majority of AI projects before production" },
+];
+---
+
+<section class="py-20 md:py-28 border-t border-rule">
+  <div class="max-w-5xl mx-auto px-6">
+    <p class="section-label mb-12">// the signal</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+      {stats.map((stat) => (
+        <div>
+          <p class="font-display text-4xl md:text-5xl text-accent mb-2">
+            {stat.number}
+          </p>
+          <p class="font-mono text-xs text-text-muted leading-relaxed">
+            {stat.caption}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-lg md:text-xl text-text-muted max-w-2xl">
+      The tools exist. The results don't. The gap is not access — it's knowing what to aim for.
+    </p>
+  </div>
+</section>
