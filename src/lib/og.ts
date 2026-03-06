@@ -15,6 +15,8 @@ const COLORS = {
   rule: "#2a2a2a",
 };
 
+import type { APIRoute } from "astro";
+
 interface OgImageOptions {
   label: string;
   heading: string;
@@ -117,4 +119,11 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
 
   const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 2400 } });
   return Buffer.from(resvg.render().asPng());
+}
+
+export function ogEndpoint(options: OgImageOptions): APIRoute {
+  return async () => {
+    const png = await generateOgImage(options);
+    return new Response(png, { headers: { "Content-Type": "image/png" } });
+  };
 }
