@@ -66,6 +66,20 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
         person_profiles: 'identified_only',
       })
     </script>
+
+    <!-- PostHog custom event capture -->
+    <script>
+      document.addEventListener('click', function(e) {
+        const el = (e.target as HTMLElement).closest('[data-ph-capture]') as HTMLElement | null;
+        if (!el || !window.posthog) return;
+        const { phCapture, phSection, phDestination } = el.dataset;
+        const props: Record<string, string> = {};
+        if (phSection) props.section = phSection;
+        if (phDestination) props.destination = phDestination;
+        if (el instanceof HTMLAnchorElement) props.href = el.href;
+        window.posthog.capture(phCapture, props);
+      });
+    </script>
   </head>
   <body class="bg-bg text-text antialiased">
     <slot />
