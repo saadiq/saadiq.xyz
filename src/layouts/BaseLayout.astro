@@ -73,6 +73,7 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
         const el = (e.target as HTMLElement).closest('[data-ph-capture]') as HTMLElement | null;
         if (!el || !window.posthog) return;
         const { phCapture, phSection, phDestination } = el.dataset;
+        if (!phCapture) return;
         const props: Record<string, string> = {};
         if (phSection) props.section = phSection;
         if (phDestination) props.destination = phDestination;
