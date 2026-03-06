@@ -9,8 +9,10 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
+    "satori": "^0.25.0",
     "tailwindcss": "^4.2.1"
   }
 }
