@@ -13,9 +13,8 @@ const {
   ogImage = "/og.png",
 } = Astro.props;
 
-const siteBase = Astro.site ?? "https://saadiq.xyz";
-const canonicalURL = new URL(Astro.url.pathname, siteBase);
-const ogImageURL = new URL(ogImage, siteBase).href;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site).href;
 ---
 
 <!doctype html>
@@ -35,8 +34,8 @@ const ogImageURL = new URL(ogImage, siteBase).href;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:image" content={ogImageURL} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
     <meta property="og:site_name" content="saadiq.xyz" />
 
     <!-- Twitter -->
