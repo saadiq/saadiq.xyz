@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://saadiq.xyz/sitemap-0.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://saadiq.xyz/newsletter/sitemap-posts.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://saadiq.xyz/newsletter/sitemap-pages.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://saadiq.xyz/newsletter/sitemap-tags.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://saadiq.xyz/newsletter/sitemap-authors.xml</loc>
+  </sitemap>
+</sitemapindex>
