@@ -1,3 +1,7 @@
+---
+import { BOOKING_URL } from "../lib/constants";
+---
+
 <section class="pt-40 md:pt-48 pb-20 md:pb-28">
   <div class="max-w-5xl mx-auto px-6">
     <p class="section-label mb-8">// ai transformation</p>
@@ -8,7 +12,9 @@
       You have the mandate, the tools, and the urgency. What you don't have is someone who's done this before and knows exactly where to start.
     </p>
     <a
-      href="https://cal.com/saadiq/free-ai-consultation"
+      href={BOOKING_URL}
+      target="_blank"
+      rel="noopener noreferrer"
       class="text-accent hover:text-accent-hover font-mono transition-colors"
       data-ph-capture="cta_book_consultation"
       data-ph-section="hero"
