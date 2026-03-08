@@ -2,12 +2,15 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import StatusBar from "../../components/StatusBar.astro";
+import { aboutJsonLd } from "../../lib/schema";
+import { BOOKING_URL } from "../../lib/constants";
 ---
 
 <BaseLayout
   title="About — Saadiq Rodgers-King"
   description="Saadiq Rodgers-King. Princeton CS, MIT Sloan MBA. 20+ years building products. I help organizations get ahead with AI."
   ogImage="/about/og.png"
+  jsonLd={aboutJsonLd}
 >
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
@@ -68,7 +71,9 @@ import StatusBar from "../../components/StatusBar.astro";
               industry, I can show you what the path forward looks like.
             </p>
             <a
-              href="https://cal.com/saadiq/free-ai-consultation"
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
               data-ph-capture="cta_book_consultation"
               data-ph-section="about"
