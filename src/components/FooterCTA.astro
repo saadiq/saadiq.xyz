@@ -1,7 +1,8 @@
 ---
+import { BOOKING_URL } from "../lib/constants";
 ---
 
-<section class="pt-20 md:pt-28 pb-32 border-t border-rule">
+<footer class="pt-20 md:pt-28 pb-32 border-t border-rule">
   <div class="max-w-5xl mx-auto px-6">
     <p class="font-display text-2xl md:text-3xl leading-snug mb-10 max-w-3xl">
       You know AI matters. You're not sure where to aim.
@@ -10,7 +11,9 @@
 
     <div class="flex flex-wrap gap-6">
       <a
-        href="https://cal.com/saadiq/free-ai-consultation"
+        href={BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
         data-ph-capture="cta_book_consultation"
         data-ph-section="footer"
@@ -31,4 +34,4 @@
       &copy; 2026 Saadiq Rodgers-King
     </p>
   </div>
-</section>
+</footer>
