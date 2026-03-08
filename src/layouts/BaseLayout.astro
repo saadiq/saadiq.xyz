@@ -1,17 +1,22 @@
 ---
 import "../styles/global.css";
+import { defaultJsonLd } from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
-  title = "Saadiq Rodgers-King — I help organizations get ahead with AI.",
-  description = "Smart leaders are stuck on AI. I show them the future and build the path there. You have the mandate and the urgency — I can show you what success looks like.",
+  title = "Saadiq Rodgers-King — AI Transformation Consultant",
+  description = "AI transformation consulting for tech and non-tech companies. I embed with your team, build the capability, and transfer it. Based in Brooklyn, NY.",
   ogImage = "/og.png",
+  jsonLd = defaultJsonLd,
 } = Astro.props;
+
+const fontsUrl = "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site).href;
@@ -24,6 +29,7 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Saadiq Rodgers-King" />
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL.href} />
@@ -52,11 +58,22 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href={fontsUrl}
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link href={fontsUrl} rel="stylesheet" />
+    </noscript>
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Newsletter" href="/newsletter/rss/" />
 
     <meta name="generator" content={Astro.generator} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- PostHog -->
     <script>
