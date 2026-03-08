@@ -1,3 +1,6 @@
+// Custom sitemap index combining Astro pages and Ghost blog sitemaps.
+// This supersedes @astrojs/sitemap's sitemap-index.xml (which only knows about
+// Astro pages). We still need the integration to generate sitemap-0.xml.
 import type { APIRoute } from "astro";
 
 const sitemaps = [
