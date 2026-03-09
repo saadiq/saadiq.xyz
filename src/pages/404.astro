@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import StatusBar from "../components/StatusBar.astro";
+---
+
+<BaseLayout
+  title="404 — Page Not Found"
+  description="The page you're looking for doesn't exist."
+>
+  <Nav />
+  <main class="pt-40 md:pt-48 pb-20 md:pb-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="section-label mb-8">// 404</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
+        Page not found
+      </h1>
+      <p class="text-xl md:text-2xl text-text-muted mb-12 max-w-2xl">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      <div class="flex gap-6">
+        <a
+          href="/"
+          class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+          data-ph-capture="nav_click"
+          data-ph-section="404"
+          data-ph-destination="home"
+        >
+          ← Back to home
+        </a>
+        <a
+          href="/newsletter"
+          class="font-mono text-sm text-text-muted hover:text-text transition-colors"
+          data-ph-capture="nav_click"
+          data-ph-section="404"
+          data-ph-destination="newsletter"
+        >
+          Read the newsletter →
+        </a>
+      </div>
+    </div>
+  </main>
+  <StatusBar />
+</BaseLayout>
