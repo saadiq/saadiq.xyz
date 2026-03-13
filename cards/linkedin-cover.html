@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinkedIn Cover — Saadiq Rodgers-King</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --bg-surface: #141414;
+      --text: #f0ece4;
+      --text-muted: #ac9e90;
+      --accent: #d4a843;
+      --accent-hover: #e8bd5a;
+      --rule: #2a2a2a;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .banner {
+      width: 1584px;
+      height: 396px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Noise texture */
+    .banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* Large ambient glow */
+    .glow {
+      position: absolute;
+      top: 50%;
+      left: 72%;
+      transform: translate(-50%, -50%);
+      width: 1000px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(212, 168, 67, 0.06) 0%, transparent 65%);
+      z-index: 0;
+    }
+
+    /* Accent bar — thick left edge */
+    .accent-bar {
+      position: absolute;
+      left: 50%;
+      top: 40px;
+      bottom: 40px;
+      width: 3px;
+      background: linear-gradient(to bottom, transparent, var(--accent) 20%, var(--accent) 80%, transparent);
+      z-index: 3;
+    }
+
+    /* Main content — right half only */
+    .content {
+      position: absolute;
+      left: calc(50% + 36px);
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-right: 60px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .headline {
+      font-family: 'Instrument Serif', serif;
+      font-size: 72px;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .headline .cursor {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .sub {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 17px;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.01em;
+    }
+
+    /* Decorative code — far left, faded */
+    .code-bg {
+      position: absolute;
+      left: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 2.2;
+      color: var(--rule);
+      z-index: 2;
+      white-space: nowrap;
+      opacity: 0.35;
+    }
+
+    .code-bg .accent-dim {
+      color: rgba(212, 168, 67, 0.15);
+    }
+
+    /* Bottom URL */
+    .bottom-url {
+      position: absolute;
+      bottom: 20px;
+      right: 40px;
+      z-index: 3;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    /* Corner marks */
+    .corner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      z-index: 2;
+    }
+    .corner-tr {
+      top: 16px; right: 16px;
+      border-top: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    .corner-br {
+      bottom: 16px; right: 16px;
+      border-bottom: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="glow"></div>
+
+    <!-- Decorative code (behind profile photo) -->
+    <div class="code-bg">
+      <div>const strategy = {</div>
+      <div>&nbsp;&nbsp;focus: <span class="accent-dim">"ai_transformation"</span>,</div>
+      <div>&nbsp;&nbsp;approach: <span class="accent-dim">"embed_&_transfer"</span>,</div>
+      <div>&nbsp;&nbsp;years: <span class="accent-dim">20</span>,</div>
+      <div>&nbsp;&nbsp;status: <span class="accent-dim">"available"</span></div>
+      <div>};</div>
+    </div>
+
+    <!-- Accent bar -->
+    <div class="accent-bar"></div>
+
+    <!-- Corners -->
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-br"></div>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="section-label">// ai transformation</div>
+      <div class="headline">
+        I help organizations<br>
+        get ahead with <em>AI</em><span class="cursor">_</span>
+      </div>
+    </div>
+
+    <div class="bottom-url">saadiq.xyz</div>
+  </div>
+</body>
+</html>

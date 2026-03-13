@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Card — Saadiq Rodgers-King</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --text: #f0ece4;
+      --text-muted: #ac9e90;
+      --accent: #d4a843;
+      --rule: #2a2a2a;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      width: 1600px;
+      height: 2000px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 120px 130px;
+    }
+
+    /* Noise texture */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* Label */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 52px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    /* Quote zone — fills middle, vertically centers text */
+    .quote-zone {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      z-index: 2;
+      padding: 0 40px;
+    }
+
+    .quote {
+      font-family: 'Instrument Serif', serif;
+      font-size: 140px;
+      line-height: 1.15;
+      color: var(--text);
+    }
+
+    .quote .highlight {
+      color: var(--accent);
+    }
+
+    .quote .cursor {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 40px;
+      color: var(--text-muted);
+      z-index: 2;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">// insight</div>
+
+    <div class="quote-zone">
+      <div class="quote">
+        The companies winning at AI aren't the ones with the best models.
+        They're the ones who <span class="highlight">rebuilt their workflows</span>
+        from scratch instead of bolting AI onto broken processes<span class="cursor">_</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Saadiq Rodgers-King</span>
+      <span>saadiq.xyz</span>
+    </div>
+  </div>
+</body>
+</html>
