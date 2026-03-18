@@ -8,7 +8,7 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 
 ### How the server is laid out
 
-- **Droplet**: `167.71.169.225` (root access via ssh)
+- **Droplet**: `167.71.169.225` (SSH as `saadiq`, root login disabled)
 - **Nginx config**: `/etc/nginx/sites-enabled/saadiq.xyz.conf`
 - **Static site files**: `/var/www/saadiq.xyz/` (this repo's `dist/` output)
 - **Ghost blog**: runs on `127.0.0.1:2368`, served at `/newsletter`
