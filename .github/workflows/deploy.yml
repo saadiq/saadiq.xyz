@@ -35,6 +35,6 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H 167.71.169.225 >> ~/.ssh/known_hosts
-          rsync -av --delete -e ssh dist/ root@167.71.169.225:/var/www/saadiq.xyz/
-          scp server/ghost-redirects.conf root@167.71.169.225:/etc/nginx/snippets/ghost-redirects.conf
-          ssh root@167.71.169.225 "nginx -t && nginx -s reload"
+          rsync -av --delete -e ssh dist/ saadiq@167.71.169.225:/var/www/saadiq.xyz/
+          scp server/ghost-redirects.conf saadiq@167.71.169.225:/tmp/ghost-redirects.conf
+          ssh saadiq@167.71.169.225 "sudo cp /tmp/ghost-redirects.conf /etc/nginx/snippets/ghost-redirects.conf && sudo nginx -t && sudo nginx -s reload"
