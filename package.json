@@ -9,12 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/sitemap": "^3.7.1",
     "@resvg/resvg-js": "^2.6.2",
-    "@tailwindcss/vite": "^4.2.1",
-    "astro": "^5.17.1",
-    "puppeteer": "^24.39.0",
-    "satori": "^0.25.0",
-    "tailwindcss": "^4.2.1"
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.0.8",
+    "puppeteer": "^24.40.0",
+    "satori": "^0.26.0",
+    "tailwindcss": "^4.2.2"
   }
 }
