@@ -18,7 +18,7 @@ export const defaultJsonLd = {
   "@type": "ProfessionalService",
   "name": "Saadiq Rodgers-King — AI Transformation Consulting",
   "url": "https://saadiq.xyz",
-  "description": "AI transformation consulting for tech and non-tech companies.",
+  "description": "Smart leaders are stuck on AI. I get their teams unstuck. Embedded consulting for tech companies with product and engineering teams.",
   "provider": personSchema,
 };
 
