@@ -1,9 +1,29 @@
 ---
 const stats = [
-  { number: "74%", caption: "CEOs who fear losing their jobs over AI within 2 years" },
-  { number: "95%", caption: "AI pilots that fail to deliver ROI" },
-  { number: "80%+", caption: "Report NO productivity gains despite 70% using AI" },
-  { number: "42%", caption: "Abandoned majority of AI projects before production" },
+  {
+    number: "74%",
+    caption: "CEOs who fear losing their jobs over AI within 2 years",
+    source: "Dataiku / Harris Poll",
+    url: "https://fortune.com/2025/05/09/ceos-fear-losing-jobs-ai-survey/",
+  },
+  {
+    number: "95%",
+    caption: "AI pilots that fail to deliver ROI",
+    source: "MIT",
+    url: "https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/",
+  },
+  {
+    number: "80%+",
+    caption: "Report NO productivity gains despite 70% using AI",
+    source: "NBER",
+    url: "https://fortune.com/2026/02/17/ai-productivity-paradox-ceo-study-robert-solow-information-technology-age/",
+  },
+  {
+    number: "42%",
+    caption: "Abandoned majority of AI projects before production",
+    source: "S&P Global",
+    url: "https://www.spglobal.com/",
+  },
 ];
 ---
 
@@ -20,6 +40,14 @@ const stats = [
           <p class="font-mono text-xs text-text-muted leading-relaxed">
             {stat.caption}
           </p>
+          <a
+            href={stat.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-mono text-[10px] text-text-muted/60 hover:text-accent transition-colors"
+          >
+            — {stat.source}
+          </a>
         </div>
       ))}
     </div>
