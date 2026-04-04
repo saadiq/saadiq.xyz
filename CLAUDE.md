@@ -55,3 +55,24 @@ bash deploy.sh  # builds with `bun run build`, scps dist/* to server
 
 - `bun run dev` — local dev server
 - `bun run build` — production build to `dist/`
+
+## Google Search Console
+
+GSC property: `sc-domain:saadiq.xyz` (domain-level, owned by `saadiq@gmail.com`).
+
+**Auth setup**: Requires application-default credentials with webmasters scope:
+```bash
+gcloud auth application-default login --scopes=https://www.googleapis.com/auth/webmasters.readonly,https://www.googleapis.com/auth/cloud-platform
+```
+
+**API calls** need a quota project header. Example — inspect a URL:
+```bash
+ACCESS_TOKEN=$(gcloud auth application-default print-access-token)
+curl -s -X POST "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "x-goog-user-project: saadiq" \
+  -H "Content-Type: application/json" \
+  -d '{"inspectionUrl": "https://saadiq.xyz/", "siteUrl": "sc-domain:saadiq.xyz"}'
+```
+
+**List sites**: `GET https://searchconsole.googleapis.com/webmasters/v3/sites` (same auth headers)
