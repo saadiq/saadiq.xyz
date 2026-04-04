@@ -1,0 +1,22 @@
+# Saadiq Rodgers-King — AI Transformation Consulting
+
+> Embedded AI consulting for tech companies. I get product and engineering teams unstuck.
+
+Saadiq Rodgers-King is an AI transformation consultant based in Brooklyn, NY.
+Princeton CS, MIT Sloan MBA. 20+ years across product, engineering, and strategy.
+He embeds with teams at tech companies to move AI initiatives from pilot to production.
+
+## What I Do
+
+I work with CEOs and CPOs at tech companies where the team has AI tools but nothing has changed. I embed with product and engineering teams, work on their actual processes, and transfer the capability so it stays when I leave.
+
+Product teams get live intelligence — customer support signals, sales conversations, competitive moves, and usage analytics synthesized in real time instead of waiting for quarterly research cycles.
+
+Engineering teams shift from grinding through tickets to building systems. Routine work gets executed by agents. Engineers focus on architecture, strategy, and the decisions that require judgment.
+
+## Pages
+
+- [Home](https://saadiq.xyz) — Overview of services and positioning
+- [About](https://saadiq.xyz/about) — Background, credentials, and approach
+- [Newsletter](https://saadiq.xyz/newsletter) — Writing on AI transformation, product, and engineering
+- [Book a Conversation](https://cal.com/saadiq/ai-strategy) — Schedule an AI strategy call
