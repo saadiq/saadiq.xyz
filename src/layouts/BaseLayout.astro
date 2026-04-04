@@ -1,12 +1,12 @@
 ---
 import "../styles/global.css";
-import { defaultJsonLd } from "../lib/schema";
+import { defaultJsonLd, websiteJsonLd } from "../lib/schema";
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
-  jsonLd?: Record<string, unknown>;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -18,8 +18,10 @@ const {
 
 const fontsUrl = "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const rawPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '');
+const canonicalURL = new URL(rawPath || '/', Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site).href;
+const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
 ---
 
 <!doctype html>
@@ -44,11 +46,15 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
     <meta property="og:image:height" content="1260" />
     <meta property="og:site_name" content="saadiq.xyz" />
 
+    <meta property="og:image:alt" content={title} />
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:site" content="@saadiqrk" />
+    <meta name="twitter:creator" content="@saadiqrk" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -70,10 +76,10 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Newsletter" href="/newsletter/rss/" />
 
-    <meta name="generator" content={Astro.generator} />
-
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
 
     <!-- PostHog -->
     <script>
