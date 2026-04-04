@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import StatusBar from "../../components/StatusBar.astro";
-import { aboutJsonLd } from "../../lib/schema";
+import { aboutJsonLd, websiteJsonLd, aboutBreadcrumbJsonLd } from "../../lib/schema";
 import { BOOKING_URL } from "../../lib/constants";
 ---
 
@@ -10,7 +10,7 @@ import { BOOKING_URL } from "../../lib/constants";
   title="About — Saadiq Rodgers-King"
   description="Saadiq Rodgers-King. Princeton CS, MIT Sloan MBA. 20+ years building products. I get product and engineering teams actually using AI."
   ogImage="/about/og.png"
-  jsonLd={aboutJsonLd}
+  jsonLd={[websiteJsonLd, aboutJsonLd, aboutBreadcrumbJsonLd]}
 >
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
