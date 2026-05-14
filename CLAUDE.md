@@ -12,8 +12,24 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 - **Nginx config**: `/etc/nginx/sites-enabled/saadiq.xyz.conf`
 - **Static site files**: `/var/www/saadiq.xyz/` (this repo's `dist/` output)
 - **Ghost blog**: runs on `127.0.0.1:2368`, served at `/newsletter`
+- **Ghost users**: `ghost-mgr` (UID 1000) owns the install and is the user for `ghost` CLI commands; `ghost` (UID 998) is the Node process user only. Run cli as: `cd /var/www/ghost && sudo -u ghost-mgr ghost <cmd>`. Running ghost-cli as `ghost` shows "No installed ghost instances found".
+- **Ghost systemd unit**: `ghost_167-71-169-225.service` — use `sudo systemctl restart ghost_167-71-169-225.service` to apply config changes
 - **Ghost themes**: `/var/www/ghost/content/themes/` (active theme: `journal-dark`)
 - **Ghost admin**: `https://saadiq.xyz/newsletter/ghost/`
+- **Ghost mail config**: `/var/www/ghost/config.production.json` → `mail.from` sets the display name on **admin notification emails** (e.g. new free signup). Distinct from Site Title (general settings) and per-newsletter Sender Name. Restart Ghost after editing.
+
+### Ghost upgrades
+
+Stop Ghost before running `ghost update`. Running both at once OOM'd the droplet on 2026-05-13 (Ghost 6.32.0 → 6.38.0 attempt) — ghost-cli's pre-flight filesystem walk over `content/` combined with the running Ghost process exhausted memory and required a `doctl compute droplet-action power-cycle` to recover. Procedure:
+
+```bash
+cd /var/www/ghost
+sudo -u ghost-mgr ghost stop
+sudo -u ghost-mgr ghost update
+sudo -u ghost-mgr ghost start   # `update` usually restarts, but verify
+```
+
+Fix any pre-flight permission errors (e.g. theme files needing `chmod 664`) before retrying — ghost-cli prints the exact `find ... -exec chmod` command to run.
 
 ### Routing (nginx)
 
