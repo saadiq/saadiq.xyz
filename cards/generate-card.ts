@@ -1,8 +1,12 @@
 import puppeteer from "puppeteer";
-import { resolve } from "path";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 
-const outputFile = process.argv[2] || resolve(import.meta.dir, "quote-card.png");
-const htmlPath = resolve(import.meta.dir, "quote-card.html");
+const __dirname = typeof import.meta.dir === "string" ? import.meta.dir : dirname(fileURLToPath(import.meta.url));
+const outputFile = process.argv[2] || resolve(__dirname, "quote-card.png");
+const htmlPath = process.argv[3]
+  ? resolve(process.cwd(), process.argv[3])
+  : resolve(__dirname, "quote-card.html");
 
 const browser = await puppeteer.launch({ headless: true });
 const page = await browser.newPage();

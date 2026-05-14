@@ -2,7 +2,8 @@ import puppeteer from "puppeteer";
 import { resolve } from "path";
 
 const outputFile = process.argv[2] || resolve(import.meta.dir, "linkedin-cover.png");
-const htmlPath = resolve(import.meta.dir, "linkedin-cover.html");
+const htmlArg = process.argv[3] || "linkedin-cover.html";
+const htmlPath = resolve(import.meta.dir, htmlArg);
 
 const browser = await puppeteer.launch({ headless: true });
 const page = await browser.newPage();
