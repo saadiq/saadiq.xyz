@@ -6,7 +6,7 @@ const __dirname = typeof import.meta.dir === "string" ? import.meta.dir : dirnam
 const outputFile = process.argv[2] || resolve(__dirname, "quote-card.png");
 const htmlPath = process.argv[3]
   ? resolve(process.cwd(), process.argv[3])
-  : resolve(__dirname, "quote-card.html");
+  : resolve(__dirname, "templates/quote-card.html");
 
 const browser = await puppeteer.launch({ headless: true });
 const page = await browser.newPage();
