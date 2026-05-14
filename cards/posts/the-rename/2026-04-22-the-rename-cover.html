@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Notes — Newsletter Cover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f6f6f4;
+      --bg-2: #efefec;
+      --text: #0a0a0a;
+      --text-2: #2a2a2a;
+      --muted: #737370;
+      --rule: #dedcd6;
+      --rule-faint: #e8e6e0;
+      --accent: #a47018;
+      --accent-bright: #d4a843;
+      --ok: #2d8040;
+
+      --font-display: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      --font-serif: "Instrument Serif", Georgia, serif;
+    }
+
+    body {
+      background: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: var(--font-display);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .banner {
+      width: 1900px;
+      height: 400px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle digital noise overlay */
+    .banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* dot grid plate behind wordmark — same motif as .gh-latest */
+    .dot-plate {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(10, 10, 10, 0.06) 1px, transparent 0);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    /* terminal-prompt brand — top-left, matches site header */
+    .brand {
+      position: absolute;
+      top: 36px;
+      left: 56px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+      z-index: 3;
+    }
+
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 8px var(--ok);
+      display: inline-block;
+    }
+
+    .brand-host { color: var(--text-2); }
+    .brand-sep { color: var(--muted); opacity: 0.55; }
+    .brand-path { color: var(--text); font-weight: 600; }
+
+    /* top-right: section label */
+    .section-label {
+      position: absolute;
+      top: 36px;
+      right: 56px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      z-index: 3;
+    }
+
+    /* centered wordmark */
+    .wordmark-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      text-align: center;
+    }
+
+    .wordmark {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 176px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .wordmark .accent {
+      color: var(--accent);
+    }
+
+    .wordmark .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 96px;
+      background: var(--accent);
+      margin-left: 12px;
+      transform: translateY(4px);
+      vertical-align: baseline;
+      font-style: normal;
+    }
+
+    /* bottom-left: manifesto-style sub */
+    .sub {
+      position: absolute;
+      bottom: 36px;
+      left: 56px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--muted);
+      z-index: 3;
+    }
+
+    .sub .sub-hash {
+      color: var(--accent);
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    /* bottom-right: url */
+    .url {
+      position: absolute;
+      bottom: 36px;
+      right: 56px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--muted);
+      z-index: 3;
+    }
+
+    /* corner marks — faint, like the site's rule style */
+    .corner {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      z-index: 2;
+    }
+    .corner-tl { top: 22px; left: 22px; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+    .corner-tr { top: 22px; right: 22px; border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+    .corner-bl { bottom: 22px; left: 22px; border-bottom: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+    .corner-br { bottom: 22px; right: 22px; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="dot-plate"></div>
+
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-host">saadiq.xyz</span>
+      <span class="brand-sep">/</span>
+      <span class="brand-path">~/field-notes</span>
+    </div>
+
+    <div class="section-label">// ISSUE 001</div>
+
+    <div class="wordmark-wrap">
+      <div class="wordmark">Field Notes<span class="cursor"></span></div>
+    </div>
+
+    <div class="sub"><span class="sub-hash">##</span>notes from the ai-native frontier</div>
+    <div class="url">saadiq.xyz/newsletter</div>
+  </div>
+</body>
+</html>

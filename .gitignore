@@ -27,4 +27,4 @@ pnpm-debug.log*
 .superpowers/
 
 # generated card images
-cards/*.png
+cards/**/*.png
