@@ -22,6 +22,8 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 
 Stop Ghost before running `ghost update`. Running both at once OOM'd the droplet on 2026-05-13 (Ghost 6.32.0 → 6.38.0 attempt) — ghost-cli's pre-flight filesystem walk over `content/` combined with the running Ghost process exhausted memory and required a `doctl compute droplet-action power-cycle` to recover. Procedure:
 
+**Swap backstop**: a 2G swapfile (`/swapfile`, fstab `/swapfile none swap sw 0 0`, default swappiness 60) was added 2026-05-13 right after that OOM. It gave the headroom that let the 6.38.0 → 6.44.1 upgrade run cleanly on 2026-06-07 (peak ~1.2Gi free + swap mostly idle). The droplet only has 1.9Gi RAM, so the swap is the safety net — but **stopping Ghost first is still the primary safeguard**, not something the swap lets you skip. Verify with `swapon --show`; if it's ever missing, recreate before upgrading.
+
 ```bash
 cd /var/www/ghost
 sudo -u ghost-mgr ghost stop
