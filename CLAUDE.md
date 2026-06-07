@@ -33,6 +33,19 @@ sudo -u ghost-mgr ghost start   # `update` usually restarts, but verify
 
 Fix any pre-flight permission errors (e.g. theme files needing `chmod 664`) before retrying — ghost-cli prints the exact `find ... -exec chmod` command to run.
 
+### npm supply-chain hardening
+
+The box pulls from the npm registry in only two spots, so the surface is narrow — but kept deliberately conservative given the 2026 self-propagating worm wave (Shai-Hulud/Miasma; "Phantom Gyp" executes via `binding.gyp` during native builds, so blanket `ignore-scripts` is *not* a fix — and Ghost needs those builds: sqlite3, sharp, re2, dtrace-provider compile during every `ghost update`).
+
+- **Ghost's own deps** install via `pnpm` against a committed `pnpm-lock.yaml` (versions pinned; corepack provisions the pnpm version from Ghost's `packageManager` field). Lowest-risk path.
+- **pnpm cooldown**: `/home/ghost-mgr/.npmrc` sets `minimum-release-age=1440` (24h) — pnpm refuses any version published <24h ago, blunting fast worm publishes. Harmless to the frozen `ghost update` install; protects ad-hoc/non-frozen resolution. Key must be **kebab-case** (`minimum-release-age`); camelCase is silently ignored. Tune the minutes or comment it out if a legit fresh dep is ever blocked.
+- **ghost-cli updates**: do **not** use `@latest`. Pin a specific, already-published-for-a-few-days version and run as root only when deliberately updating:
+  ```bash
+  npm install -g ghost-cli@1.29.3   # pin the version; let a new release age a few days first
+  ```
+- **npm itself** is pinned-bumped the same way (`npm install -g npm@<ver>`), currently 11.16.0.
+- The **Astro site builds off-box** (local machine, bun) and deploys as static `dist/` — the server never runs a package manager for it, so that supply chain lives on the dev machine (where the box's SSH deploy key also lives — treat it as a crown jewel).
+
 ### Routing (nginx)
 
 - `https://saadiq.xyz/*` — serves Astro static files from `/var/www/saadiq.xyz/`
