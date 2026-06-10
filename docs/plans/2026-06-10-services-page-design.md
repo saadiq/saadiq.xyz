@@ -24,7 +24,8 @@ Deliberately excluded from the public lineup (insufficient delivered evidence or
 
 Every proof sentence on the page must stay inside these lines:
 
-- No client names anywhere. Anonymize by descriptive shape ("a global research firm", "a Fortune 500 healthcare company", "a database company", "a 70-million-member advocacy organization", "a hospitality company", "a product team").
+- No client names anywhere. Anonymize by descriptive shape ("a global research firm", "a Fortune 500 company", "a database company", "a 70-million-member advocacy organization", "a hospitality company", "a product team").
+- No industry tag on the Fortune 500 CEO engagement ("healthcare" narrows it too far) and no reference to the Kantar executive's new title, which is not yet public. Anonymize him as "a senior technology leader".
 - No confidential verbatim quotes, even anonymized.
 - FFiH panel and the client-summit panel are the same single event; Saadiq moderated. Do not present as a demo talk or double-count.
 - Molina: sessions 1-4 delivered is claimable; "co-pilot agents" expansion is an unscoped future call, not claimable.
