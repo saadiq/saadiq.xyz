@@ -11,7 +11,7 @@ interface GhostResponse {
   posts: GhostPost[];
 }
 
-const GHOST_URL = import.meta.env.GHOST_URL || "https://saadiq.xyz";
+const GHOST_URL = import.meta.env.GHOST_URL || "https://saadiq.xyz/newsletter";
 const GHOST_KEY = import.meta.env.GHOST_CONTENT_API_KEY;
 
 export async function getRecentPosts(limit = 3): Promise<GhostPost[]> {
