@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Presentation System — Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --text: #f0ece4;
+      --text-muted: #ac9e90;
+      --soft: #9a948a;
+      --accent: #d4a843;
+      --rule: #2a2a2a;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      width: 1600px;
+      height: 2000px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 110px 120px;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    .label {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 44px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    .system {
+      flex: 1;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .driver {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 168px;
+      line-height: 0.9;
+      color: var(--accent);
+    }
+
+    .flow {
+      font-family: var(--font-mono);
+      font-size: 58px;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+
+    .reach {
+      position: relative;
+      width: 100%;
+      border: 2px solid rgba(212, 168, 67, 0.38);
+      border-radius: 18px;
+      padding: 78px 72px 70px;
+    }
+
+    .reach-label {
+      position: absolute;
+      top: -26px;
+      left: 56px;
+      background: var(--bg);
+      padding: 0 20px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 34px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .rows {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      column-gap: 56px;
+      row-gap: 46px;
+      align-items: baseline;
+    }
+
+    .tok {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 50px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .desc {
+      font-family: var(--font-sans);
+      font-weight: 300;
+      font-size: 46px;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .output {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      font-size: 72px;
+      color: var(--soft);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--font-mono);
+      font-size: 38px;
+      color: var(--text-muted);
+      z-index: 2;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="label">// the presentation system</div>
+
+    <div class="system">
+      <div class="driver">story</div>
+      <div class="flow">&#8595;</div>
+
+      <div class="reach">
+        <div class="reach-label">agent accessible</div>
+        <div class="rows">
+          <div class="tok">writing.md</div>
+          <div class="desc">the narrative, already in pieces</div>
+
+          <div class="tok">research/</div>
+          <div class="desc">numbers and examples, on file</div>
+
+          <div class="tok">.md .html .js</div>
+          <div class="desc">all in text formats</div>
+
+          <div class="tok">brand/</div>
+          <div class="desc">site, newsletter, ICP</div>
+        </div>
+      </div>
+
+      <div class="flow">&#8595;</div>
+      <div class="output">deck.html</div>
+    </div>
+
+    <div class="footer">
+      <span>Saadiq Rodgers-King</span>
+      <span>saadiq.xyz</span>
+    </div>
+  </div>
+</body>
+</html>
