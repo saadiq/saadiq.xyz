@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+import FooterCTA from "../../components/FooterCTA.astro";
+import StatusBar from "../../components/StatusBar.astro";
+import { websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd } from "../../lib/schema";
+
+const services = [
+  {
+    name: "Talks and executive briefings",
+    format: ["one session · in person or remote", "briefs · written, 1-2 weeks"],
+    who: "For leadership teams that need a concrete picture of what AI changes about how they build.",
+    body:
+      "A 45 to 90 minute session built around live demos of real systems instead of slides. Your org sees working agents on actual business problems, then we take questions for as long as you want, and you keep a deck made to circulate. When a single decision needs depth rather than a room, I write executive briefs.",
+    proof:
+      "A product-offsite talk for a global research firm was still being discussed two days later, and the deck went to everyone who missed the room. A panel on AI agents in a public library's AI literacy series drew about 80 people for live demos.",
+  },
+  {
+    name: "Executive AI advisory",
+    format: ["monthly retainer · weekly sessions", "three-month initial term"],
+    who: "For CEOs and CPOs facing AI decisions they can't delegate.",
+    body:
+      "A standing weekly session on the topics you pick. Vendor evaluations, org design, what to believe in a demo, how fast to push. Deep enough to get into mechanics, with source-verified research briefs between sessions. I have no platform to sell you, so the read stays honest.",
+    proof:
+      "Current engagements include weekly sessions with the chief executive of a Fortune 500 healthcare company and advisory to a newly promoted CPTO navigating a private-equity restructuring.",
+  },
+  {
+    name: "AI discovery sprint",
+    format: ["1-2 weeks · fixed fee", "ends with a working prototype"],
+    who: "For executives with a concrete workflow problem who want proof before committing to a build.",
+    body:
+      "One to two weeks inside your actual stack with authenticated access. We pressure-test the use cases, wire AI to your live data, and ship a working prototype with your team in the room. You end with the prototype, an access plan, and a phased estimate for the full build. The fee is fixed, so discovery can't balloon.",
+    proof:
+      "A two-week sprint for a database company tested how seven AI models saw their product, found a zero percent mention rate and a blog invisible to AI crawlers, and shipped a 90-day roadmap that turned into follow-on work.",
+  },
+  {
+    name: "Agent and automation builds",
+    format: ["fixed fee · milestone billed", "4-8 weeks per phase"],
+    who: "For companies whose skilled people burn hours on manual work across systems.",
+    body:
+      "A production agent or automation that keeps running after I leave. Human review is designed in from the start, so the agent never hits send on its own. Billing is tied to milestones you accept, and handoff includes the knowledge transfer your team needs to own and extend the system.",
+    proof:
+      "Recent builds include a campaign-setup agent for a 70-million-member advocacy organization, delivered and accepted milestone by milestone, and a voice agent in production for a hospitality company, making first-pass qualification calls that replace 8 to 12 hours of manual calling per request.",
+  },
+  {
+    name: "Embedded technical leadership",
+    format: ["ongoing · weekly cadence", "starts with one scoped win"],
+    who: "For founder-led companies without technical leadership.",
+    body:
+      "I run a weekly cadence as your de facto technical lead. Agents, integrations, and replatforms get shipped. Vendor and cost decisions get owned. Your team levels up along the way because they're in the work, not watching it. Engagements start with one small scoped win and grow on results.",
+    proof:
+      "A year-plus engagement with a hospitality company grew from one small automation into voice and email agents and a full website replatform, and its non-technical founder now runs her own dev environment and merges her own pull requests. Three weeks embedded with a product team cut prototype iteration from weeks to about three hours.",
+  },
+];
+---
+
+<BaseLayout
+  title="Services — Saadiq Rodgers-King"
+  description="Five engagement shapes, from a single talk to ongoing technical leadership. Talks, executive advisory, discovery sprints, agent builds, and embedded leadership."
+  ogImage="/services/og.png"
+  jsonLd={[websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd]}
+>
+  <Nav />
+  <main class="pt-40 md:pt-48 pb-20 md:pb-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="section-label mb-8">// services</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
+        How I work
+      </h1>
+      <p class="text-xl md:text-2xl text-text-muted mb-6 max-w-3xl">
+        I get product and engineering teams actually using AI. For companies
+        without those teams, I build the systems and stay until they run
+        without me.
+      </p>
+      <p class="text-text-muted leading-relaxed mb-16 max-w-2xl">
+        Most engagements start small. A talk seeds the idea, a sprint proves it
+        on your real work, a build ships it. Trust compounds and the work
+        expands.
+      </p>
+
+      <div class="border-t border-rule pt-12 space-y-12 md:space-y-16">
+        {
+          services.map((service) => (
+            <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-12 md:pb-16">
+              <div>
+                <h2 class="font-display text-2xl md:text-3xl leading-tight mb-4">
+                  {service.name}
+                </h2>
+                <div class="space-y-1">
+                  {service.format.map((line) => (
+                    <p class="font-mono text-xs text-text-muted">{line}</p>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p class="text-text leading-relaxed mb-4">{service.who}</p>
+                <p class="text-text-muted leading-relaxed mb-6">
+                  {service.body}
+                </p>
+                <p class="font-mono text-xs text-text-muted mb-2">proof_</p>
+                <p class="text-sm text-text-muted leading-relaxed">
+                  {service.proof}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+  <FooterCTA />
+  <StatusBar />
+</BaseLayout>
