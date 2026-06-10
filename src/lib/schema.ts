@@ -101,6 +101,96 @@ export const websiteJsonLd = {
   "publisher": { "@id": "https://saadiq.xyz/#person" },
 };
 
+export const servicesJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://saadiq.xyz/services#services",
+  "name": "AI Consulting Services — Saadiq Rodgers-King",
+  "url": "https://saadiq.xyz/services",
+  "description":
+    "Five engagement shapes, from a single talk to ongoing technical leadership. Talks and executive briefings, executive AI advisory, AI discovery sprints, agent and automation builds, embedded technical leadership.",
+  "areaServed": {
+    "@type": "Country" as const,
+    "name": "United States",
+  },
+  "provider": personSchema,
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog" as const,
+    "name": "AI Consulting Services",
+    "itemListElement": [
+      {
+        "@type": "Offer" as const,
+        "itemOffered": {
+          "@type": "Service" as const,
+          "name": "Talks and Executive Briefings",
+          "url": "https://saadiq.xyz/services",
+          "description":
+            "Live-demo sessions for leadership teams on what AI changes about how they build, plus standalone written executive briefs.",
+        },
+      },
+      {
+        "@type": "Offer" as const,
+        "itemOffered": {
+          "@type": "Service" as const,
+          "name": "Executive AI Advisory",
+          "url": "https://saadiq.xyz/services",
+          "description":
+            "A standing weekly session for CEOs and CPOs on AI decisions they can't delegate, with source-verified research briefs between sessions.",
+        },
+      },
+      {
+        "@type": "Offer" as const,
+        "itemOffered": {
+          "@type": "Service" as const,
+          "name": "AI Discovery Sprint",
+          "url": "https://saadiq.xyz/services",
+          "description":
+            "One to two weeks inside your stack. Use cases pressure-tested, AI wired to live data, a working prototype, and a phased build estimate. Fixed fee.",
+        },
+      },
+      {
+        "@type": "Offer" as const,
+        "itemOffered": {
+          "@type": "Service" as const,
+          "name": "Agent and Automation Builds",
+          "url": "https://saadiq.xyz/services",
+          "description":
+            "Production agents and automations with human review designed in. Milestone billed, with knowledge transfer so your team owns the system.",
+        },
+      },
+      {
+        "@type": "Offer" as const,
+        "itemOffered": {
+          "@type": "Service" as const,
+          "name": "Embedded Technical Leadership",
+          "url": "https://saadiq.xyz/services",
+          "description":
+            "A weekly cadence as your de facto technical lead. Systems shipped, vendor decisions owned, and a team that levels up along the way.",
+        },
+      },
+    ],
+  },
+};
+
+export const servicesBreadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem" as const,
+      "position": 1,
+      "name": "Home",
+      "item": "https://saadiq.xyz/",
+    },
+    {
+      "@type": "ListItem" as const,
+      "position": 2,
+      "name": "Services",
+      "item": "https://saadiq.xyz/services",
+    },
+  ],
+};
+
 export const aboutBreadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
