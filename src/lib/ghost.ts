@@ -14,9 +14,15 @@ interface GhostResponse {
 const GHOST_URL = import.meta.env.GHOST_URL || "https://saadiq.xyz/newsletter";
 const GHOST_KEY = import.meta.env.GHOST_CONTENT_API_KEY;
 
+// Content API keys are read-only and public by design — safe to ship to the client.
+// `html` must be requested even though we never render it: Ghost computes
+// reading_time from it and omits reading_time when html is filtered out.
+export function contentApiUrl(limit = 3): string {
+  return `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&limit=${limit}&fields=id,title,slug,excerpt,published_at,reading_time,html`;
+}
+
 export async function getRecentPosts(limit = 3): Promise<GhostPost[]> {
-  const url = `${GHOST_URL}/ghost/api/content/posts/?key=${GHOST_KEY}&limit=${limit}&fields=id,title,slug,excerpt,published_at,reading_time`;
-  const res = await fetch(url);
+  const res = await fetch(contentApiUrl(limit));
   if (!res.ok) throw new Error(`Ghost API error: ${res.status}`);
   const data: GhostResponse = await res.json();
   return data.posts;
