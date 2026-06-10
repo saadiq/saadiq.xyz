@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Product Development Factory — Kantar — Saadiq Rodgers-King</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --d-bg: #0c0c0c; --d-surface: #141414; --d-text: #f0ece4; --d-muted: #c2b5a6;
+    --d-accent: #d4a843; --d-accent-hi: #e8bd5a; --d-rule: #2a2a2a;
+    --l-bg: #f6f6f4; --l-bg2: #efefec; --l-text: #0a0a0a; --l-text2: #2a2a2a;
+    --l-muted: #52524f; --l-rule: #dedcd6; --l-rule-faint: #e8e6e0;
+    --l-accent: #7d5410; --l-accent-br: #d4a843; --l-ok: #2d8040;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  body {
+    background: #000; font-family: var(--sans);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  .deck { display: flex; flex-direction: column; align-items: center; }
+
+  /* ---------- slide shell ---------- */
+  .slide {
+    width: 1920px; height: 1080px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; padding: 96px 130px;
+    /* dark by default */
+    --bg: var(--d-bg); --surface: var(--d-surface); --text: var(--d-text);
+    --muted: var(--d-muted); --accent: var(--d-accent); --accent-hi: var(--d-accent-hi);
+    --rule: var(--d-rule);
+    background: var(--bg); color: var(--text);
+  }
+  .slide.light {
+    --bg: var(--l-bg); --surface: var(--l-bg2); --text: var(--l-text);
+    --muted: var(--l-muted); --accent: var(--l-accent); --accent-hi: var(--l-accent-br);
+    --rule: var(--l-rule);
+  }
+
+  /* texture: grain on dark, dot-grid on light */
+  .slide:not(.light)::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    opacity: 0.04; background-repeat: repeat; background-size: 200px 200px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .slide.light::before {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    opacity: 0.7;
+    background-image: radial-gradient(circle at 1px 1px, rgba(10,10,10,0.06) 1px, transparent 0);
+    background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+            mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  }
+
+  /* corner marks */
+  .marks i { position: absolute; width: 26px; height: 26px; z-index: 3; opacity: .85; }
+  .marks i:nth-child(1){ top: 48px; left: 56px; border-top: 1.5px solid var(--rule); border-left: 1.5px solid var(--rule); }
+  .marks i:nth-child(2){ top: 48px; right: 56px; border-top: 1.5px solid var(--rule); border-right: 1.5px solid var(--rule); }
+  .marks i:nth-child(3){ bottom: 48px; left: 56px; border-bottom: 1.5px solid var(--rule); border-left: 1.5px solid var(--rule); }
+  .marks i:nth-child(4){ bottom: 48px; right: 56px; border-bottom: 1.5px solid var(--rule); border-right: 1.5px solid var(--rule); }
+
+  .content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; }
+
+  /* shared bits */
+  .label {
+    position: absolute; top: 0; left: 0; z-index: 3;
+    font-family: var(--mono); font-size: 24px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .foot {
+    position: relative; z-index: 2; display: flex; justify-content: space-between;
+    align-items: flex-end; font-family: var(--mono); font-size: 24px; color: var(--muted);
+    flex-shrink: 0;
+  }
+  .pageno {
+    position: absolute; right: 130px; bottom: 96px; z-index: 3;
+    font-family: var(--mono); font-size: 20px; color: var(--muted); opacity: .7;
+  }
+  .hl { color: var(--accent); }
+  .cursor { color: var(--accent); font-style: normal; }
+  .serif { font-family: var(--serif); }
+  em { font-style: italic; }
+
+  /* ---------- 1 · title ---------- */
+  .s-title .content { justify-content: flex-end; }
+  .s-title h1 { font-family: var(--serif); font-size: 188px; line-height: .98; letter-spacing: -.01em; margin-top: auto; }
+  .s-title .sub { font-family: var(--serif); font-style: italic; font-size: 54px; color: var(--muted); margin-top: 24px; }
+  .s-title .date { font-family: var(--mono); font-size: 22px; color: var(--accent); letter-spacing: .08em; margin-bottom: 26px; }
+
+  /* ---------- 2 · big stat ---------- */
+  .s-stat .content { justify-content: center; }
+  .s-stat .row { display: flex; align-items: baseline; gap: 56px; }
+  .s-stat .num { font-family: var(--serif); font-size: 420px; line-height: .8; color: var(--accent); }
+  .s-stat .rhs { max-width: 760px; }
+  .s-stat .rhs .big { font-family: var(--serif); font-size: 76px; line-height: 1.06; }
+  .s-stat .rhs .body { font-size: 32px; font-weight: 300; line-height: 1.5; color: var(--muted); margin-top: 30px; }
+  .s-stat .src { font-family: var(--mono); font-size: 22px; color: var(--muted); margin-top: 38px; letter-spacing: .04em; }
+
+  /* ---------- 3 · thesis (light) ---------- */
+  .s-thesis .content { justify-content: center; }
+  .s-thesis .brand { font-family: var(--mono); font-size: 22px; color: var(--muted); display: flex; align-items: center; gap: 14px; position: absolute; top: 0; left: 0; }
+  .s-thesis .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--l-ok); box-shadow: 0 0 10px var(--l-ok); }
+  .s-thesis p { font-family: var(--serif); font-size: 104px; line-height: 1.14; max-width: 1480px; letter-spacing: -.005em; }
+
+  /* ---------- dividers ---------- */
+  .s-div .content { justify-content: center; }
+  .s-div .no { font-family: var(--mono); font-size: 30px; color: var(--accent); letter-spacing: .2em; }
+  .s-div h2 { font-family: var(--serif); font-size: 168px; line-height: .98; margin-top: 18px; letter-spacing: -.01em; }
+  .s-div .sub { font-family: var(--serif); font-style: italic; font-size: 50px; color: var(--muted); margin-top: 22px; }
+
+  /* ---------- loops ---------- */
+  .s-loop .content { align-items: center; }
+  .s-loop .label { align-self: flex-start; }
+  .s-loop .stage { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+  .s-loop .cap { font-family: var(--serif); font-size: 52px; color: var(--text); text-align: center; flex-shrink: 0; margin-bottom: 6px; }
+  .pipe { display: flex; align-items: center; gap: 0; }
+  .pipe .node {
+    font-family: var(--mono); font-size: 26px; letter-spacing: .06em; text-transform: uppercase;
+    color: #d4cabd; border: 1.5px solid var(--rule); border-radius: 8px;
+    padding: 34px 30px; background: var(--surface);
+  }
+  .pipe .arr { font-family: var(--sans); font-size: 40px; color: var(--rule); padding: 0 26px; }
+
+  /* ---------- receipts ---------- */
+  .s-rcpt .content { justify-content: center; }
+  .s-rcpt .threeup { display: flex; gap: 0; margin-top: 30px; }
+  .s-rcpt .cell { flex: 1; padding: 0 56px; }
+  .s-rcpt .cell + .cell { border-left: 1.5px solid var(--rule); }
+  .s-rcpt .cell:first-child { padding-left: 0; }
+  .s-rcpt .n { font-family: var(--serif); font-size: 184px; line-height: .9; color: var(--accent); }
+  .s-rcpt .k { font-size: 30px; font-weight: 300; line-height: 1.4; color: var(--text); margin-top: 22px; }
+  .s-rcpt .src { font-family: var(--mono); font-size: 22px; color: var(--muted); margin-top: 60px; letter-spacing: .04em; }
+  .s-rcpt h3 { font-family: var(--serif); font-size: 60px; font-weight: 400; }
+
+  /* hero receipt variant (salesforce) */
+  .s-hero .content { justify-content: center; }
+  .s-hero .wrap { display: flex; align-items: center; gap: 90px; }
+  .s-hero .mega { font-family: var(--serif); font-size: 460px; line-height: .8; color: var(--accent); }
+  .s-hero .stack .line { font-family: var(--serif); font-size: 62px; line-height: 1.12; }
+  .s-hero .stack .line .sm { color: var(--muted); }
+  .s-hero .tier { font-size: 32px; font-weight: 300; color: var(--muted); margin-top: 40px; max-width: 760px; line-height: 1.5; }
+  .s-hero .src { font-family: var(--mono); font-size: 22px; color: var(--muted); margin-top: 36px; letter-spacing: .04em; }
+
+  /* ---------- team os ---------- */
+  .s-os .content { justify-content: center; }
+  .s-os .grid { display: flex; gap: 96px; align-items: center; }
+  .s-os .tree { font-family: var(--mono); font-size: 30px; line-height: 1.95; color: var(--text); flex-shrink: 0; white-space: pre; }
+  .s-os .tree .dir { color: var(--accent); }
+  .s-os .tree .c { color: var(--muted); }
+  .s-os .rhs { max-width: 760px; }
+  .s-os .rhs .q { font-family: var(--serif); font-size: 76px; line-height: 1.1; }
+  .s-os .rhs .body { font-size: 32px; font-weight: 300; color: var(--muted); margin-top: 34px; line-height: 1.5; }
+  .s-os .rhs .src { font-family: var(--mono); font-size: 22px; color: var(--muted); margin-top: 34px; letter-spacing: .04em; }
+
+  /* ---------- demo ---------- */
+  .s-demo .content { justify-content: center; }
+  .s-demo .term {
+    background: #0a0a0a; border: 1.5px solid var(--rule); border-radius: 14px;
+    box-shadow: 0 40px 120px rgba(0,0,0,.6); overflow: hidden; max-width: 1480px; margin: 0 auto; width: 100%;
+  }
+  .s-demo .bar { display: flex; align-items: center; gap: 12px; padding: 22px 28px; border-bottom: 1.5px solid var(--rule); }
+  .s-demo .bar span { width: 14px; height: 14px; border-radius: 999px; background: #2a2a2a; }
+  .s-demo .bar .live { margin-left: auto; width: auto; height: auto; background: none; font-family: var(--mono); font-size: 22px; letter-spacing: .18em; color: var(--accent); display: flex; align-items: center; gap: 12px; }
+  .s-demo .bar .live i { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .s-demo .body { padding: 50px 56px; font-family: var(--mono); font-size: 32px; line-height: 1.7; }
+  .s-demo .body .p { color: var(--accent); }
+  .s-demo .body .o { color: var(--d-text); }
+  .s-demo .body .c { color: var(--muted); }
+  .s-demo .cap { text-align: center; font-family: var(--serif); font-size: 46px; margin-top: 50px; color: var(--text); }
+
+  /* ---------- engineering tiles ---------- */
+  .s-eng .content { justify-content: center; }
+  .s-eng .tiles { display: flex; gap: 36px; }
+  .s-eng .tile { flex: 1; border: 1.5px solid var(--rule); border-radius: 14px; background: var(--surface); padding: 56px 48px; }
+  .s-eng .tile .n { font-family: var(--serif); font-size: 150px; line-height: .85; color: var(--accent); }
+  .s-eng .tile .k { font-size: 28px; font-weight: 300; color: var(--text); margin-top: 26px; line-height: 1.4; }
+  .s-eng .tile .src { font-family: var(--mono); font-size: 19px; color: var(--muted); margin-top: 30px; letter-spacing: .04em; }
+  .s-eng .punch { font-family: var(--serif); font-size: 56px; line-height: 1.16; margin-top: 56px; max-width: 1560px; }
+
+  /* ---------- payoff + close (light) ---------- */
+  .s-pay .content { justify-content: center; align-items: flex-start; }
+  .s-pay h2 { font-family: var(--serif); font-size: 150px; line-height: 1.04; letter-spacing: -.01em; }
+  .s-pay .sub { font-family: var(--serif); font-style: italic; font-size: 64px; color: var(--muted); margin-top: 30px; }
+
+  .s-close .content { justify-content: center; }
+  .s-close .q { font-family: var(--serif); font-size: 104px; line-height: 1.1; max-width: 1560px; letter-spacing: -.005em; }
+  .s-close .body { font-size: 36px; font-weight: 300; color: var(--muted); margin-top: 44px; max-width: 1280px; line-height: 1.5; }
+  .s-close .qa { display: inline-flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-top: 60px; }
+  .s-close .qa i { width: 12px; height: 12px; border-radius: 999px; background: var(--accent); }
+
+  /* one slide per page for PDF export */
+  @media print {
+    @page { margin: 0; }
+    html, body { background: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .deck { display: block; }
+    .slide { page-break-after: always; break-after: page; }
+    .slide:last-child { page-break-after: avoid; break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide s-title">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// kantar · product + engineering offsite</div>
+      <div>
+        <div class="date">June 3, 2026</div>
+        <h1>The Product<br>Development Factory<span class="cursor">_</span></h1>
+        <div class="sub">What AI changes about how we build</div>
+      </div>
+    </div>
+    <div class="foot"><span>Saadiq Rodgers-King</span><span>saadiq.xyz</span></div>
+  </section>
+
+  <!-- 2 · THE GAP -->
+  <section class="slide s-stat">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// the gap</div>
+      <div class="row">
+        <div class="num">99%</div>
+        <div class="rhs">
+          <div class="big">adoption. and most people were <span class="hl">still stuck.</span></div>
+          <div class="body">Driving a Ferrari with the handbrake on. The teams pulling away didn't get different AI. They changed the shape of the work.</div>
+          <div class="src">SOURCE — RAMP / SEB GODDIJN</div>
+        </div>
+      </div>
+    </div>
+    <div class="pageno">01</div>
+  </section>
+
+  <!-- 3 · THESIS (light) -->
+  <section class="slide light s-thesis">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="brand"><span class="dot"></span> saadiq.xyz — the through-line</div>
+      <p>Orchestration and enablement have always been product's real work. When execution gets cheap, that becomes <em>the whole job.</em></p>
+    </div>
+    <div class="pageno">02</div>
+  </section>
+
+  <!-- 4 · ACT 1 DIVIDER -->
+  <section class="slide s-div">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="no">ACT 01</div>
+      <h2>The factory</h2>
+      <div class="sub">The future scenario.</div>
+    </div>
+    <div class="pageno">03</div>
+  </section>
+
+  <!-- 5 · LOOP — today / pipeline -->
+  <section class="slide s-loop">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// today</div>
+      <div class="stage">
+        <div class="pipe">
+          <div class="node">Ideate</div><div class="arr">&rarr;</div>
+          <div class="node">Prioritize</div><div class="arr">&rarr;</div>
+          <div class="node">Execute</div><div class="arr">&rarr;</div>
+          <div class="node">Evaluate</div><div class="arr">&rarr;</div>
+          <div class="node">Iterate</div>
+        </div>
+      </div>
+      <div class="cap">A pipeline. Hand-offs, and weeks between the stages.</div>
+    </div>
+    <div class="pageno">04</div>
+  </section>
+
+  <!-- 6 · LOOP — closed -->
+  <section class="slide s-loop">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// the factory</div>
+      <div class="stage">
+        <svg width="1000" height="760" viewBox="0 0 1000 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="500" cy="380" r="280" stroke="#d4a843" stroke-width="2" stroke-dasharray="3 14" opacity="0.7"/>
+          <!-- directional arrowheads (clockwise) -->
+          <g fill="#d4a843">
+            <path d="M0,-10 L18,0 L0,10 Z" transform="translate(665,153) rotate(216)"/>
+            <path d="M0,-10 L18,0 L0,10 Z" transform="translate(766,467) rotate(-72)"/>
+            <path d="M0,-10 L18,0 L0,10 Z" transform="translate(500,660) rotate(0)"/>
+            <path d="M0,-10 L18,0 L0,10 Z" transform="translate(234,467) rotate(72)"/>
+            <path d="M0,-10 L18,0 L0,10 Z" transform="translate(335,153) rotate(144)"/>
+          </g>
+          <!-- nodes -->
+          <g font-family="JetBrains Mono, monospace" font-size="22" letter-spacing="1.5" text-anchor="middle">
+            <g><circle cx="500" cy="100" r="78" fill="#141414" stroke="#d4a843" stroke-width="2"/><text x="500" y="108" fill="#f0ece4">IDEATE</text></g>
+            <g><circle cx="766" cy="294" r="78" fill="#141414" stroke="#d4a843" stroke-width="2"/><text x="766" y="302" fill="#f0ece4">PRIORITIZE</text></g>
+            <g><circle cx="665" cy="607" r="78" fill="#141414" stroke="#d4a843" stroke-width="2"/><text x="665" y="615" fill="#f0ece4">EXECUTE</text></g>
+            <g><circle cx="335" cy="607" r="78" fill="#141414" stroke="#d4a843" stroke-width="2"/><text x="335" y="615" fill="#f0ece4">EVALUATE</text></g>
+            <g><circle cx="234" cy="294" r="78" fill="#141414" stroke="#d4a843" stroke-width="2"/><text x="234" y="302" fill="#f0ece4">ITERATE</text></g>
+          </g>
+          <!-- center: the human -->
+          <text x="500" y="372" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="76" fill="#d4a843">you</text>
+          <text x="500" y="420" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" letter-spacing="3" fill="#ac9e90">RUN THE LOOP</text>
+        </svg>
+      </div>
+      <div class="cap">The loop closes. Each rotation takes <span class="hl">days, not quarters.</span></div>
+    </div>
+    <div class="pageno">05</div>
+  </section>
+
+  <!-- 7 · ACT 2 DIVIDER -->
+  <section class="slide s-div">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="no">ACT 02</div>
+      <h2>How the best<br>teams operate now</h2>
+      <div class="sub">Receipts from outside the building.</div>
+    </div>
+    <div class="pageno">06</div>
+  </section>
+
+  <!-- 8 · RECEIPT — INTERCOM -->
+  <section class="slide s-rcpt">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// receipts · intercom</div>
+      <h3 style="margin-top:18px">Quality went <em>up,</em> not down.</h3>
+      <div class="threeup">
+        <div class="cell"><div class="n">2&times;</div><div class="k">R&amp;D output in nine months. 3&times; at sixteen.</div></div>
+        <div class="cell"><div class="n">93.6%</div><div class="k">of pull requests agent-driven.</div></div>
+        <div class="cell"><div class="n">&minus;35%</div><div class="k">downtime from breaking changes, while deploys doubled.</div></div>
+      </div>
+      <div class="src">SOURCE — DARRAGH CURRAN, INTERCOM / FIN.AI</div>
+    </div>
+    <div class="pageno">07</div>
+  </section>
+
+  <!-- 9 · RECEIPT — SALESFORCE + TIERS -->
+  <section class="slide s-hero">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// receipts · salesforce engineering</div>
+      <div class="wrap" style="margin-top:24px">
+        <div class="mega">18&times;</div>
+        <div class="stack">
+          <div class="line">A 231-person-day migration,<br>shipped in <span class="hl">13 days.</span></div>
+          <div class="line" style="margin-top:24px"><span class="sm">+151% effective output. Incidents down as volume rose.</span></div>
+          <div class="tier">The benchmark: top-decile builders 5&times;. The 10&times; tier includes decades-old monorepos and legacy businesses you'd presume never could.</div>
+          <div class="src">SOURCE — SALESFORCE ENGINEERING · SEQUOIA · CLAIRE VO</div>
+        </div>
+      </div>
+    </div>
+    <div class="pageno">08</div>
+  </section>
+
+  <!-- 10 · SHARED TEAM OS -->
+  <section class="slide s-os">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// how teams share</div>
+      <div class="grid" style="margin-top:30px">
+        <div class="tree"><span class="dir">team-os/</span>
+  <span class="dir">.claude/</span>   <span class="c"># shared commands, skills</span>
+  <span class="dir">product/</span>  <span class="c"># PRDs, customer notes</span>
+  <span class="dir">team/</span>     <span class="c"># onboarding, retros</span></div>
+        <div class="rhs">
+          <div class="q">"The feature isn't rolled out until the <span class="hl">repository is updated.</span>"</div>
+          <div class="body">One PM supports twenty. The shared model of the problem is the asset, not the app.</div>
+          <div class="src">SOURCE — HANNAH STAHLBERG</div>
+        </div>
+      </div>
+    </div>
+    <div class="pageno">09</div>
+  </section>
+
+  <!-- 11 · LIVE DEMO -->
+  <section class="slide s-demo">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label" style="margin-bottom:34px">// workday prep</div>
+      <div class="term">
+        <div class="bar"><span></span><span></span><span></span><div class="live"><i></i>LIVE</div></div>
+        <div class="body">
+          <div class="p">$ /today</div>
+          <div class="c">› reading calendar, inbox, meeting notes, CRM…</div>
+          <div class="o">3 meetings. Kantar sync at 7:15.</div>
+          <div class="o">Due today: send Ty the outline.</div>
+          <div class="o">2 follow-ups waiting on you.<span class="cursor">_</span></div>
+        </div>
+      </div>
+      <div class="cap">It assembles the brief. <span class="hl">I make the calls.</span></div>
+    </div>
+    <div class="pageno">10</div>
+  </section>
+
+  <!-- 12 · ENABLING THE BUILDERS -->
+  <section class="slide s-eng">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// enabling the builders</div>
+      <div class="tiles" style="margin-top:30px">
+        <div class="tile"><div class="n">1,300</div><div class="k">agent pull requests per week.</div><div class="src">STRIPE</div></div>
+        <div class="tile"><div class="n">423</div><div class="k">security fixes in a month, vs a 20–30 baseline.</div><div class="src">MOZILLA</div></div>
+        <div class="tile"><div class="n">19.2%</div><div class="k">of PRs auto-merged, no human reviewer.</div><div class="src">INTERCOM</div></div>
+      </div>
+      <div class="punch">The bottleneck moved from <span class="hl">writing</span> code to <span class="hl">verifying</span> it. CI and the verification loop are the new ceiling, and that's shared infrastructure to orchestrate.</div>
+    </div>
+    <div class="pageno">11</div>
+  </section>
+
+  <!-- 13 · ACT 3 PAYOFF (light) -->
+  <section class="slide light s-pay">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// act 03 · what it means for you</div>
+      <h2 style="margin-top:40px">The task may change.<br>The people <em>don't.</em></h2>
+      <div class="sub">Ownership doesn't move.</div>
+    </div>
+    <div class="pageno">12</div>
+  </section>
+
+  <!-- 14 · CLOSE (light) -->
+  <section class="slide light s-close">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="content">
+      <div class="label">// the role</div>
+      <div class="q" style="margin-top:20px">If anyone can generate the PRD, the PRD was <span class="hl">never the job.</span></div>
+      <div class="body">What's left is judgment, taste, and owning the outcome. That was always the point. The tasks that crowded it out are the part that's receding.</div>
+      <div class="qa"><i></i> Q&amp;A — story time</div>
+    </div>
+    <div class="foot"><span>Saadiq Rodgers-King</span><span>saadiq.xyz</span></div>
+  </section>
+
+</div>
+
+<script>
+  // simple in-browser presentation nav (ignored by the renderer)
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = 0;
+  const go = n => { i = Math.max(0, Math.min(slides.length - 1, n)); slides[i].scrollIntoView({ behavior: 'smooth' }); };
+  addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)) { e.preventDefault(); go(i+1); }
+    if (['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); go(i-1); }
+    if (e.key === 'f') document.documentElement.requestFullscreen?.();
+  });
+</script>
+</body>
+</html>

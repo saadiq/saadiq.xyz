@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Product Development Factory — Handout — Saadiq Rodgers-King</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --d-bg: #0c0c0c; --d-surface: #161616; --d-text: #f0ece4; --d-muted: #c2b5a6;
+    --d-accent: #d4a843; --d-accent-hi: #e8bd5a; --d-rule: #2a2a2a;
+    --l-bg: #f6f6f4; --l-bg2: #efefec; --l-text: #161614; --l-text2: #2c2c29;
+    --l-muted: #52524f; --l-rule: #dedcd6; --l-rule-faint: #e8e6e0;
+    --l-accent: #7d5410; --l-accent-br: #d4a843; --l-ok: #2d8040;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  html { background: #000; }
+  body { background: #000; font-family: var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .deck { display: flex; flex-direction: column; align-items: center; }
+
+  /* ---------------- slide shell (16:9 landscape) ---------------- */
+  @page { size: 13.333in 7.5in; margin: 0; }
+  .slide {
+    position: relative; width: 13.333in; height: 7.5in; overflow: hidden;
+    display: flex; flex-direction: column; padding: 54px 78px 46px;
+    --bg: var(--d-bg); --surface: var(--d-surface); --text: var(--d-text);
+    --muted: var(--d-muted); --accent: var(--d-accent); --accent-hi: var(--d-accent-hi); --rule: var(--d-rule);
+    background: var(--bg); color: var(--text);
+  }
+  .slide.light {
+    --bg: var(--l-bg); --surface: var(--l-bg2); --text: var(--l-text);
+    --muted: var(--l-muted); --accent: var(--l-accent); --accent-hi: var(--l-accent-br); --rule: var(--l-rule);
+  }
+  @media print {
+    html, body { background: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .deck { display: block; }
+    .slide { page-break-after: always; break-after: page; }
+    .slide:last-child { page-break-after: avoid; break-after: auto; }
+  }
+
+  /* corner marks */
+  .marks i { position: absolute; width: 18px; height: 18px; z-index: 3; opacity: .8; }
+  .marks i:nth-child(1){ top: 28px; left: 32px; border-top: 1.5px solid var(--rule); border-left: 1.5px solid var(--rule); }
+  .marks i:nth-child(2){ top: 28px; right: 32px; border-top: 1.5px solid var(--rule); border-right: 1.5px solid var(--rule); }
+  .marks i:nth-child(3){ bottom: 28px; left: 32px; border-bottom: 1.5px solid var(--rule); border-left: 1.5px solid var(--rule); }
+  .marks i:nth-child(4){ bottom: 28px; right: 32px; border-bottom: 1.5px solid var(--rule); border-right: 1.5px solid var(--rule); }
+
+  .serif { font-family: var(--serif); }
+  em { font-style: italic; }
+  .hl { color: var(--accent); font-style: normal; }
+
+  /* header */
+  .eyebrow { font-family: var(--mono); font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .title { font-family: var(--serif); font-weight: 400; font-size: 50px; line-height: 1.0; letter-spacing: -.01em; margin-top: 8px; }
+  .title.sm { font-size: 42px; }
+  .head { flex-shrink: 0; }
+
+  /* body */
+  .body { flex: 1; display: flex; flex-direction: column; justify-content: safe center; min-height: 0; padding-top: 8px; }
+  .cols { display: flex; gap: 48px; align-items: center; }
+  .col-l { flex: 1.05; min-width: 0; }
+  .col-r { flex: .95; min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .col-r.narrow { flex: .82; align-items: stretch; }
+
+  /* bullets */
+  ul.b { list-style: none; }
+  ul.b li { position: relative; padding-left: 28px; font-size: 23px; font-weight: 300; line-height: 1.34; color: var(--text); }
+  ul.b li + li { margin-top: 14px; }
+  ul.b li::before { content: ""; position: absolute; left: 3px; top: 12px; width: 8px; height: 8px; background: var(--accent); }
+  ul.b li b { font-weight: 500; color: var(--text); }
+  ul.b.tight li { font-size: 21px; line-height: 1.32; } ul.b.tight li + li { margin-top: 11px; }
+
+  /* stat tiles */
+  .tiles { display: flex; gap: 18px; }
+  .tile { flex: 1; background: var(--surface); border: 1.5px solid var(--rule); border-radius: 14px; padding: 22px 22px 18px; }
+  .tile .n { font-family: var(--serif); font-size: 70px; line-height: .82; color: var(--accent); }
+  .tile.sm4 .n { font-size: 56px; }
+  .tile .k { font-size: 16px; font-weight: 300; line-height: 1.3; color: var(--text); margin-top: 13px; }
+  .tile .tag { font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 11px; }
+
+  /* loop svg */
+  .loop { width: 100%; max-width: 372px; height: auto; }
+
+  /* terminal */
+  .term { background: #0a0a0a; border: 1.5px solid var(--rule); border-radius: 12px; overflow: hidden; width: 100%; max-width: 460px; }
+  .term .bar { display: flex; align-items: center; gap: 9px; padding: 12px 18px; border-bottom: 1.5px solid var(--rule); }
+  .term .bar span { width: 11px; height: 11px; border-radius: 999px; background: #2a2a2a; }
+  .term .bar .live { margin-left: auto; font-family: var(--mono); font-size: 13px; letter-spacing: .18em; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .term .bar .live i { width: 9px; height: 9px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .term .body2 { padding: 20px 24px; font-family: var(--mono); font-size: 17px; line-height: 1.68; }
+  .term .p { color: var(--accent); } .term .o { color: var(--d-text); } .term .c { color: var(--muted); }
+
+  /* tree */
+  .tree { font-family: var(--mono); font-size: 18px; line-height: 1.85; color: var(--text); white-space: pre; background: var(--surface); border: 1.5px solid var(--rule); border-radius: 14px; padding: 22px 26px; }
+  .tree .dir { color: var(--accent); } .tree .c { color: var(--muted); }
+
+  /* ladder */
+  .ladder { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+  .ladder .chip { font-family: var(--mono); font-size: 14px; letter-spacing: .03em; text-transform: uppercase; color: var(--text); border: 1.5px solid var(--rule); border-radius: 8px; padding: 9px 12px; background: var(--surface); }
+  .ladder .arr { color: var(--accent); font-size: 18px; padding: 0 3px; }
+
+  /* pull quote */
+  .pull { border-left: 4px solid var(--accent-hi); padding-left: 20px; margin-top: 22px; }
+  .pull .q { font-family: var(--serif); font-size: 31px; line-height: 1.12; color: var(--text); }
+  .pull .q .hl { color: var(--accent); }
+
+  /* footer: sources + page number */
+  .foot { flex-shrink: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-top: 18px; padding-top: 13px; border-top: 1px solid var(--rule); }
+  .src { font-family: var(--mono); font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+  .src .lab { color: var(--accent); letter-spacing: .14em; text-transform: uppercase; font-size: 11px; margin-right: 8px; }
+  .src b { color: var(--text); font-weight: 500; }
+  .src a { color: var(--accent); white-space: nowrap; text-decoration: underline; text-decoration-thickness: .6px; text-underline-offset: 2px; display: inline-block; padding: 2px 2px; }
+  .src .dot { color: var(--rule); padding: 0 7px; }
+  .pageno { font-family: var(--mono); font-size: 14px; color: var(--muted); white-space: nowrap; opacity: .8; }
+
+  /* ---------- title slide ---------- */
+  .s-title { justify-content: flex-end; }
+  .s-title .lab { font-family: var(--mono); font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); position: absolute; top: 54px; left: 78px; }
+  .s-title h1 { font-family: var(--serif); font-weight: 400; font-size: 128px; line-height: .94; letter-spacing: -.01em; }
+  .s-title h1 .cur { color: var(--accent); }
+  .s-title .subt { font-family: var(--serif); font-style: italic; font-size: 42px; color: var(--muted); margin-top: 14px; }
+  .s-title .thesis { font-size: 21px; font-weight: 300; line-height: 1.5; color: var(--muted); margin-top: 28px; max-width: 880px; border-left: 3px solid var(--accent); padding-left: 22px; }
+  .s-title .thesis .hl { color: var(--accent); }
+  .s-title .by { font-family: var(--mono); font-size: 15px; color: var(--muted); letter-spacing: .04em; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; }
+  .s-title .by b { color: var(--text); font-weight: 500; }
+
+  /* ---------- big stat (gap) ---------- */
+  .megastat { display: flex; align-items: center; justify-content: center; }
+  .megastat .num { font-family: var(--serif); font-size: 240px; line-height: .8; color: var(--accent); }
+
+  /* ---------- act3 statement (light) ---------- */
+  .s-act3 .statement { font-family: var(--serif); font-size: 52px; line-height: 1.05; letter-spacing: -.01em; }
+  .s-act3 .statement em { color: var(--accent); }
+
+  /* ---------- close / sources index ---------- */
+  .s-close .ask { font-family: var(--serif); font-size: 42px; line-height: 1.1; max-width: 980px; margin-top: 8px; }
+  .idx { columns: 2; column-gap: 56px; }
+  .idx .row { break-inside: avoid; margin-bottom: 14px; font-family: var(--mono); font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .idx .row b { color: var(--l-text); font-weight: 500; display: block; }
+  .idx .row a { color: var(--l-accent); white-space: nowrap; text-decoration: underline; text-decoration-thickness: .6px; text-underline-offset: 2px; display: inline-block; padding: 2px 0; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide s-title">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="lab">// kantar · product + engineering offsite · handout</div>
+    <div>
+      <h1>The Product<br>Development Factory<span class="cur">_</span></h1>
+      <div class="subt">What AI changes about how we build</div>
+      <div class="thesis">Orchestration and enablement have always been product's real work. When execution gets cheap, <span class="hl">that becomes the whole job.</span> The receipts, the references, and what to try Monday.</div>
+      <div class="by"><span><b>Saadiq Rodgers-King</b> &nbsp;·&nbsp; saadiq.xyz</span><span>June 3, 2026</span></div>
+    </div>
+  </section>
+
+  <!-- 2 · THE GAP -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// the gap</div>
+      <h2 class="title">Tools adopted is not work redesigned</h2>
+    </div>
+    <div class="body">
+      <div class="cols">
+        <div class="col-r narrow"><div class="megastat"><div class="num">99%</div></div></div>
+        <div class="col-l">
+          <ul class="b">
+            <li><b>Ramp hit 99% AI-tool adoption.</b> Most people were still stuck, using the models like a faster autocomplete.</li>
+            <li>"Driving a Ferrari with the <span class="hl">handbrake on.</span>"</li>
+            <li><b>The teams pulling away didn't buy different AI.</b> They changed the shape of the work.</li>
+            <li>The whole shift is that gap. <b>Tools adopted</b> vs. <b>work redesigned.</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Source</span><b>Seb Goddijn, Ramp</b><span class="dot">·</span><a href="https://x.com/sebgoddijn/status/2042285915435937816">x.com/sebgoddijn/status/2042285915435937816</a></div>
+      <div class="pageno">02 / 09</div>
+    </div>
+  </section>
+
+  <!-- 3 · ACT 1 — THE FACTORY -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 01 · the factory</div>
+      <h2 class="title">Close the loop</h2>
+    </div>
+    <div class="body">
+      <div class="cols">
+        <div class="col-l">
+          <ul class="b tight">
+            <li><b>One system.</b> Ideate, prioritize, execute, evaluate, iterate.</li>
+            <li><b>Today it's a pipeline.</b> Hand-offs between roles, weeks between stages.</li>
+            <li><b>The shift isn't "go faster."</b> It's closing the loop so it turns in days, not quarters.</li>
+            <li><b>First-principles question.</b> Not "how do we go faster," but "is the process even shaped right."</li>
+            <li>The human <span class="hl">runs the whole loop,</span> not one node. That's orchestration, product's real job.</li>
+            <li><b>Spec writer to strategic curator.</b> A background agent is the primitive you wire stages with.</li>
+          </ul>
+        </div>
+        <div class="col-r">
+          <svg class="loop" viewBox="0 0 1000 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="500" cy="380" r="280" stroke="#d4a843" stroke-width="2" stroke-dasharray="3 14" opacity="0.7"/>
+            <g fill="#d4a843">
+              <path d="M0,-10 L18,0 L0,10 Z" transform="translate(665,153) rotate(216)"/>
+              <path d="M0,-10 L18,0 L0,10 Z" transform="translate(766,467) rotate(-72)"/>
+              <path d="M0,-10 L18,0 L0,10 Z" transform="translate(500,660) rotate(0)"/>
+              <path d="M0,-10 L18,0 L0,10 Z" transform="translate(234,467) rotate(72)"/>
+              <path d="M0,-10 L18,0 L0,10 Z" transform="translate(335,153) rotate(144)"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="22" letter-spacing="1.5" text-anchor="middle">
+              <g><circle cx="500" cy="100" r="78" fill="#161616" stroke="#d4a843" stroke-width="2"/><text x="500" y="108" fill="#f0ece4">IDEATE</text></g>
+              <g><circle cx="766" cy="294" r="78" fill="#161616" stroke="#d4a843" stroke-width="2"/><text x="766" y="302" fill="#f0ece4">PRIORITIZE</text></g>
+              <g><circle cx="665" cy="607" r="78" fill="#161616" stroke="#d4a843" stroke-width="2"/><text x="665" y="615" fill="#f0ece4">EXECUTE</text></g>
+              <g><circle cx="335" cy="607" r="78" fill="#161616" stroke="#d4a843" stroke-width="2"/><text x="335" y="615" fill="#f0ece4">EVALUATE</text></g>
+              <g><circle cx="234" cy="294" r="78" fill="#161616" stroke="#d4a843" stroke-width="2"/><text x="234" y="302" fill="#f0ece4">ITERATE</text></g>
+            </g>
+            <text x="500" y="372" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="80" fill="#d4a843">you</text>
+            <text x="500" y="422" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="22" letter-spacing="3" fill="#ac9e90">RUN THE LOOP</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Source</span><b>Ramp Labs, The MAD Podcast</b><span class="dot">·</span><a href="https://www.youtube.com/watch?v=Fgzs4FBmRYw">youtube.com/watch?v=Fgzs4FBmRYw</a></div>
+      <div class="pageno">03 / 09</div>
+    </div>
+  </section>
+
+  <!-- 4 · ACT 2 — THE RECEIPTS -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 02 · the receipts</div>
+      <h2 class="title">Quality went <em>up,</em> not down</h2>
+    </div>
+    <div class="body">
+      <div class="tiles">
+        <div class="tile sm4"><div class="n">2&times;</div><div class="k">R&amp;D output in 9 months. 3&times; at sixteen.</div><div class="tag">Intercom</div></div>
+        <div class="tile sm4"><div class="n">93.6%</div><div class="k">of pull requests agent-driven.</div><div class="tag">Intercom</div></div>
+        <div class="tile sm4"><div class="n">&minus;35%</div><div class="k">breaking-change downtime, deploys doubled.</div><div class="tag">Intercom</div></div>
+        <div class="tile sm4"><div class="n">18&times;</div><div class="k">a 231-day migration, shipped in 13 days.</div><div class="tag">Salesforce</div></div>
+      </div>
+      <ul class="b tight" style="margin-top:24px">
+        <li><b>Quality rose after an early dip.</b> Salesforce posted +151% effective output, incidents down as volume rose.</li>
+        <li><b>Not a startups-only story.</b> Top-decile builders ~5&times; more productive year over year, the median up ~20%.</li>
+        <li>The 10&times; tier includes <b>decades-old monorepos and legacy businesses.</b> Size and legacy aren't the disqualifier.</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Sources</span><a href="https://ideas.fin.ai/p/2x-nine-months-later">ideas.fin.ai/p/2x-nine-months-later</a><span class="dot">·</span><a href="https://www.salesforce.com/news/stories/how-engineering-became-agentic/">salesforce.com/news/stories/how-engineering-became-agentic</a><span class="dot">·</span><a href="https://x.com/alfred_lin/status/2051660439667527715">x.com/alfred_lin</a><span class="dot">·</span><a href="https://x.com/clairevo/status/2043720461201338702">x.com/clairevo</a></div>
+      <div class="pageno">04 / 09</div>
+    </div>
+  </section>
+
+  <!-- 5 · ACT 2 — SHARED TEAM OS -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 02 · shared team operating systems</div>
+      <h2 class="title sm">The asset is the shared model of the problem</h2>
+    </div>
+    <div class="body">
+      <div class="cols">
+        <div class="col-r narrow">
+<div class="tree"><span class="dir">team-os/</span>
+  <span class="dir">.claude/</span>   <span class="c"># commands, skills</span>
+  <span class="dir">product/</span>  <span class="c"># PRDs, customer notes</span>
+  <span class="dir">team/</span>     <span class="c"># onboarding, retros</span></div>
+          <div class="pull"><div class="q">"Not rolled out until the <span class="hl">repository is updated.</span>"</div></div>
+        </div>
+        <div class="col-l">
+          <ul class="b tight">
+            <li><b>Individual AI use</b> makes one person faster. <b>Teams that change</b> share their AI infrastructure.</li>
+            <li><b>One PM supports 20</b> through a shared, version-controlled repo.</li>
+            <li>Working rule, a feature isn't shipped until the repo is updated. <b>The system learns from every release.</b></li>
+            <li>A partner who'd <b>never opened GitHub</b> now ships daily. Shared context, not coding ability, makes the tools usable.</li>
+            <li>The durable asset is the <b>model of the problem,</b> not the app. It's what lets you regenerate the app.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Source</span><b>Hannah Stahlberg, "How I AI"</b><span class="dot">·</span><a href="https://www.youtube.com/watch?v=0UArKLQ6bXA">youtube.com/watch?v=0UArKLQ6bXA</a></div>
+      <div class="pageno">05 / 09</div>
+    </div>
+  </section>
+
+  <!-- 6 · ACT 2 — AUTOMATED ROUTINES + DEMO -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 02 · automated routines + the live demo</div>
+      <h2 class="title sm">Workday prep, assembled before you walk in</h2>
+    </div>
+    <div class="body">
+      <div class="cols">
+        <div class="col-l">
+          <ul class="b tight">
+            <li><b>Notion's standup pre-read agent</b> runs every morning. Slack, merged PRs, closed tasks, transcript, and metrics, into a shaped agenda.</li>
+            <li><b>The live demo.</b> One command builds my brief from calendar, email, notes, CRM. <span class="hl">AI synthesizes. I decide.</span></li>
+            <li><b>Start as a ladder, not a leap.</b></li>
+          </ul>
+          <div class="ladder">
+            <span class="chip">Run it manually</span><span class="arr">&rarr;</span>
+            <span class="chip">Better context</span><span class="arr">&rarr;</span>
+            <span class="chip">Better tools</span><span class="arr">&rarr;</span>
+            <span class="chip">Schedule it</span>
+          </div>
+          <ul class="b tight"><li>By the end you'd call it an agent. <b>You got there one delegation at a time.</b></li></ul>
+        </div>
+        <div class="col-r">
+          <div class="term">
+            <div class="bar"><span></span><span></span><span></span><div class="live"><i></i>LIVE</div></div>
+            <div class="body2">
+              <div class="p">$ /today</div>
+              <div class="c">&rsaquo; reading calendar, inbox, notes, CRM&hellip;</div>
+              <div class="o">3 meetings. Kantar sync at 7:15.</div>
+              <div class="o">Due today: send Ty the outline.</div>
+              <div class="o">2 follow-ups waiting on you.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Source</span><b>Ryan Nystrom, Notion, "How I AI"</b><span class="dot">·</span><a href="https://www.youtube.com/watch?v=pUHA_jNwuYE">youtube.com/watch?v=pUHA_jNwuYE</a></div>
+      <div class="pageno">06 / 09</div>
+    </div>
+  </section>
+
+  <!-- 7 · ACT 2 — ENABLING THE BUILDERS -->
+  <section class="slide">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 02 · enabling the builders</div>
+      <h2 class="title sm">The bottleneck moved from writing code to verifying it</h2>
+    </div>
+    <div class="body">
+      <div class="tiles">
+        <div class="tile"><div class="n">1,300</div><div class="k">agent pull requests per week.</div><div class="tag">Stripe</div></div>
+        <div class="tile"><div class="n">423</div><div class="k">security fixes in a month, vs a 20&ndash;30 baseline.</div><div class="tag">Mozilla</div></div>
+        <div class="tile"><div class="n">19.2%</div><div class="k">of PRs auto-merged, no human reviewer.</div><div class="tag">Intercom</div></div>
+      </div>
+      <ul class="b tight" style="margin-top:24px">
+        <li><b>Product doesn't write the code.</b> It enables the people who do, so what augmented builders can do is a product concern.</li>
+        <li><b>CI, evals, and the verification loop are the new ceiling</b> on throughput, and that ceiling is shared infrastructure to orchestrate.</li>
+        <li>The unit of execution shrinks, <b>scrum team toward 1&ndash;3 person pods.</b> PM and engineer days converge. Ownership stays distinct.</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Sources</span><a href="https://www.youtube.com/watch?v=pUHA_jNwuYE">youtube.com/watch?v=pUHA_jNwuYE</a><span class="dot">·</span><a href="https://hacks.mozilla.org/2026/05/behind-the-scenes-hardening-firefox/">hacks.mozilla.org/…/hardening-firefox</a><span class="dot">·</span><a href="https://ideas.fin.ai/p/2x-nine-months-later">ideas.fin.ai/p/2x-nine-months-later</a></div>
+      <div class="pageno">07 / 09</div>
+    </div>
+  </section>
+
+  <!-- 8 · ACT 3 — WHAT IT MEANS (light) -->
+  <section class="slide light s-act3">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// act 03 · what it means for the people in the room</div>
+    </div>
+    <div class="body">
+      <div class="statement">The task may change. The people <em>don't.</em><br>Ownership doesn't move.</div>
+      <ul class="b" style="margin-top:22px">
+        <li><b>If anyone can generate a PRD, the PRD was never the job.</b> The mission is unchanged. Help the team understand what to build and why.</li>
+        <li><b>Volume is free now. Taste is the bottleneck.</b> Judgment and taste are what concentrate.</li>
+        <li>The AI is a <b>brilliant junior</b> who read every document but wasn't in the hallway after the leadership sync. Reading the room is still a human's job.</li>
+        <li><b>What survives and grows.</b> Judgment, problem framing, owning the outcome. The tasks that crowded them out are receding.</li>
+      </ul>
+    </div>
+    <div class="foot">
+      <div class="src"><span class="lab">Source</span><b>Aparna Dhinakaran, "How I AI"</b><span class="dot">·</span><a href="https://www.youtube.com/watch?v=DL-pUGcfrf4">youtube.com/watch?v=DL-pUGcfrf4</a></div>
+      <div class="pageno">08 / 09</div>
+    </div>
+  </section>
+
+  <!-- 9 · CLOSE + SOURCES INDEX (light) -->
+  <section class="slide light s-close">
+    <div class="marks"><i></i><i></i><i></i><i></i></div>
+    <div class="head">
+      <div class="eyebrow">// go deeper</div>
+      <div class="ask">Questions, or want any of these threads pulled further?</div>
+    </div>
+    <div class="body">
+      <div class="idx">
+        <div class="row"><b>Seb Goddijn, Ramp — 99% adoption</b><a href="https://x.com/sebgoddijn/status/2042285915435937816">x.com/sebgoddijn/status/2042285915435937816</a></div>
+        <div class="row"><b>Ramp Labs, The MAD Podcast — the factory</b><a href="https://www.youtube.com/watch?v=Fgzs4FBmRYw">youtube.com/watch?v=Fgzs4FBmRYw</a></div>
+        <div class="row"><b>Darragh Curran, Intercom / Fin.ai</b><a href="https://ideas.fin.ai/p/2x-nine-months-later">ideas.fin.ai/p/2x-nine-months-later</a></div>
+        <div class="row"><b>Srinivas Tallapragada, Salesforce Eng.</b><a href="https://www.salesforce.com/news/stories/how-engineering-became-agentic/">salesforce.com/news/stories/how-engineering-became-agentic</a></div>
+        <div class="row"><b>Alfred Lin, Sequoia — 5&times; / +20%</b><a href="https://x.com/alfred_lin/status/2051660439667527715">x.com/alfred_lin/status/2051660439667527715</a></div>
+        <div class="row"><b>Claire Vo — the 10&times; tier</b><a href="https://x.com/clairevo/status/2043720461201338702">x.com/clairevo/status/2043720461201338702</a></div>
+        <div class="row"><b>Hannah Stahlberg, "How I AI" — team OS</b><a href="https://www.youtube.com/watch?v=0UArKLQ6bXA">youtube.com/watch?v=0UArKLQ6bXA</a></div>
+        <div class="row"><b>Ryan Nystrom, Notion — pre-read + Stripe</b><a href="https://www.youtube.com/watch?v=pUHA_jNwuYE">youtube.com/watch?v=pUHA_jNwuYE</a></div>
+        <div class="row"><b>Mozilla Hacks — agentic security harness</b><a href="https://hacks.mozilla.org/2026/05/behind-the-scenes-hardening-firefox/">hacks.mozilla.org/2026/05/behind-the-scenes-hardening-firefox</a></div>
+        <div class="row"><b>Aparna Dhinakaran, "How I AI" — taste</b><a href="https://www.youtube.com/watch?v=DL-pUGcfrf4">youtube.com/watch?v=DL-pUGcfrf4</a></div>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="src"><b>Saadiq Rodgers-King</b><span class="dot">·</span>saadiq.xyz</div>
+      <div class="pageno">09 / 09</div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
