@@ -145,7 +145,7 @@ export const servicesJsonLd = {
           "name": "AI Discovery Sprint",
           "url": "https://saadiq.xyz/services",
           "description":
-            "One to two weeks inside your stack. Use cases pressure-tested, AI wired to live data, a working prototype, and a phased build estimate. Fixed fee.",
+            "One to two weeks embedded in your meetings, your stack, and your processes to find where AI can move the business. Ends with a prioritized set of opportunities and a scoped proposal. Fixed fee.",
         },
       },
       {

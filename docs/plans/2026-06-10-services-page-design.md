@@ -14,7 +14,7 @@ Public lineup, mapped to the internal services-menu grid (talk/teach/build x aug
 
 1. **Talks and executive briefings** (Talk/Augmentation). Live-demo sessions for leadership teams and product orgs; written executive briefs standalone.
 2. **Executive AI advisory** (advisory retainer). Standing weekly session for CEOs/CPOs on decisions they can't delegate, plus research briefs between sessions.
-3. **AI discovery sprint** (Teach/Automation). 1-2 weeks inside the real stack, working prototype with the team in the room, phased build estimate. Fixed fee.
+3. **AI discovery sprint** (Teach/Automation). 1-2 weeks embedded in the client's meetings, people, stack, and processes to identify where AI has company-level impact. Ends with prioritized opportunities and a scoped proposal for the first project. A prototype can be involved but never has been and is not the purpose (Saadiq, 2026-06-10). Fixed fee.
 4. **Agent and automation builds** (Build/Automation). Production agents with human review designed in, milestone billed, knowledge transfer at handoff.
 5. **Embedded technical leadership** (Build convergence). Weekly cadence as de facto technical lead for founder-led companies; starts with one scoped win.
 
