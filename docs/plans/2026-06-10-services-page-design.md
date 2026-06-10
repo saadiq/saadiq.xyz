@@ -42,7 +42,7 @@ Every proof sentence on the page must stay inside these lines:
 `src/pages/services/index.astro`, mirroring `/about`:
 
 - BaseLayout: title, description, `ogImage="/services/og.png"`, `jsonLd={[websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd]}`.
-- Header (pt-40 md:pt-48): section-label `// services`, h1 "How I work", lede with the positioning pair ("I get product and engineering teams actually using AI. For companies without those teams, I build the systems and stay until they run without me."), one path sentence (talk seeds, sprint proves, build ships; trust compounds and the work expands).
+- Header (pt-40 md:pt-48): section-label `// services`, h1 "How I work", lede with the positioning pair ("I get product and engineering teams actually using AI. For companies without those teams, I build the systems and stay until they run without me."), one path sentence (talk seeds, sprint proves, build ships). No kicker after it; "trust compounds and the work expands" was cut as an aphoristic flourish (Saadiq, 2026-06-10). Internal-doc aphorisms stay internal.
 - Five service rows in WhyNotThem's two-column grid pattern (`grid md:grid-cols-2 gap-4 md:gap-16`, `border-b border-rule` dividers). Left column carries the h2 (font-display text-2xl md:text-3xl) and mono `format_` metadata lines. Right column carries who-it's-for, what-you-get, and a `proof_` mono label with 1-2 anonymous verified proof sentences (text-sm text-text-muted).
 - FooterCTA + StatusBar reused as-is.
 
