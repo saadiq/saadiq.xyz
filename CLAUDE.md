@@ -44,7 +44,7 @@ The box pulls from the npm registry in only two spots, so the surface is narrow 
   npm install -g ghost-cli@1.29.3   # pin the version; let a new release age a few days first
   ```
 - **npm itself** is pinned-bumped the same way (`npm install -g npm@<ver>`), currently 11.16.0.
-- The **Astro site builds off-box** (local machine, bun) and deploys as static `dist/` — the server never runs a package manager for it, so that supply chain lives on the dev machine (where the box's SSH deploy key also lives — treat it as a crown jewel).
+- The **Astro site never builds on the droplet** — the server just receives static `dist/` over rsync. Builds run in GitHub Actions on every push to `main` (and on the dev machine for local work), so that supply chain lives in CI and the dev machine. The droplet's SSH deploy key exists in **two** places: the dev machine and the repo's `SSH_PRIVATE_KEY` Actions secret — GitHub repo/secrets access is a crown jewel accordingly.
 
 ### Routing (nginx)
 
