@@ -57,6 +57,8 @@ Supporting changes:
 
 ## Copy rules
 
+De-risk through structure (scoped first project, stands on its own, grows on results), never through size language. Do not describe the work, the entry point, or the practice as "small" (Saadiq, 2026-06-10).
+
 Vault writing rules apply in full. No em-dashes, no colon setup/payoff, no filler, no metadiscourse, no aphoristic kickers, at most one real "X, not Y" contrast on the page, claims landed in short declaratives, peer register. Analytics attributes follow the existing PostHog data-attribute pattern (`nav_click`, `cta_book_consultation`, plus `cta_services` for the teaser link).
 
 ## Out of scope
