@@ -1,5 +1,5 @@
 ---
-import { getRecentPosts } from "../lib/ghost";
+import { contentApiUrl, getRecentPosts } from "../lib/ghost";
 import type { GhostPost } from "../lib/ghost";
 
 let posts: GhostPost[] = [];
@@ -10,47 +10,93 @@ try {
 }
 ---
 
-{posts.length > 0 && (
-  <section class="py-20 md:py-28 border-t border-rule">
-    <div class="max-w-5xl mx-auto px-6">
-      <p class="section-label mb-12">// latest from the newsletter</p>
+<section
+  id="newsletter-preview"
+  class="py-20 md:py-28 border-t border-rule"
+  hidden={posts.length === 0}
+>
+  <div class="max-w-5xl mx-auto px-6">
+    <p class="section-label mb-12">// latest from the newsletter</p>
 
-      <div>
-        {posts.map((post, i) => (
-          <div class={`pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}`}>
-            <a
-              href={`/newsletter/${post.slug}/`}
-              class="font-display text-xl md:text-2xl hover:text-accent transition-colors"
-            >
-              {post.title}
-            </a>
-            <div class="flex gap-4 mt-1">
-              <span class="font-mono text-xs text-text-muted">
-                {new Date(post.published_at).toLocaleDateString("en-GB", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
-              <span class="font-mono text-xs text-text-muted">
-                {post.reading_time} min read
-              </span>
-            </div>
-            <p class="text-text-muted text-sm mt-2 line-clamp-2">
-              {post.excerpt}
-            </p>
+    <div data-posts>
+      {posts.map((post, i) => (
+        <div class={`pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}`}>
+          <a
+            href={`/newsletter/${post.slug}/`}
+            class="font-display text-xl md:text-2xl hover:text-accent transition-colors"
+          >
+            {post.title}
+          </a>
+          <div class="flex gap-4 mt-1">
+            <span class="font-mono text-xs text-text-muted">
+              {new Date(post.published_at).toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+            </span>
+            <span class="font-mono text-xs text-text-muted">
+              {post.reading_time} min read
+            </span>
           </div>
-        ))}
-      </div>
-
-      <a
-        href="/newsletter"
-        class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
-        data-ph-capture="cta_newsletter"
-        data-ph-section="newsletter_preview"
-      >
-        Read all posts &rarr;
-      </a>
+          <p class="text-text-muted text-sm mt-2 line-clamp-2">
+            {post.excerpt}
+          </p>
+        </div>
+      ))}
     </div>
-  </section>
-)}
+
+    <a
+      href="/newsletter"
+      class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+      data-ph-capture="cta_newsletter"
+      data-ph-section="newsletter_preview"
+    >
+      Read all posts &rarr;
+    </a>
+  </div>
+</section>
+
+<!-- Re-fetch in the browser so new posts show up without a site rebuild. -->
+<script define:vars={{ apiUrl: contentApiUrl(3) }}>
+  const section = document.getElementById("newsletter-preview");
+  const list = section.querySelector("[data-posts]");
+
+  const esc = (s) =>
+    String(s).replace(
+      /[&<>"']/g,
+      (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+    );
+
+  const fmtDate = (iso) =>
+    new Date(iso).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+  fetch(apiUrl)
+    .then((res) => (res.ok ? res.json() : Promise.reject(new Error(res.status))))
+    .then(({ posts }) => {
+      if (!posts || posts.length === 0) return;
+      // Markup mirrors the server-rendered template above — keep them in sync.
+      list.innerHTML = posts
+        .map(
+          (post, i) => `
+        <div class="pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}">
+          <a href="/newsletter/${esc(post.slug)}/" class="font-display text-xl md:text-2xl hover:text-accent transition-colors">${esc(post.title)}</a>
+          <div class="flex gap-4 mt-1">
+            <span class="font-mono text-xs text-text-muted">${fmtDate(post.published_at)}</span>
+            <span class="font-mono text-xs text-text-muted">${post.reading_time} min read</span>
+          </div>
+          <p class="text-text-muted text-sm mt-2 line-clamp-2">${esc(post.excerpt ?? "")}</p>
+        </div>`,
+        )
+        .join("");
+      section.hidden = false;
+    })
+    .catch(() => {
+      // Build-time content (if any) stays in place.
+    });
+</script>
