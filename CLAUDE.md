@@ -53,6 +53,21 @@ The box pulls from the npm registry in only two spots, so the surface is narrow 
 - `/content`, `/members` — rewritten to `/newsletter/` prefix and proxied to Ghost
 - Unknown paths fall through to Ghost via `@ghost_redirect`
 
+#### Never hand-edit the live conf in place; the include is `*.conf`-scoped
+
+**Edit nginx configs via a backup location *outside* the include dir — never with `sed -i.bak …` on a file inside `sites-enabled/`.** `sed -i.SUFFIX` writes its backup *next to* the edited file, so editing `sites-enabled/saadiq.xyz.conf` in place drops `saadiq.xyz.conf.bak.<date>` right into the include dir, where nginx loads it as live config.
+
+This caused two outages. Both Apr 4 and Apr 13 ActivityPub edits were done in place (`sed -i.bak.$(date +%Y%m%d%H%M%S)`), leaving two `.bak` files in `sites-enabled/` that still contained the *old* bare `proxy_pass https://ap.ghost.org;` (resolves DNS at config-parse time). On **2026-06-10** a routine acme.sh/certbot reload hit a transient DNS hiccup → `[emerg] host not found in upstream "ap.ghost.org"` → `nginx -t` failed → nginx **stopped and stayed down** (ports 80/443 refused; SSH/ping fine, so the droplet *looked* up). Same failure had already happened **2026-04-10**.
+
+**Hardened 2026-06-10:** the include is now `include /etc/nginx/sites-enabled/*.conf;` (was `/*`), so any stray `.bak`/`.save`/`.orig`/swapfile in that dir is ignored and can't break `nginx -t`. Old backups live in `/etc/nginx/disabled-backups/`. Recovery if it ever recurs (move non-conf cruft out, retest, start):
+
+```bash
+sudo mv /etc/nginx/sites-enabled/*.bak.* /etc/nginx/disabled-backups/ 2>/dev/null
+sudo nginx -t && sudo systemctl start nginx
+```
+
+The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 127.0.0.53 valid=300s;` + `set $ap_ghost https://ap.ghost.org; proxy_pass $ap_ghost;`. A variable in `proxy_pass` defers DNS to request-time via the resolver, so a momentary DNS failure can't break `nginx -t`. Keep that pattern; never reintroduce a bare `proxy_pass https://ap.ghost.org;`.
+
 ## Related repo
 
 - **Ghost theme** (`journal-dark`): `~/dev/journal`
