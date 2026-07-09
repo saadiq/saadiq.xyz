@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Reading the Meter</title>
+<meta name="description" content="What a reasoning model bills you for, why the sticker price is not the price, where open weights match the frontier, and what self-hosting actually costs.">
+<meta property="og:title" content="Reading the Meter">
+<meta property="og:description" content="What a reasoning model bills you for, why the sticker price is not the price, where open weights match the frontier, and what self-hosting actually costs.">
+<meta property="og:type" content="article">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F3ED" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131714" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  img, svg { max-width: 100%; }
+  button { font: inherit; color: inherit; }
+</style>
+<style>
+  :root {
+    --paper:      #F2F3ED;
+    --paper-2:    #E8EAE2;
+    --paper-3:    #DEE2D6;
+    --rule:       #C2CFBC;
+    --rule-soft:  #DBE1D5;
+    --ink:        #1B211C;
+    --graphite:   #5A655C;
+    --graphite-2: #7C877E;
+    --steel:      #3B5468;
+    --steel-soft: #A9BCC9;
+    --annot:      #A33A1C;
+    --annot-wash: #EBD5CC;
+    --owned:      #2E6A4C;
+
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, "IBM Plex Mono", Menlo, Consolas, monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+
+    --sheet-max: 68rem;
+    --prose: 63ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #131714;
+      --paper-2:    #1A1F1B;
+      --paper-3:    #222923;
+      --rule:       #2F392F;
+      --rule-soft:  #232B24;
+      --ink:        #E3E7DE;
+      --graphite:   #97A398;
+      --graphite-2: #6F7B70;
+      --steel:      #8AAAC0;
+      --steel-soft: #3E5262;
+      --annot:      #E0714C;
+      --annot-wash: #3A241C;
+      --owned:      #6FB68F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #131714;
+    --paper-2:    #1A1F1B;
+    --paper-3:    #222923;
+    --rule:       #2F392F;
+    --rule-soft:  #232B24;
+    --ink:        #E3E7DE;
+    --graphite:   #97A398;
+    --graphite-2: #6F7B70;
+    --steel:      #8AAAC0;
+    --steel-soft: #3E5262;
+    --annot:      #E0714C;
+    --annot-wash: #3A241C;
+    --owned:      #6FB68F;
+  }
+
+  :root[data-theme="light"] {
+    --paper:      #F2F3ED;
+    --paper-2:    #E8EAE2;
+    --paper-3:    #DEE2D6;
+    --rule:       #C2CFBC;
+    --rule-soft:  #DBE1D5;
+    --ink:        #1B211C;
+    --graphite:   #5A655C;
+    --graphite-2: #7C877E;
+    --steel:      #3B5468;
+    --steel-soft: #A9BCC9;
+    --annot:      #A33A1C;
+    --annot-wash: #EBD5CC;
+    --owned:      #2E6A4C;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: var(--sheet-max);
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem) 6rem;
+  }
+
+  /* ---------- statement header ---------- */
+
+  .titleblock {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+    border-bottom-width: 2px;
+    margin: clamp(1.5rem, 5vw, 3.5rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .tb-cell {
+    padding: 0.7rem 0.9rem 0.8rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+  .tb-cell:last-child { border-right: 0; }
+
+  .tb-cell.wide {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+    padding: 1.1rem 0.9rem 1.2rem;
+  }
+
+  .lbl {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  .tb-val {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet-title {
+    font-family: var(--mono);
+    font-size: clamp(1.35rem, 4.2vw, 2.15rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 0.1rem 0 0;
+  }
+
+  /* ---------- thesis ---------- */
+
+  .thesis { max-width: var(--prose); margin: 0 0 clamp(3rem, 8vw, 5.5rem); }
+  .thesis p { margin: 0 0 1.1rem; font-size: clamp(1.05rem, 2.4vw, 1.24rem); line-height: 1.55; }
+  .thesis p:last-child { margin-bottom: 0; }
+  .thesis .lead {
+    font-size: clamp(1.35rem, 3.6vw, 1.85rem);
+    line-height: 1.28;
+    text-wrap: balance;
+    letter-spacing: -0.005em;
+  }
+  em.turn {
+    font-style: normal;
+    background: linear-gradient(transparent 62%, var(--annot-wash) 62%);
+    padding: 0 0.1em;
+  }
+
+  blockquote.said {
+    margin: 2rem 0;
+    padding: 0 0 0 1.1rem;
+    border-left: 2px solid var(--annot);
+    font-style: italic;
+    color: var(--graphite);
+    max-width: var(--prose);
+  }
+  blockquote.said p { font-size: 1.04rem; margin: 0 0 0.4rem; }
+  blockquote.said cite {
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  /* ---------- summary of findings ---------- */
+
+  .summary {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    margin: 0 0 clamp(3.5rem, 9vw, 6rem);
+  }
+
+  .sum-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.7rem 0 0.75rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .sum-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(7rem, 9rem);
+    gap: 0.4rem 1.6rem;
+    align-items: baseline;
+    padding: 1.25rem 0 1.35rem;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .sum-row:first-of-type { border-top: 0; }
+
+  .sum-body h3 {
+    margin: 0 0 0.4rem;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.04rem, 2.7vw, 1.26rem);
+    line-height: 1.32;
+    text-wrap: balance;
+    letter-spacing: -0.003em;
+  }
+  .sum-body p {
+    margin: 0;
+    font-size: 0.96rem;
+    line-height: 1.5;
+    color: var(--graphite);
+    max-width: 54ch;
+  }
+
+  .sum-amt { text-align: right; }
+  .sum-fig {
+    display: block;
+    font-family: var(--mono);
+    font-size: clamp(1.3rem, 4.4vw, 1.95rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--annot);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .sum-fig.wide { font-size: clamp(1.05rem, 3.3vw, 1.48rem); }
+  .sum-figlbl {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    line-height: 1.45;
+  }
+  .sum-link {
+    display: inline-block;
+    margin-top: 0.55rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--graphite-2);
+    padding-bottom: 0.1rem;
+  }
+  .sum-link:hover { color: var(--annot); border-bottom-color: var(--annot); }
+  .sum-link:focus-visible { outline: 2px solid var(--annot); outline-offset: 3px; }
+
+  .sum-foot {
+    border-top: 1px solid var(--ink);
+    padding: 0.8rem 0 0.85rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--graphite);
+  }
+  .sum-foot b { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 42rem) {
+    .sum-row { grid-template-columns: minmax(0, 1fr); }
+    .sum-amt { text-align: left; margin-top: 0.9rem; }
+    .sum-fig { font-size: 1.5rem; }
+    .sum-figlbl { margin-top: 0.25rem; }
+  }
+
+  :target .plate-head { border-bottom-color: var(--annot); }
+
+  /* ---------- plates ---------- */
+
+  .plate { margin: 0 0 clamp(3.5rem, 9vw, 6rem); }
+  .plate { scroll-margin-top: 1.5rem; }
+
+  .plate-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.55rem;
+    margin-bottom: 1.8rem;
+  }
+  .plate-no {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    color: var(--annot);
+    white-space: nowrap;
+    padding-top: 0.2rem;
+  }
+  .plate-head h2 {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: clamp(0.95rem, 2.6vw, 1.22rem);
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .plate p { max-width: var(--prose); margin: 0 0 1.05rem; }
+  .plate p:last-child { margin-bottom: 0; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    margin: 0 0 0.6rem;
+  }
+
+  strong { font-weight: 600; }
+
+  /* ---------- figure frame ---------- */
+
+  figure {
+    margin: 2rem 0 1.8rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+  figure > .fig-body { padding: clamp(0.9rem, 3vw, 1.75rem); overflow-x: auto; }
+  figcaption {
+    border-top: 1px solid var(--rule);
+    padding: 0.6rem 0.9rem 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--graphite);
+  }
+  figcaption b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- controls ---------- */
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0 0 1.4rem;
+    align-items: center;
+  }
+  button {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--graphite-2);
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    transition: background 120ms, border-color 120ms, color 120ms;
+  }
+  button:hover:not(:disabled) { background: var(--paper-3); }
+  button:focus-visible { outline: 2px solid var(--annot); outline-offset: 2px; }
+  button:disabled { opacity: 0.42; cursor: default; }
+  button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  button.primary { border-color: var(--annot); color: var(--annot); }
+  button.primary:hover:not(:disabled) { background: var(--annot-wash); }
+
+  /* ---------- the meter ---------- */
+
+  .meter {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .dial {
+    background: var(--paper);
+    padding: 1rem 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+  .dial .num {
+    font-family: var(--mono);
+    font-size: clamp(1.4rem, 4.5vw, 2.05rem);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .dial.hidden-cost .num { color: var(--annot); }
+  .dial.bill .num { color: var(--steel); }
+  .dial .sub {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--graphite-2);
+    line-height: 1.45;
+  }
+
+  .split {
+    margin-top: 1.3rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 0.9rem 1rem 1rem;
+  }
+  .split-bar {
+    display: flex;
+    height: 1.5rem;
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    margin: 0.55rem 0 0.5rem;
+  }
+  .split-bar i { display: block; height: 100%; transition: width 260ms ease; }
+  .split-bar .seen { background: var(--steel-soft); }
+  .split-bar .unseen {
+    background: var(--annot);
+    background-image: repeating-linear-gradient(
+      45deg, transparent, transparent 4px,
+      rgba(255,255,255,0.28) 4px, rgba(255,255,255,0.28) 8px);
+  }
+  .split-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.3rem;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.03em;
+    color: var(--graphite);
+  }
+  .split-legend b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  /* ---------- the dig ---------- */
+
+  .dig-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.2rem);
+    align-items: start;
+  }
+  @media (max-width: 44rem) { .dig-wrap { grid-template-columns: 1fr; } }
+
+  .layerstack .lyr { fill: var(--paper-3); stroke: var(--rule); stroke-width: 1; }
+  .layerstack .lyr.lit { fill: var(--annot-wash); stroke: var(--annot); }
+  .layerstack text { font-family: var(--mono); font-size: 8px; fill: var(--graphite-2); letter-spacing: 0.08em; }
+  .layerstack .tok { fill: var(--annot); }
+  .layerstack .rail { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 3; }
+  .layerstack .loop { stroke: var(--steel); stroke-width: 1.4; fill: none; }
+
+  .digstat {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 0.85rem 1rem 0.95rem;
+    margin-bottom: 1rem;
+  }
+  .digstat .num {
+    font-family: var(--mono);
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-variant-numeric: tabular-nums;
+    color: var(--annot);
+    line-height: 1;
+  }
+  .digstat .num.steady { color: var(--steel); }
+
+  /* ---------- tables ---------- */
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    padding-bottom: 0.7rem;
+  }
+  th, td {
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 0.5rem 0.7rem 0.5rem 0;
+    text-align: left;
+    vertical-align: baseline;
+  }
+  th {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    border-bottom: 1px solid var(--ink);
+    white-space: nowrap;
+  }
+  td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; padding-right: 0; }
+  tr.open td { color: var(--owned); }
+  tr.open td b { color: var(--owned); }
+  td .tag {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    display: block;
+    margin-top: 0.1rem;
+  }
+  .flip { color: var(--annot); font-family: var(--mono); font-size: 0.72rem; }
+
+  .bars td.bar { width: 45%; padding-right: 0; }
+  .bars .barline {
+    display: block;
+    height: 0.72rem;
+    background: var(--steel-soft);
+    border: 1px solid var(--steel);
+    min-width: 1px;
+  }
+  .bars tr.open .barline { background: var(--owned); border-color: var(--owned); opacity: 0.55; }
+  .bars tr.hero .barline { background: var(--annot); border-color: var(--annot); }
+
+  /* ---------- radar ---------- */
+
+  .radar-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.2rem);
+    align-items: center;
+  }
+  @media (max-width: 46rem) { .radar-wrap { grid-template-columns: 1fr; } }
+
+  .radar .web { stroke: var(--rule); stroke-width: 1; fill: none; }
+  .radar .spoke { stroke: var(--rule); stroke-width: 1; }
+  .radar text.ax {
+    font-family: var(--mono);
+    font-size: 7.2px;
+    letter-spacing: 0.07em;
+    fill: var(--graphite-2);
+    text-transform: uppercase;
+  }
+  .radar polygon.trace { fill-opacity: 0.10; stroke-width: 1.8; transition: opacity 160ms; }
+  .radar polygon.trace.off { opacity: 0.07; }
+  .radar .t-closed { stroke: var(--steel); fill: var(--steel); }
+  .radar .t-open   { stroke: var(--owned); fill: var(--owned); }
+  .radar .t-cheap  { stroke: var(--annot); fill: var(--annot); }
+
+  .legend { display: flex; flex-direction: column; gap: 0.5rem; }
+  .legend button {
+    text-transform: none;
+    letter-spacing: 0.02em;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    font-size: 0.72rem;
+  }
+  .legend .sw { width: 0.85rem; height: 0.85rem; border: 1.5px solid; flex: none; }
+  .legend .sw.closed { border-color: var(--steel); background: color-mix(in srgb, var(--steel) 18%, transparent); }
+  .legend .sw.open   { border-color: var(--owned); background: color-mix(in srgb, var(--owned) 18%, transparent); }
+  .legend .sw.cheap  { border-color: var(--annot); background: color-mix(in srgb, var(--annot) 18%, transparent); }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    border: 2px solid var(--annot);
+    background: var(--paper-2);
+    padding: clamp(1rem, 3vw, 1.6rem);
+    margin: 2rem 0;
+    max-width: var(--prose);
+  }
+  .callout p { margin: 0; }
+  .callout .kicker { color: var(--annot); }
+
+  .stamp {
+    border: 1px solid var(--annot);
+    color: var(--annot);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.55rem 0.8rem;
+    display: inline-block;
+    margin-top: 2rem;
+    transform: rotate(-0.7deg);
+  }
+
+  .colophon {
+    border-top: 1px solid var(--ink);
+    margin-top: clamp(3rem, 8vw, 5rem);
+    padding-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="sheet">
+
+  <header class="titleblock">
+    <div class="tb-cell wide">
+      <span class="lbl">Statement</span>
+      <h1 class="sheet-title">Reading the Meter</h1>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Subject</span>
+      <span class="tb-val">Token economics</span>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Prepared by</span>
+      <span class="tb-val">Saadiq Industries</span>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Readings</span>
+      <span class="tb-val">06</span>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Prices as of</span>
+      <span class="tb-val">09 JUL 2026</span>
+    </div>
+  </header>
+
+  <section class="thesis">
+    <p class="lead">The meter is not a black box. It counts words, including the ones you never see.</p>
+    <p>Every price here was pulled on 9 July 2026, the morning OpenAI shipped GPT&#8209;5.6. Model prices moved twice in the eight weeks before that. Check them again before you use them.</p>
+  </section>
+
+  <section class="summary" aria-label="Summary of findings">
+    <div class="sum-head">
+      <span class="lbl">Summary</span>
+      <span class="lbl">Five findings</span>
+    </div>
+
+    <div class="sum-row">
+      <div class="sum-body">
+        <h3>You pay for words you never see, and they are doing the work.</h3>
+        <p>A reasoning model writes to itself before it answers, and that writing is how it solves hard problems. It bills at the answer's rate, it never reaches you, and it runs whether or not the question needed it.</p>
+        <a class="sum-link" href="#r01">Reading 01</a>
+      </div>
+      <div class="sum-amt">
+        <span class="sum-fig">81%</span>
+        <span class="sum-figlbl">of a Sonnet 5 task<br>is thinking</span>
+      </div>
+    </div>
+
+    <div class="sum-row">
+      <div class="sum-body">
+        <h3>The price per word does not tell you the price.</h3>
+        <p>GPT&#8209;5.6 Sol charges 20% more per word than Claude Opus 4.8 and finishes a task for 2.2x less, because it uses 15,346 words where Opus uses 40,910. Procurement comparing dollars per million tokens is comparing the wrong number.</p>
+        <a class="sum-link" href="#r03">Reading 03</a>
+      </div>
+      <div class="sum-amt">
+        <span class="sum-fig">2.2&times;</span>
+        <span class="sum-figlbl">cheaper per task<br>at a higher rate</span>
+      </div>
+    </div>
+
+    <div class="sum-row">
+      <div class="sum-body">
+        <h3>Open models match the frontier on knowledge and fail on calibration.</h3>
+        <p>DeepSeek V4&#8209;Pro scores 88.8 on graduate science against Opus 4.8's 92.0. Asked something it does not know, it answers anyway 94% of the time. Route work by what a wrong answer costs.</p>
+        <a class="sum-link" href="#r04">Reading 04</a>
+      </div>
+      <div class="sum-amt">
+        <span class="sum-fig">94%</span>
+        <span class="sum-figlbl">of unknowns<br>answered anyway</span>
+      </div>
+    </div>
+
+    <div class="sum-row">
+      <div class="sum-body">
+        <h3>Self-hosting costs more in payroll than in hardware.</h3>
+        <p>One Azure node runs $326,923 a year on a three&#8209;year reservation. The team to keep a frontier model serving costs $500,000 to $1,500,000. The 4.4x gap between what a lab charges for its own model and what Microsoft charges to serve the same file is the compliance premium.</p>
+        <a class="sum-link" href="#r05">Reading 05</a>
+      </div>
+      <div class="sum-amt">
+        <span class="sum-fig wide">1.5&ndash;4.6&times;</span>
+        <span class="sum-figlbl">payroll over<br>hardware</span>
+      </div>
+    </div>
+
+    <div class="sum-row">
+      <div class="sum-body">
+        <h3>Cost per answer falls every year. Total spend rises every year.</h3>
+        <p>Price at a fixed capability drops 5x to 10x annually. The cost of running frontier models rises 3x to 18x. Fortune 500 median AI spend is under $100 per employee per year; the 99th percentile is near $90,000.</p>
+        <a class="sum-link" href="#r06">Reading 06</a>
+      </div>
+      <div class="sum-amt">
+        <span class="sum-fig">900&times;</span>
+        <span class="sum-figlbl">spread between firms<br>buying the same models</span>
+      </div>
+    </div>
+
+    <div class="sum-foot">
+      The readings below carry the evidence and the arithmetic. <b>Reading 01 has a working meter</b> that runs up a real bill, and <b>Reading 02 has a diagram you can run</b>. What the analysis does not cover is listed at the end.
+    </div>
+  </section>
+
+  <!-- ============ 01 ============ -->
+  <section class="plate" id="r01">
+    <div class="plate-head">
+      <span class="plate-no">READING 01</span>
+      <h2>The three dials</h2>
+    </div>
+
+    <p>Input is what you send. That means the question, the documents, the conversation so far, and the instructions the software wraps around all of it. Output is what comes back. Both bill per word, at different rates.</p>
+
+    <p>The third dial does not appear anywhere in the product. A reasoning model writes to itself before it writes to you. That private writing bills as output and never reaches you. <em class="turn">You pay for it and never read it.</em></p>
+
+    <p>Those words are the work. Turn the dial down on the same weights and the model gets worse. Given a competition&#8209;math benchmark, gpt&#8209;oss&#8209;120b scores 56% at low effort and 96% at high. The thinking is what buys the second number, and on a hard problem it is the best money on this page.</p>
+
+    <p>It also runs when the question does not need it. Asked to multiply two three&#8209;digit numbers, one model produced 3,657 words of thinking to deliver a 214&#8209;word answer, and the thinking bought nothing. Across 77 models, turning reasoning on multiplies words by about 8x. The dial is on by default, and it does not know what you asked.</p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="controls" role="group" aria-label="Choose a model">
+          <button data-model="opus"    aria-pressed="true">Claude Opus 4.8</button>
+          <button data-model="sonnet"  aria-pressed="false">Claude Sonnet 5</button>
+          <button data-model="sol"     aria-pressed="false">GPT&#8209;5.6 Sol</button>
+          <button data-model="deepseek" aria-pressed="false">DeepSeek V4&#8209;Pro</button>
+        </div>
+        <div class="controls">
+          <button id="askBtn" class="primary">Ask it one question</button>
+          <button id="ask10">Ask it ten</button>
+          <button id="meterReset">Reset</button>
+        </div>
+
+        <div class="meter">
+          <div class="dial">
+            <span class="lbl">Questions asked</span>
+            <span class="num" id="mTasks">0</span>
+            <span class="sub">One task from the benchmark suite</span>
+          </div>
+          <div class="dial">
+            <span class="lbl">Words you read</span>
+            <span class="num" id="mSeen">0</span>
+            <span class="sub">The answer itself</span>
+          </div>
+          <div class="dial hidden-cost">
+            <span class="lbl">Words you pay for and never see</span>
+            <span class="num" id="mUnseen">0</span>
+            <span class="sub">The model's own working, not shown to you</span>
+          </div>
+          <div class="dial bill">
+            <span class="lbl">Bill</span>
+            <span class="num" id="mBill">$0.00</span>
+            <span class="sub" id="mRate">at $25.00 per million</span>
+          </div>
+        </div>
+
+        <div class="split">
+          <span class="lbl">Where the money went</span>
+          <div class="split-bar" role="img" aria-labelledby="splitDesc">
+            <i class="seen" id="barSeen" style="width:20%"></i>
+            <i class="unseen" id="barUnseen" style="width:80%"></i>
+          </div>
+          <div class="split-legend" id="splitDesc">
+            <span>Visible answer <b id="pctSeen">21%</b></span>
+            <span>Hidden reasoning <b id="pctUnseen">79%</b></span>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        Word counts are Artificial Analysis's measured output per task across its nine&#8209;benchmark suite, split into reasoning and answer. Rates are each vendor's published output price. <b>Sonnet 5 spends 81% of the bill on words that never reach you.</b> Input is excluded here, which flatters every model equally.
+      </figcaption>
+    </figure>
+
+    <p>Two things compound this. Conversation history re&#8209;bills as input on every turn, so turn ten pays again for turns one through nine. And an agent uses 5x to 30x the words of a chat turn, at an input&#8209;to&#8209;output ratio closer to 80:1 than the 8:1 of a conversation.</p>
+  </section>
+
+  <!-- ============ 02 ============ -->
+  <section class="plate" id="r02">
+    <div class="plate-head">
+      <span class="plate-no">READING 02</span>
+      <h2>Why a hard question costs more</h2>
+    </div>
+
+    <p>The picture most people arrive at is a cross&#8209;section of the earth. One model reaches 15 layers down, a better one reaches 25, a cheap one works the topsoil. The diamond is buried, so the deeper model finds it, and the digging shows up on the bill.</p>
+
+    <p>The economics in that picture are right. The mechanism is wrong, and the difference changes what you buy.</p>
+
+    <p>A model's layers are fixed. Every word it handles passes through all of them. The word &ldquo;the&rdquo; costs the same trip as the hardest word in a proof about relativity. <em class="turn">A model cannot dig deeper on a hard question.</em></p>
+
+    <p>What it does instead is write more. Each word it writes to itself is another trip through the full stack, and what it has already written tells it what to write next. A hard answer costs more because the model takes thousands of identical passes, not because any pass goes deeper.</p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="controls">
+          <button id="qEasy" class="primary">Ask &ldquo;what is 1 + 1&rdquo;</button>
+          <button id="qHard" class="primary">Ask a relativity question</button>
+          <button id="digReset">Reset</button>
+        </div>
+
+        <div class="dig-wrap">
+          <svg class="layerstack" viewBox="0 0 220 260" width="100%" height="auto" role="img" aria-label="A fixed stack of model layers. Every word travels through all of them.">
+            <line class="rail" x1="30" y1="14" x2="30" y2="246"/>
+            <text x="6" y="12">TOP</text>
+            <text x="2" y="256">BOTTOM</text>
+            <g id="layers"></g>
+            <path class="loop" d="M 200 232 C 214 232 214 20 200 20"/>
+            <text x="150" y="12">ONE PASS = ONE WORD</text>
+            <circle class="tok" id="tokDot" cx="30" cy="232" r="4" opacity="0"/>
+          </svg>
+
+          <div>
+            <div class="digstat">
+              <span class="lbl">Layers in the model</span>
+              <span class="num steady" id="dLayers">61</span>
+              <span class="sub" style="font-family:var(--mono);font-size:0.62rem;color:var(--graphite-2)">Fixed. The same for every question.</span>
+            </div>
+            <div class="digstat">
+              <span class="lbl">Trips through all 61 layers</span>
+              <span class="num" id="dPasses">0</span>
+              <span class="sub" style="font-family:var(--mono);font-size:0.62rem;color:var(--graphite-2)" id="dNote">Press a button.</span>
+            </div>
+            <p style="font-size:0.95rem;margin:0">Only the number of trips changes. The meter counts trips.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        Layer count from Kimi K2.6's published architecture. 61 layers, 384 experts, <b>8 of which activate for any given word</b>. Trip counts are measured output tokens for a trivial prompt and for one hard benchmark task.
+      </figcaption>
+    </figure>
+
+    <div class="callout">
+      <p class="kicker">The model you would call topsoil</p>
+      <p>DeepSeek V4&#8209;Pro has <b>1.6 trillion</b> parameters. Kimi K2.6 has 1 trillion. OpenAI, Anthropic and Google do not publish theirs. These models are cheap because only 32B to 49B parameters activate for any given word, not because they are small.</p>
+    </div>
+  </section>
+
+  <!-- ============ 03 ============ -->
+  <section class="plate" id="r03">
+    <div class="plate-head">
+      <span class="plate-no">READING 03</span>
+      <h2>Cost per answer</h2>
+    </div>
+
+    <p>Thinking and capability substitute for each other. A weaker model deliberates longer to reach an answer a stronger one reaches quickly, and it does not fully arrive.</p>
+
+    <p>Claude Sonnet 5 spends 68,736 output words per benchmark task and scores 53 on the composite intelligence index. GPT&#8209;5.6 Sol spends 15,346 and scores 59. <em class="turn">Sonnet thinks 4.5 times as long and lands 6 points lower.</em></p>
+
+    <p>The same trade runs across time. Scoring 27% on FrontierMath took one model 43 million words of thinking in April 2025. Eight months later a newer model reached the same 27% on 5 million, at its cheapest effort setting.</p>
+
+    <p>Multiply words per task by price per word, and the ranking changes.</p>
+
+    <figure>
+      <div class="fig-body">
+        <table class="bars">
+          <caption>Cost of one completed task, output side</caption>
+          <thead>
+            <tr>
+              <th scope="col">Model</th>
+              <th scope="col" class="n">Rank</th>
+              <th scope="col" class="n">Words needed</th>
+              <th scope="col" class="n">Per million</th>
+              <th scope="col" class="n">Per task</th>
+              <th scope="col" class="bar"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Claude Fable 5</td><td class="n">1</td><td class="n">33,127</td>
+              <td class="n">$50.00</td><td class="n"><b>$1.66</b></td>
+              <td class="bar"><i class="barline" style="width:100%"></i></td>
+            </tr>
+            <tr>
+              <td>Claude Opus 4.8</td><td class="n">4</td><td class="n">40,910</td>
+              <td class="n">$25.00</td><td class="n"><b>$1.02</b></td>
+              <td class="bar"><i class="barline" style="width:61.7%"></i></td>
+            </tr>
+            <tr>
+              <td>Claude Sonnet 5</td><td class="n">7</td><td class="n">68,736</td>
+              <td class="n">$10.00</td><td class="n"><b>$0.69</b></td>
+              <td class="bar"><i class="barline" style="width:41.5%"></i></td>
+            </tr>
+            <tr class="hero">
+              <td>GPT&#8209;5.6 Sol<span class="tag">shipped the morning this was written</span></td>
+              <td class="n">2</td><td class="n">15,346</td>
+              <td class="n">$30.00</td><td class="n"><b>$0.46</b></td>
+              <td class="bar"><i class="barline" style="width:27.8%"></i></td>
+            </tr>
+            <tr>
+              <td>Gemini 3.5 Flash</td><td class="n">9</td><td class="n">27,733</td>
+              <td class="n">$9.00</td><td class="n"><b>$0.25</b></td>
+              <td class="bar"><i class="barline" style="width:15.1%"></i></td>
+            </tr>
+            <tr>
+              <td>Claude Haiku 4.5</td><td class="n">n/a</td><td class="n">23,538</td>
+              <td class="n">$5.00</td><td class="n"><b>$0.12</b></td>
+              <td class="bar"><i class="barline" style="width:7.1%"></i></td>
+            </tr>
+            <tr class="open">
+              <td>Kimi K2.6<span class="tag">open weights</span></td>
+              <td class="n">12</td><td class="n">38,136</td>
+              <td class="n">$3.20</td><td class="n"><b>$0.12</b></td>
+              <td class="bar"><i class="barline" style="width:7.4%"></i></td>
+            </tr>
+            <tr class="open">
+              <td>DeepSeek V4&#8209;Pro<span class="tag">open weights, MIT</span></td>
+              <td class="n">12</td><td class="n">36,962</td>
+              <td class="n">$0.87</td><td class="n"><b>$0.03</b></td>
+              <td class="bar"><i class="barline" style="width:1.9%"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>
+        Rank is the Artificial Analysis composite intelligence index. Words needed is that model's measured output per task on the same suite. <b>Per task = words &times; rate.</b> Benchmark tasks are harder than most business work, so these multipliers compress in production. The ordering holds.
+      </figcaption>
+    </figure>
+
+    <div class="callout">
+      <p class="kicker">The ordering changes twice</p>
+      <p><span class="flip">GPT&#8209;5.6 Sol charges 3x Sonnet 5 per word and costs 1.5x less per task.</span><br>
+      <span class="flip">It charges 1.2x Opus 4.8 per word and costs 2.2x less per task.</span></p>
+      <p style="margin-top:0.9rem">Comparing vendors on dollars per million tokens produces the wrong answer. The number that produces the right one is not on the price sheet.</p>
+    </div>
+
+    <p>Effort has diminishing returns on top of that. Pushing a frontier model from medium to maximum costs 4x to 5x the words for a gain of 2 to 5 points. Fable 5 costs 3.6x what Sol costs per task and scores 1 point higher.</p>
+
+    <p>So the money sits in two decisions. Which model answers the question, and how hard you let it think about it. Both are set per request, and most organizations set neither.</p>
+  </section>
+
+  <!-- ============ 04 ============ -->
+  <section class="plate" id="r04">
+    <div class="plate-head">
+      <span class="plate-no">READING 04</span>
+      <h2>What the cheap models give up</h2>
+    </div>
+
+    <p>The ladder runs 950x from top to bottom for the same English sentence.</p>
+
+    <figure>
+      <div class="fig-body">
+        <table>
+          <caption>Price of one million words out</caption>
+          <thead>
+            <tr><th scope="col">Rung</th><th scope="col">Model</th><th scope="col" class="n">Per million</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ceiling</td><td>GPT&#8209;5.5&#8209;pro</td><td class="n">$180.00</td></tr>
+            <tr><td>Apex</td><td>Claude Fable 5</td><td class="n">$50.00</td></tr>
+            <tr><td>Apex</td><td>GPT&#8209;5.6 Sol</td><td class="n">$30.00</td></tr>
+            <tr><td>Apex</td><td>Claude Opus 4.8</td><td class="n">$25.00</td></tr>
+            <tr><td>Middle</td><td>Claude Sonnet 5</td><td class="n">$10.00</td></tr>
+            <tr><td>Small</td><td>Claude Haiku 4.5</td><td class="n">$5.00</td></tr>
+            <tr class="open"><td>Open</td><td>GLM 5.2</td><td class="n">$3.00</td></tr>
+            <tr class="open"><td>Open</td><td>DeepSeek V4&#8209;Pro</td><td class="n">$0.87</td></tr>
+            <tr class="open"><td>Open</td><td>gpt&#8209;oss&#8209;120b</td><td class="n"><b>$0.19</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>
+        Every price fetched from the vendor's own page on 9 July 2026.
+      </figcaption>
+    </figure>
+
+    <p>On five of six measures the open models sit close to the frontier. On the sixth they do not.</p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="radar-wrap">
+          <svg class="radar" viewBox="0 0 300 300" width="100%" height="auto" role="img"
+               aria-label="Radar chart. Open models track the frontier on science, reasoning, terminal use and long context, and fall away sharply on calibration and real-world agentic work.">
+            <g id="web"></g>
+            <g id="spokes"></g>
+
+            <polygon class="trace t-closed" data-m="opus"
+              points="150.0,67.9 237.6,99.4 193.5,175.1 150.0,224.5 78.6,191.3 68.5,102.9"/>
+            <polygon class="trace t-closed" data-m="sol" style="stroke-dasharray:4 3"
+              points="150.0,53.2 239.6,98.2 195.0,176.0 150.0,231.1 60.9,201.4 74.1,106.2"/>
+            <polygon class="trace t-open" data-m="glm"
+              points="150.0,60.9 235.3,100.8 188.6,172.3 150.0,228.4 88.8,185.3 92.8,117.0"/>
+            <polygon class="trace t-cheap" data-m="ds"
+              points="150.0,77.8 234.6,101.2 185.9,170.7 150.0,222.9 113.4,171.1 107.7,125.6"/>
+
+            <g id="axlabels"></g>
+          </svg>
+
+          <div>
+            <div class="legend">
+              <button data-trace="opus" aria-pressed="true"><span class="sw closed"></span>Claude Opus 4.8 &middot; frontier</button>
+              <button data-trace="sol"  aria-pressed="true"><span class="sw closed"></span>GPT&#8209;5.6 Sol &middot; frontier</button>
+              <button data-trace="glm"  aria-pressed="true"><span class="sw open"></span>GLM 5.2 &middot; open, MIT</button>
+              <button data-trace="ds"   aria-pressed="true"><span class="sw cheap"></span>DeepSeek V4&#8209;Pro &middot; open, MIT</button>
+            </div>
+            <p style="font-size:0.93rem;margin:1.3rem 0 0">
+              Look at the upper left spoke. On graduate science the open models sit within 3 points of the frontier. On whether a model knows what it does not know, they drop off.
+            </p>
+          </div>
+        </div>
+      </div>
+      <figcaption>
+        Six measures, all run on one harness by Artificial Analysis, so the models are compared like with like. Terminal&#8209;Bench 2.1, GPQA Diamond, Humanity's Last Exam, long&#8209;context reasoning, GDPval agentic Elo, and the Omniscience index, which credits a model for admitting ignorance. <b>Every score is the vendor's most expensive reasoning setting.</b>
+      </figcaption>
+    </figure>
+
+    <div class="callout">
+      <p class="kicker">Calibration</p>
+      <p>DeepSeek V4&#8209;Pro scores 88.8 on graduate science against Opus 4.8's 92.0, and 87.5 on broad knowledge, which is parity. Asked a question it cannot answer, <b>it produces an answer anyway 94% of the time.</b> The frontier models say they do not know.</p>
+      <p style="margin-top:0.9rem">For call summaries, document classification and boilerplate, that costs nothing. For a question about a Medicare rule, a confident wrong answer carries regulatory risk, and no benchmark a vendor will show you measures it.</p>
+    </div>
+
+    <p class="kicker" style="margin-top:2.6rem">Before anyone shows you a benchmark</p>
+    <p>Of roughly 100 models on the main coding leaderboard, <strong>one</strong> score was checked by anyone other than the lab that produced the model.</p>
+
+    <p>And the open&#8209;weights frontier is now entirely Chinese. Meta shipped its latest model closed in April 2026, the first time in three years. Llama 4 Maverick, still its open flagship, scores 18 on the composite index. The next lowest model on this page scores 40.</p>
+  </section>
+
+  <!-- ============ 05 ============ -->
+  <section class="plate" id="r05">
+    <div class="plate-head">
+      <span class="plate-no">READING 05</span>
+      <h2>Running the models yourself</h2>
+    </div>
+
+    <p>The weights are public, so you can run them on your own hardware and stop paying per word. You pay for the machine instead, and the machine bills 24 hours a day whether or not anyone is asking it anything.</p>
+
+    <p>GLM 5.2 needs 893GB. One Azure node holds 1,128GB across 8 accelerators. It does not fit on the previous generation's 640GB.</p>
+
+    <p>That node costs $84.80 an hour on demand in West US 2, or $37.31 on a three&#8209;year reservation, which is <strong>$27,244 a month</strong> before anyone types anything. Tuned, it produces 4,176 to 6,311 output words a second.</p>
+
+    <figure>
+      <div class="fig-body">
+        <table class="bars">
+          <caption>Cost of a million words, three-year reservation</caption>
+          <thead>
+            <tr>
+              <th scope="col">How you get them</th>
+              <th scope="col" class="n">Per million</th>
+              <th scope="col" class="bar"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Own it. One node, running flat out<span class="tag">no redundancy, no idle time</span></td>
+              <td class="n"><b>$1.64 &ndash; $2.48</b></td>
+              <td class="bar"><i class="barline" style="width:20%"></i></td>
+            </tr>
+            <tr>
+              <td>Own it. One node, at 40% utilization</td>
+              <td class="n"><b>$4.11 &ndash; $6.21</b></td>
+              <td class="bar"><i class="barline" style="width:50%"></i></td>
+            </tr>
+            <tr>
+              <td>Own it. Plus a spare node, flat out</td>
+              <td class="n"><b>$3.29 &ndash; $4.96</b></td>
+              <td class="bar"><i class="barline" style="width:40%"></i></td>
+            </tr>
+            <tr class="hero">
+              <td>Own it. Plus a spare node, at 40%<span class="tag">what a production deployment looks like</span></td>
+              <td class="n"><b>$8.21 &ndash; $12.41</b></td>
+              <td class="bar"><i class="barline" style="width:100%"></i></td>
+            </tr>
+            <tr class="open">
+              <td><b>Rent the same weights from Azure</b><span class="tag">managed, inside your tenant, under Microsoft's agreement</span></td>
+              <td class="n"><b>$3.83 &ndash; $4.84</b></td>
+              <td class="bar"><i class="barline" style="width:39%"></i></td>
+            </tr>
+            <tr class="open">
+              <td>Rent from the lab that built them<span class="tag">servers in China, no agreement on offer</span></td>
+              <td class="n"><b>$0.87</b></td>
+              <td class="bar"><i class="barline" style="width:7%"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>
+        Azure list prices for <b>Standard_ND96isr_H200_v5</b> and for Azure's managed GLM, DeepSeek and Kimi endpoints, read from Microsoft's retail pricing API on 9 July 2026. The machine is not sold in East US. These are West US 2, where the 1,128GB card costs $84.80 an hour and the older 640GB card costs $98.32. <b>No one publishes an aggregate throughput benchmark for these models</b>, so 4,176 to 6,311 comes from an architectural twin measured on the same hardware. The 40% utilization figure is an industry rule of thumb with no vendor document behind it, and it sits on the crossover.
+      </figcaption>
+    </figure>
+
+    <p>Against Azure's own managed GLM endpoint, one node pays for itself above 34% to 51% utilization. Across 20,000 employees that is about 27 answers per person per working day, which an organization serious about AI would clear.</p>
+
+    <div class="callout">
+      <p class="kicker">Hardware against payroll</p>
+      <p>The node costs <b>$326,923 a year</b>. The team that keeps a frontier mixture&#8209;of&#8209;experts model serving in production, tuning expert parallelism, swapping model versions without dropping traffic, and carrying the pager, costs <b>$500,000 to $1,500,000</b>.</p>
+      <p style="margin-top:0.9rem">One spare node for failover moves break&#8209;even utilization to 68%, or past 100%, depending on which throughput figure holds.</p>
+    </div>
+
+    <p class="kicker" style="margin-top:2.6rem">The compliance premium</p>
+
+    <p>DeepSeek charges <strong>$0.87</strong> per million output words for its own model. Microsoft charges <strong>$3.83</strong> to serve the identical file. Nothing about the model changed. <em class="turn">The 4.4x difference is the compliance premium</em>, and that is the choice on the table.</p>
+
+    <p>The premium buys a business associate agreement, a tenant the data never leaves, and a vendor who carries the pager.</p>
+
+    <p>To use the best American model on protected health information you must sign that agreement, and <strong>Anthropic's requires a 30&#8209;day minimum retention window</strong>. Zero retention is not compatible with it. The rule you reach for to protect the data is the rule that forces the log to exist.</p>
+
+    <p>A self&#8209;hosted model has no vendor, no log and no retention term. No US health plan has published doing this. Two hospital systems have, one of them peer&#8209;reviewed, running an open Chinese model on their own machines inside their own network and wired into their medical records.</p>
+
+    <p>Azure already sells these weights managed inside your own tenant. GLM 5.2 at $4.84 a million words out, DeepSeek V4&#8209;Pro at $3.83, Kimi K2.6 at $4.00. Microsoft's agreement covers them and the data stays in the tenant.</p>
+  </section>
+
+  <!-- ============ 06 ============ -->
+  <section class="plate" id="r06">
+    <div class="plate-head">
+      <span class="plate-no">READING 06</span>
+      <h2>Where the cost is going</h2>
+    </div>
+
+    <p>The price of a fixed capability is falling 5x to 10x a year. Scoring 27% on FrontierMath took one model 43 million output words in April 2025. Eight months later another model scored the same 27% on 5 million, at its cheapest setting.</p>
+
+    <p>The cost of running frontier models is rising 3x to 18x a year. Claude Opus fell from $15 and $75 per million to $5 and $25 across its life. Fable 5 then replaced it at the top at $10 and $50.</p>
+
+    <p>Reasoning models are getting more verbose at about 5x a year, against 2.2x for models that do not reason. The frontier gets expensive because answers get longer, and you are billed for the part you never see.</p>
+
+    <p>Meanwhile an agent uses 5x to 30x the words of a chat turn. Uber spent its annual budget for coding assistants in four months and capped its engineers at $1,500 a month each.</p>
+
+    <figure>
+      <div class="fig-body">
+        <table>
+          <caption>Annual AI spend per employee, same vendors, same list prices</caption>
+          <thead>
+            <tr><th scope="col">Company</th><th scope="col" class="n">Per employee, per year</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Fortune 500, median</td><td class="n">under $100</td></tr>
+            <tr><td>99th percentile enterprise</td><td class="n"><b style="color:var(--annot)">about $90,000</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption>
+        A 900x spread across companies buying the same models at the same published rates. <b>Nothing on the price sheet explains it.</b> The difference is which question goes to which model.
+      </figcaption>
+    </figure>
+
+    <div class="callout">
+      <p class="kicker">For the board</p>
+      <p>Our cost per answer will fall every year. Our AI bill will rise every year. Both are true, and where we land on a 900x spread is set by routing discipline, not by vendor pricing.</p>
+    </div>
+
+    <p class="kicker" style="margin-top:2.6rem">The flat rate already ended</p>
+
+    <p>Anthropic's enterprise plan is $20 a seat for access and nothing else. Every word your people type bills at metered rates on top of it, from the first one. GitHub moved its entire Copilot business onto metered credits on 1 June 2026, and reported monthly bills went from $29 to around $750. Microsoft began billing agent work by consumption on 1 July 2026, on top of the flat $30 seat.</p>
+
+    <blockquote class="said">
+      <p>&ldquo;GitHub has absorbed much of the escalating inference cost. The current model is no longer sustainable. A quick chat question and a multi&#8209;hour autonomous coding session can cost the user the same amount.&rdquo;</p>
+      <cite>Mario Rodriguez &middot; Chief Product Officer, GitHub &middot; April 2026</cite>
+    </blockquote>
+
+    <p>Two vendors still sell a flat seat with no meter behind it. Both are absorbing the difference. Neither has committed to continuing. An AI budget built from headcount times a seat price is a forecast of last year.</p>
+
+    <p class="kicker" style="margin-top:2.6rem">Routing</p>
+
+    <p>Most executives already let a model gather and compress information, and never let it make the decision at the end. That is routing by what a wrong answer costs, with the line drawn between the machine and themselves. <em class="turn">The same line, drawn between models, is the routing table.</em></p>
+
+    <p>Open weights for the wide base of work where a mistake is free. The best&#8209;calibrated model available for the narrow top where it is not. Most of what an organization does all day sits in the base, and few companies employ anyone whose job is to draw the line.</p>
+  </section>
+
+  <!-- ============ limits ============ -->
+  <section class="plate" id="limits">
+    <div class="plate-head">
+      <span class="plate-no">LIMITS</span>
+      <h2>What this leaves out</h2>
+    </div>
+
+    <p><strong>Utilization.</strong> The 40% figure driving the self&#8209;hosting arithmetic is an industry rule of thumb. No vendor document supports it, and it sits directly on the crossover, so it carries more weight than it should.</p>
+
+    <p><strong>Throughput.</strong> Nobody publishes an aggregate benchmark for GLM 5.2 or DeepSeek V4&#8209;Pro. The 4,176 to 6,311 range is measured on DeepSeek&#8209;R1, an architectural twin, on the same hardware. An earlier draft of this document used vendor cookbook figures measured at low concurrency and overstated self&#8209;hosting cost by a factor of four to six.</p>
+
+    <p><strong>Benchmarks.</strong> Almost every open&#8209;weights score here is reported by the lab that made the model. Anthropic's headline coding number used Anthropic's own scaffolding. FrontierMath carried errors in 42% of its original problems, corrected a year later.</p>
+
+    <p><strong>Input.</strong> The cost&#8209;per&#8209;task figures count output only. Input is cheaper and can be cached at roughly 90% off, and conversation history re&#8209;bills every turn. Neither is modelled here.</p>
+
+    <p><strong>Licenses.</strong> GLM 5.2 is plain MIT. MiniMax M3 requires a negotiated license above $20M revenue. Llama 4 carries a 700 million user clause and excludes EU entities. Read the license, not the download button.</p>
+
+    <p><strong>Security.</strong> A self&#8209;hosted model cannot send data anywhere if you control its network egress. It can still behave badly on the topics its makers cared about. That is an evaluation problem, and this document does not cover it.</p>
+
+    <p><strong>Legal.</strong> Nothing here is advice on copyright, procurement or compliance. The retention and BAA terms cited are current as of 9 July 2026, and Anthropic restructured its agreement twice in the preceding eight months.</p>
+
+    <span class="stamp">Directional, not advice &middot; Prices move monthly &middot; Verify before citing</span>
+  </section>
+
+  <div class="colophon">
+    <span>SAADIQ.XYZ</span>
+    <span>09 JUL 2026</span>
+  </div>
+</main>
+<script>
+(function () {
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Reading 01: the meter ---------- */
+  // reasoning tokens, answer tokens, $/Mtok output.  Artificial Analysis + vendor pages, 2026-07-09.
+  var MODELS = {
+    opus:     { name: "Claude Opus 4.8",  think: 32465, say: 8445,  rate: 25.00 },
+    sonnet:   { name: "Claude Sonnet 5",  think: 55944, say: 12792, rate: 10.00 },
+    sol:      { name: "GPT-5.6 Sol",      think: 10076, say: 5270,  rate: 30.00 },
+    deepseek: { name: "DeepSeek V4-Pro",  think: 29719, say: 7243,  rate:  0.87 }
+  };
+
+  var cur = "opus", tasks = 0;
+  var mTasks  = document.getElementById("mTasks");
+  var mSeen   = document.getElementById("mSeen");
+  var mUnseen = document.getElementById("mUnseen");
+  var mBill   = document.getElementById("mBill");
+  var mRate   = document.getElementById("mRate");
+  var barSeen = document.getElementById("barSeen");
+  var barUnseen = document.getElementById("barUnseen");
+  var pctSeen = document.getElementById("pctSeen");
+  var pctUnseen = document.getElementById("pctUnseen");
+
+  function fmt(n) { return n.toLocaleString("en-US"); }
+  function money(n) {
+    if (n === 0) { return "$0.00"; }
+    if (n < 0.01) { return "$" + n.toFixed(4); }
+    return "$" + n.toFixed(2);
+  }
+
+  function renderMeter() {
+    var m = MODELS[cur];
+    var seen = m.say * tasks;
+    var unseen = m.think * tasks;
+    var bill = (seen + unseen) / 1e6 * m.rate;
+    mTasks.textContent = fmt(tasks);
+    mSeen.textContent = fmt(seen);
+    mUnseen.textContent = fmt(unseen);
+    mBill.textContent = money(bill);
+    mRate.textContent = "at $" + m.rate.toFixed(2) + " per million";
+
+    var total = m.say + m.think;
+    var ps = m.say / total * 100;
+    barSeen.style.width = ps.toFixed(1) + "%";
+    barUnseen.style.width = (100 - ps).toFixed(1) + "%";
+    pctSeen.textContent = Math.round(ps) + "%";
+    pctUnseen.textContent = Math.round(100 - ps) + "%";
+  }
+
+  var modelBtns = document.querySelectorAll("[data-model]");
+  for (var i = 0; i < modelBtns.length; i++) {
+    modelBtns[i].addEventListener("click", function () {
+      cur = this.getAttribute("data-model");
+      for (var j = 0; j < modelBtns.length; j++) {
+        modelBtns[j].setAttribute("aria-pressed", modelBtns[j] === this ? "true" : "false");
+      }
+      renderMeter();
+    });
+  }
+  document.getElementById("askBtn").addEventListener("click", function () { tasks += 1; renderMeter(); });
+  document.getElementById("ask10").addEventListener("click", function () { tasks += 10; renderMeter(); });
+  document.getElementById("meterReset").addEventListener("click", function () { tasks = 0; renderMeter(); });
+  renderMeter();
+
+  /* ---------- Reading 02: the dig ---------- */
+  var LAYERS = 61, SHOWN = 14;
+  var layersG = document.getElementById("layers");
+  var lyrTop = 20, lyrH = 14, lyrGap = 1.2;
+  var frag = "";
+  for (var k = 0; k < SHOWN; k++) {
+    frag += '<rect class="lyr" x="44" y="' + (lyrTop + k * (lyrH + lyrGap)).toFixed(1) +
+            '" width="140" height="' + lyrH + '" rx="1"/>';
+  }
+  layersG.innerHTML = frag;
+  var lyrRects = layersG.querySelectorAll(".lyr");
+
+  var dPasses = document.getElementById("dPasses");
+  var dNote = document.getElementById("dNote");
+  var tokDot = document.getElementById("tokDot");
+  var passes = 0, running = false;
+
+  var yTop = lyrTop + 2;
+  var yBot = lyrTop + (SHOWN - 1) * (lyrH + lyrGap) + lyrH - 2;
+
+  function litOff() {
+    for (var a = 0; a < lyrRects.length; a++) { lyrRects[a].classList.remove("lit"); }
+  }
+
+  function onePass(dur) {
+    return new Promise(function (resolve) {
+      if (reduced) { litOff(); resolve(); return; }
+      var t0 = null;
+      tokDot.setAttribute("opacity", "1");
+      function frame(ts) {
+        if (t0 === null) { t0 = ts; }
+        var p = Math.min((ts - t0) / dur, 1);
+        var y = yBot - (yBot - yTop) * p;
+        tokDot.setAttribute("cy", y.toFixed(1));
+        var idx = Math.min(SHOWN - 1, Math.floor((1 - p) * SHOWN));
+        litOff();
+        if (lyrRects[idx]) { lyrRects[idx].classList.add("lit"); }
+        if (p < 1) { requestAnimationFrame(frame); }
+        else { tokDot.setAttribute("opacity", "0"); litOff(); resolve(); }
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  function runPasses(n, animate, dur, note) {
+    if (running) { return; }
+    running = true;
+    document.getElementById("qEasy").disabled = true;
+    document.getElementById("qHard").disabled = true;
+    var done = 0;
+    function step() {
+      if (done >= animate) {
+        passes += (n - animate);
+        dPasses.textContent = passes.toLocaleString("en-US");
+        dNote.textContent = note;
+        running = false;
+        document.getElementById("qEasy").disabled = false;
+        document.getElementById("qHard").disabled = false;
+        return;
+      }
+      onePass(dur).then(function () {
+        done += 1; passes += 1;
+        dPasses.textContent = passes.toLocaleString("en-US");
+        step();
+      });
+    }
+    dNote.textContent = "digging…";
+    step();
+  }
+
+  document.getElementById("qEasy").addEventListener("click", function () {
+    runPasses(6, 6, 190, "Six words out. Six trips. Each one the full 61 layers.");
+  });
+  document.getElementById("qHard").addEventListener("click", function () {
+    runPasses(38136, 12, 90, "38,136 trips. Same 61 layers, every single time.");
+  });
+  document.getElementById("digReset").addEventListener("click", function () {
+    if (running) { return; }
+    passes = 0; dPasses.textContent = "0"; dNote.textContent = "Press a button."; litOff();
+  });
+
+  /* ---------- Reading 04: radar scaffolding ---------- */
+  var AXES = ["Terminal use", "Grad science", "Frontier reasoning", "Long context", "Real-world agentic", "Knows what it doesn't"];
+  var cx = 150, cy = 150, R = 110;
+
+  var webG = document.getElementById("web");
+  var ringOut = "";
+  [0.25, 0.5, 0.75, 1].forEach(function (f) {
+    var pts = [];
+    for (var a = 0; a < 6; a++) {
+      var ang = -Math.PI / 2 + 2 * Math.PI * a / 6;
+      pts.push((cx + R * f * Math.cos(ang)).toFixed(1) + "," + (cy + R * f * Math.sin(ang)).toFixed(1));
+    }
+    ringOut += '<polygon class="web" points="' + pts.join(" ") + '"/>';
+  });
+  webG.innerHTML = ringOut;
+
+  var spokesG = document.getElementById("spokes"), labelsG = document.getElementById("axlabels");
+  var sOut = "", lOut = "";
+  for (var a = 0; a < 6; a++) {
+    var ang = -Math.PI / 2 + 2 * Math.PI * a / 6;
+    var x2 = cx + R * Math.cos(ang), y2 = cy + R * Math.sin(ang);
+    sOut += '<line class="spoke" x1="' + cx + '" y1="' + cy + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '"/>';
+    var lx = cx + (R + 20) * Math.cos(ang), ly = cy + (R + 20) * Math.sin(ang);
+    var anchor = Math.abs(lx - cx) < 6 ? "middle" : (lx > cx ? "start" : "end");
+    lOut += '<text class="ax" x="' + lx.toFixed(1) + '" y="' + (ly + 2.5).toFixed(1) +
+            '" text-anchor="' + anchor + '">' + AXES[a] + "</text>";
+  }
+  spokesG.innerHTML = sOut;
+  labelsG.innerHTML = lOut;
+
+  var traceBtns = document.querySelectorAll("[data-trace]");
+  for (var t = 0; t < traceBtns.length; t++) {
+    traceBtns[t].addEventListener("click", function () {
+      var key = this.getAttribute("data-trace");
+      var on = this.getAttribute("aria-pressed") === "true";
+      this.setAttribute("aria-pressed", on ? "false" : "true");
+      var poly = document.querySelector('polygon[data-m="' + key + '"]');
+      if (poly) { poly.classList.toggle("off", on); }
+    });
+  }
+})();
+</script>
+</body>
+</html>
