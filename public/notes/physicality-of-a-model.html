@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Physicality of an AI Model</title>
+<meta name="description" content="What an AI model physically is, where it lives, why using it never changes it, and who owns which piece.">
+<meta property="og:title" content="The Physicality of an AI Model">
+<meta property="og:description" content="What an AI model physically is, where it lives, why using it never changes it, and who owns which piece.">
+<meta property="og:type" content="article">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F3ED" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131714" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  img, svg { max-width: 100%; }
+  button { font: inherit; color: inherit; }
+</style>
+<style>
+  :root {
+    --paper:      #F2F3ED;
+    --paper-2:    #E8EAE2;
+    --paper-3:    #DEE2D6;
+    --rule:       #C2CFBC;
+    --rule-soft:  #DBE1D5;
+    --ink:        #1B211C;
+    --graphite:   #5A655C;
+    --graphite-2: #7C877E;
+    --steel:      #3B5468;
+    --steel-soft: #A9BCC9;
+    --annot:      #A33A1C;
+    --annot-wash: #EBD5CC;
+    --owned:      #2E6A4C;
+
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, "IBM Plex Mono", Menlo, Consolas, monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, serif;
+
+    --sheet-max: 68rem;
+    --prose: 63ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:      #131714;
+      --paper-2:    #1A1F1B;
+      --paper-3:    #222923;
+      --rule:       #2F392F;
+      --rule-soft:  #232B24;
+      --ink:        #E3E7DE;
+      --graphite:   #97A398;
+      --graphite-2: #6F7B70;
+      --steel:      #8AAAC0;
+      --steel-soft: #3E5262;
+      --annot:      #E0714C;
+      --annot-wash: #3A241C;
+      --owned:      #6FB68F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:      #131714;
+    --paper-2:    #1A1F1B;
+    --paper-3:    #222923;
+    --rule:       #2F392F;
+    --rule-soft:  #232B24;
+    --ink:        #E3E7DE;
+    --graphite:   #97A398;
+    --graphite-2: #6F7B70;
+    --steel:      #8AAAC0;
+    --steel-soft: #3E5262;
+    --annot:      #E0714C;
+    --annot-wash: #3A241C;
+    --owned:      #6FB68F;
+  }
+
+  :root[data-theme="light"] {
+    --paper:      #F2F3ED;
+    --paper-2:    #E8EAE2;
+    --paper-3:    #DEE2D6;
+    --rule:       #C2CFBC;
+    --rule-soft:  #DBE1D5;
+    --ink:        #1B211C;
+    --graphite:   #5A655C;
+    --graphite-2: #7C877E;
+    --steel:      #3B5468;
+    --steel-soft: #A9BCC9;
+    --annot:      #A33A1C;
+    --annot-wash: #EBD5CC;
+    --owned:      #2E6A4C;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: var(--sheet-max);
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 3rem) 6rem;
+  }
+
+  /* ---------- title block ---------- */
+
+  .titleblock {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0;
+    border: 1px solid var(--ink);
+    border-bottom-width: 2px;
+    margin: clamp(1.5rem, 5vw, 3.5rem) 0 clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .tb-cell {
+    padding: 0.7rem 0.9rem 0.8rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+  .tb-cell:last-child { border-right: 0; }
+
+  .tb-cell.wide {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+    padding: 1.1rem 0.9rem 1.2rem;
+  }
+
+  .lbl {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+  }
+
+  .tb-val {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet-title {
+    font-family: var(--mono);
+    font-size: clamp(1.35rem, 4.2vw, 2.15rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 0.1rem 0 0;
+  }
+
+  /* ---------- thesis ---------- */
+
+  .thesis {
+    max-width: var(--prose);
+    margin: 0 0 clamp(3rem, 8vw, 5.5rem);
+  }
+  .thesis p {
+    margin: 0 0 1.1rem;
+    font-size: clamp(1.05rem, 2.4vw, 1.24rem);
+    line-height: 1.55;
+  }
+  .thesis p:last-child { margin-bottom: 0; }
+  .thesis .lead {
+    font-size: clamp(1.35rem, 3.6vw, 1.85rem);
+    line-height: 1.28;
+    text-wrap: balance;
+    letter-spacing: -0.005em;
+  }
+  em.turn {
+    font-style: normal;
+    background: linear-gradient(transparent 62%, var(--annot-wash) 62%);
+    padding: 0 0.1em;
+  }
+
+  /* ---------- plates ---------- */
+
+  .plate { margin: 0 0 clamp(3.5rem, 9vw, 6rem); }
+
+  .plate-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.55rem;
+    margin-bottom: 1.8rem;
+  }
+  .plate-no {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    color: var(--annot);
+    white-space: nowrap;
+    padding-top: 0.2rem;
+  }
+  .plate-head h2 {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: clamp(0.95rem, 2.6vw, 1.22rem);
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .plate p { max-width: var(--prose); margin: 0 0 1.05rem; }
+  .plate p:last-child { margin-bottom: 0; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    margin: 0 0 0.6rem;
+  }
+
+  strong { font-weight: 600; }
+
+  /* ---------- figure frame ---------- */
+
+  figure {
+    margin: 2rem 0 1.8rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+  figure > .fig-body { padding: clamp(0.9rem, 3vw, 1.75rem); overflow-x: auto; }
+  figcaption {
+    border-top: 1px solid var(--rule);
+    padding: 0.6rem 0.9rem 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--graphite);
+  }
+  figcaption b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- plate 01: anatomy ---------- */
+
+  .anatomy {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1.25rem;
+  }
+  .anat-col { display: flex; flex-direction: column; gap: 0.55rem; }
+  .anat-col > .lbl { margin-bottom: 0.15rem; }
+
+  .blk {
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    padding: 0.75rem 0.85rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .blk .tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    color: var(--graphite-2);
+    white-space: nowrap;
+  }
+  .blk.tall { padding-block: 2rem; }
+  .blk.hero {
+    border-width: 2px;
+    border-color: var(--annot);
+    padding-block: 2.4rem;
+    background: var(--paper-2);
+  }
+  .blk.hero .tag { color: var(--annot); }
+  .blk.tiny { padding-block: 0.35rem; opacity: 0.72; }
+
+  .joint {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    color: var(--graphite-2);
+    text-align: center;
+    padding: 0.1rem 0;
+  }
+
+  /* ---------- weights grid ---------- */
+
+  .weights-wrap { position: relative; }
+  .weights {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    line-height: 1.75;
+    color: var(--steel);
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(4.4rem, 1fr));
+    gap: 0 0.55rem;
+    height: 11.5rem;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    user-select: none;
+  }
+  .weights-note {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.9rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+  }
+  .count {
+    color: var(--annot);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- punch card ---------- */
+
+  .card-callback {
+    display: grid;
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.6rem;
+    border-top: 1px dashed var(--rule);
+  }
+  @media (max-width: 34rem) { .card-callback { grid-template-columns: 1fr; } }
+  .card-callback p { margin: 0; font-size: 0.97rem; }
+
+  /* ---------- zoom rail ---------- */
+
+  .rail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+  .rail button {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--graphite);
+    border: 1px solid var(--rule);
+    padding: 0.42rem 0.7rem;
+    cursor: pointer;
+    transition: background 0.14s, color 0.14s, border-color 0.14s;
+  }
+  .rail button:hover { border-color: var(--graphite); color: var(--ink); }
+  .rail button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .rail button:focus-visible,
+  .send:focus-visible { outline: 2px solid var(--annot); outline-offset: 2px; }
+
+  .zoom-svg { width: 100%; height: auto; display: block; }
+  .zoom-svg .lvl { transition: opacity 0.22s; }
+  .zoom-svg .lvl rect { fill: none; stroke: var(--steel-soft); stroke-width: 1; }
+  .zoom-svg .lvl text {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    fill: var(--graphite);
+  }
+  .zoom-svg .lvl.on rect { stroke: var(--annot); stroke-width: 2; }
+  .zoom-svg .lvl.on text { fill: var(--annot); }
+  .zoom-svg .lvl.off { opacity: 0.3; }
+  .zoom-svg .dim line { stroke: var(--graphite-2); stroke-width: 1; }
+  .zoom-svg .dim text {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    fill: var(--graphite-2);
+  }
+  .zoom-svg .shard {
+    font-family: var(--mono);
+    font-size: 8px;
+    fill: var(--steel);
+    letter-spacing: 0.5px;
+  }
+
+  .zoom-detail {
+    margin-top: 1.4rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.1rem;
+    display: grid;
+    gap: 0.55rem;
+    min-height: 7.5rem;
+  }
+  .zoom-detail h3 {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--annot);
+  }
+  .zoom-detail p { margin: 0; max-width: var(--prose); font-size: 0.98rem; }
+  .zoom-detail .sowhat {
+    font-family: var(--mono);
+    font-size: 0.73rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--graphite);
+    border-left: 2px solid var(--rule);
+    padding-left: 0.8rem;
+    max-width: var(--prose);
+  }
+
+  /* ---------- lifecycle ---------- */
+
+  .life-svg { width: 100%; height: auto; display: block; }
+  .life-svg .box { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
+  .life-svg .box.gpu { stroke: var(--steel); stroke-width: 2; fill: var(--paper-2); }
+  .life-svg .box.log { stroke: var(--annot); stroke-dasharray: 4 3; }
+  .life-svg .wire { stroke: var(--graphite-2); stroke-width: 1; fill: none; }
+  .life-svg .wire.branch { stroke: var(--annot); stroke-dasharray: 3 3; }
+  .life-svg text {
+    font-family: var(--mono);
+    letter-spacing: 0.9px;
+    fill: var(--ink);
+  }
+  .life-svg .t-lbl { font-size: 9px; fill: var(--graphite-2); letter-spacing: 1.4px; }
+  .life-svg .t-big { font-size: 12px; }
+  .life-svg .t-steel { fill: var(--steel); font-size: 9.5px; }
+  .life-svg .t-annot { fill: var(--annot); font-size: 9px; letter-spacing: 1.2px; }
+  .life-svg .dot { fill: var(--annot); }
+  .life-svg .logline { stroke: var(--annot); stroke-width: 1.5; opacity: 0.55; }
+
+  .console {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem 1.6rem;
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .send {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 0.62rem 1.1rem;
+    cursor: pointer;
+  }
+  .send:hover { background: var(--annot); border-color: var(--annot); }
+  .send.reset {
+    background: transparent;
+    color: var(--graphite);
+    border-color: var(--rule);
+  }
+  .send.reset:hover { background: transparent; color: var(--ink); border-color: var(--graphite); }
+
+  .readouts { display: flex; flex-wrap: wrap; gap: 0.5rem 1.8rem; }
+  .readout { display: flex; flex-direction: column; gap: 0.15rem; }
+  .readout .num {
+    font-family: var(--mono);
+    font-size: 1.15rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .readout .num.zero { color: var(--steel); }
+  .readout .num.hot { color: var(--annot); }
+
+  /* ---------- ledger tables ---------- */
+
+  .ledger-wrap { overflow-x: auto; border: 1px solid var(--ink); }
+  table { border-collapse: collapse; width: 100%; min-width: 44rem; }
+  caption { display: none; }
+
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--graphite-2);
+    text-align: left;
+    font-weight: 400;
+    padding: 0.7rem 0.85rem;
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper-3);
+    vertical-align: bottom;
+  }
+  tbody td {
+    padding: 0.85rem;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--rule) 22%, transparent); }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody td:first-child {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    line-height: 1.55;
+    width: 11rem;
+    color: var(--ink);
+  }
+  tbody td .rowno {
+    display: block;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    color: var(--graphite-2);
+    margin-bottom: 0.2rem;
+  }
+  td.mono { font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.02em; line-height: 1.6; }
+
+  tbody tr.spotlight td {
+    background: var(--annot-wash);
+    border-bottom-color: var(--annot);
+  }
+  tbody tr.spotlight td:first-child { color: var(--ink); }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 0.24rem 0.5rem;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .chip.owned  { color: var(--owned); }
+  .chip.rented { color: var(--steel); }
+  .chip.none   { color: var(--graphite-2); }
+
+  /* ---------- stamp ---------- */
+
+  .stamped { position: relative; }
+  .stamp {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.19em;
+    text-transform: uppercase;
+    color: var(--annot);
+    border: 1.5px solid var(--annot);
+    padding: 0.5rem 0.8rem;
+    line-height: 1.5;
+    max-width: 30rem;
+  }
+
+  /* ---------- close ---------- */
+
+  .close {
+    border-top: 2px solid var(--ink);
+    padding-top: 2.2rem;
+    margin-top: clamp(3rem, 8vw, 5rem);
+  }
+  .close .lead {
+    font-size: clamp(1.3rem, 3.4vw, 1.8rem);
+    line-height: 1.3;
+    max-width: 34ch;
+    text-wrap: balance;
+    margin: 0 0 1.4rem;
+  }
+  .close p { max-width: var(--prose); }
+  .colophon {
+    margin-top: 2.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    color: var(--graphite-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="titleblock">
+    <div class="tb-cell wide">
+      <span class="lbl">Sheet 00 &nbsp;·&nbsp; General</span>
+      <h1 class="sheet-title">The Physicality of an AI Model</h1>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Prepared by</span>
+      <span class="tb-val">Saadiq Industries</span>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Sheets</span>
+      <span class="tb-val">05</span>
+    </div>
+    <div class="tb-cell">
+      <span class="lbl">Revision</span>
+      <span class="tb-val">A</span>
+    </div>
+  </header>
+
+  <section class="thesis">
+    <p class="lead">You said a piece of technology is code, stored, and run against data. That is exactly right, and it is why AI does not fit.</p>
+    <p>In a conventional system the code is the asset. Somebody wrote it, you can read it, you can diff it, you own it, and it operates on data that arrives from outside.</p>
+    <p>An AI model turns that around. <em class="turn">The data is the code.</em> The model is a file of numbers that behaves like a program, and no human wrote a single one of those numbers. The program that runs the file is free and boring. Once you see that, the questions about where it lives, who owns it, and what happens to your prompts all answer themselves.</p>
+  </section>
+
+  <!-- ============ PLATE 01 ============ -->
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">Sheet 01</span>
+      <h2>What the thing physically is</h2>
+    </div>
+
+    <p>A model is a file. Not a program, not a database, not a service. A directory of files containing several hundred billion numbers, each stored in about two bytes, adding up to somewhere in the hundreds of gigabytes. There is no logic inside it. No formulas, no field names, no comments, nothing a person can read.</p>
+
+    <p>The code that runs the file is a few thousand lines of arithmetic, and you can download it for nothing. <strong>The code is the commodity. The numbers are the product.</strong></p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="anatomy">
+          <div class="anat-col">
+            <span class="lbl">Fig. 1a &nbsp;·&nbsp; Conventional system</span>
+            <div class="blk tall">
+              <span>SOURCE CODE</span>
+              <span class="tag">The asset</span>
+            </div>
+            <div class="joint">RUNS AGAINST</div>
+            <div class="blk">
+              <span>DATA</span>
+              <span class="tag">The input</span>
+            </div>
+          </div>
+
+          <div class="anat-col">
+            <span class="lbl">Fig. 1b &nbsp;·&nbsp; AI system</span>
+            <div class="blk hero">
+              <span>WEIGHTS &nbsp;<span style="opacity:.5">(a file of numbers)</span></span>
+              <span class="tag">The asset</span>
+            </div>
+            <div class="joint">EXECUTED BY</div>
+            <div class="blk tiny">
+              <span>INFERENCE CODE</span>
+              <span class="tag">Free · open source</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Fig. 1</b> &nbsp;The asset and the code trade places. In 1b there is no separate program. The numbers are the program.</figcaption>
+    </figure>
+
+    <p class="kicker">What is actually in the file</p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="weights-wrap">
+          <div class="weights" id="weights" aria-hidden="true"></div>
+          <div class="weights-note">
+            <span class="count" id="wcount">500,000,000,000</span>
+            <span class="lbl">numbers, give or take. No labels. No formulas. Nobody wrote them.</span>
+          </div>
+        </div>
+
+        <div class="card-callback">
+          <svg viewBox="0 0 240 105" role="img" aria-label="An 80-column punch card"
+               style="width:100%;height:auto;display:block">
+            <path d="M14 4 H236 V101 H4 V14 Z" fill="none" stroke="var(--steel)" stroke-width="1.4"/>
+            <g fill="var(--steel)" opacity="0.75" id="punches"></g>
+            <text x="10" y="97" font-family="ui-monospace, monospace" font-size="6.5"
+                  letter-spacing="1.1" fill="var(--graphite-2)">80 COLUMNS</text>
+          </svg>
+          <p>You have held this before. A punch card is not a program that reads data. It is data that <em>is</em> the program, and its meaning lives entirely in where the holes fall. A model is the same idea, at a scale of half a trillion holes, punched by a machine rather than a person.</p>
+        </div>
+      </div>
+      <figcaption><b>Fig. 2</b> &nbsp;A sample of weights, rendered. Nobody chose any of these values. They were fitted, the way a regression fits its coefficients, except with roughly five hundred billion coefficients instead of four.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ PLATE 02 ============ -->
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">Sheet 02</span>
+      <h2>Where the thing physically is</h2>
+    </div>
+
+    <p>At rest the file sits in storage, on disks, in a named region. To answer a single question, the whole thing has to be loaded into the memory of graphics processors, and a frontier model does not fit on one chip. It gets split across eight of them inside one server. So at the moment you ask it something, the model exists as electric charge in memory, on cards, in a chassis, in a rack, in a building, in a state, under a specific contract.</p>
+
+    <figure>
+      <div class="fig-body">
+        <div class="rail" role="group" aria-label="Zoom level">
+          <button type="button" data-lvl="1" aria-pressed="true">01 &nbsp;Region</button>
+          <button type="button" data-lvl="2" aria-pressed="false">02 &nbsp;Rack</button>
+          <button type="button" data-lvl="3" aria-pressed="false">03 &nbsp;Server</button>
+          <button type="button" data-lvl="4" aria-pressed="false">04 &nbsp;Memory</button>
+          <button type="button" data-lvl="5" aria-pressed="false">05 &nbsp;Shard</button>
+        </div>
+
+        <svg class="zoom-svg" viewBox="0 0 680 320" id="zoom" role="img"
+             aria-label="Nested schematic zooming from a datacenter region down to a single shard of model weights">
+          <g class="lvl" data-lvl="1">
+            <rect x="10" y="10" width="660" height="248"/>
+            <text x="22" y="27">01 · REGION · A BUILDING WITH A POWER CONTRACT</text>
+          </g>
+          <g class="lvl" data-lvl="2">
+            <rect x="70" y="44" width="540" height="180"/>
+            <text x="82" y="61">02 · DATA HALL · ROW · RACK</text>
+          </g>
+          <g class="lvl" data-lvl="3">
+            <rect x="140" y="78" width="400" height="112"/>
+            <text x="152" y="95">03 · SERVER · 8 ACCELERATORS</text>
+          </g>
+          <g class="lvl" data-lvl="4">
+            <rect x="212" y="110" width="256" height="62"/>
+            <text x="224" y="126">04 · HIGH-BANDWIDTH MEMORY</text>
+          </g>
+          <g class="lvl" data-lvl="5">
+            <rect x="278" y="136" width="124" height="26"/>
+            <text class="shard" x="286" y="152">-0.041  0.887  -1.02</text>
+          </g>
+          <g class="dim">
+            <line x1="140" y1="282" x2="540" y2="282"/>
+            <line x1="140" y1="276" x2="140" y2="288"/>
+            <line x1="540" y1="276" x2="540" y2="288"/>
+            <text x="252" y="304">ONE MODEL ≈ 700 GB, SPLIT ACROSS 8 CHIPS</text>
+          </g>
+        </svg>
+
+        <div class="zoom-detail" id="zoomDetail" aria-live="polite">
+          <h3 id="zdTitle">Region</h3>
+          <p id="zdBody">The file lives on disks in a specific building, in a specific jurisdiction, drawing power from a specific grid. There is no "cloud." There is that building.</p>
+          <p class="sowhat" id="zdSoWhat">SO WHAT · Which building, under whose agreement, in which country, is not a technicality. It is the entire compliance conversation. It is also why some models are still unavailable inside a government cloud boundary. Nobody has finished building the compliant room for them.</p>
+        </div>
+      </div>
+      <figcaption><b>Fig. 3</b> &nbsp;Click any level. And note the thing the drawing cannot show. The same weights sit in thousands of these memories at once. Your prompt never reaches "the model." It reaches whichever copy is free.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ PLATE 03 ============ -->
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">Sheet 03</span>
+      <h2>What happens when you use it</h2>
+    </div>
+
+    <p>This is the plate that matters most, because it settles the question everybody is quietly asking. When you paste a board deck into Copilot, does the model now know your board deck?</p>
+
+    <p>Mechanically, no. The weights are frozen. During a request they are read, never written. <strong>Using the model does not change the model.</strong> What actually happens is that the vendor writes your text to a log, that log sits on a disk for however many days your contract permits, and a future training run might draw on it if your contract permits that too.</p>
+
+    <p><strong>The leak vector is the log, not the model.</strong> Which means the thing to govern is the retention term, not the algorithm.</p>
+
+    <figure>
+      <div class="fig-body">
+        <svg class="life-svg" viewBox="0 0 720 268" id="life" role="img"
+             aria-label="A request flows from prompt into GPU memory and back out as tokens, while a copy of the prompt branches into a log store. The weights never change.">
+          <rect class="box" x="18" y="58" width="124" height="62"/>
+          <text class="t-lbl" x="30" y="80">PROMPT</text>
+          <text class="t-big" x="30" y="101">your text</text>
+
+          <path class="wire" id="p1" d="M 142 89 L 268 89"/>
+          <path d="M262 85 L270 89 L262 93 Z" fill="var(--graphite-2)"/>
+
+          <rect class="box gpu" x="268" y="38" width="186" height="102"/>
+          <text class="t-lbl" x="282" y="60">GPU MEMORY</text>
+          <text class="t-big" x="282" y="82">WEIGHTS</text>
+          <text class="t-steel" x="282" y="102">READ-ONLY</text>
+          <text class="t-steel" x="282" y="118">FROZEN UNTIL RETRAINED</text>
+
+          <path class="wire" id="p2" d="M 454 89 L 578 89"/>
+          <path d="M572 85 L580 89 L572 93 Z" fill="var(--graphite-2)"/>
+
+          <rect class="box" x="578" y="58" width="124" height="62"/>
+          <text class="t-lbl" x="590" y="80">TOKENS OUT</text>
+          <text class="t-big" x="590" y="101">the answer</text>
+
+          <path class="wire branch" id="p3" d="M 361 140 L 361 212 L 516 212"/>
+          <text class="t-annot" x="370" y="176">A COPY OF YOUR TEXT</text>
+
+          <rect class="box log" x="516" y="184" width="186" height="60"/>
+          <text class="t-lbl" x="528" y="204">LOG STORE</text>
+          <text class="t-annot" x="528" y="238">RETENTION: PER YOUR CONTRACT</text>
+          <g id="loglines"></g>
+
+          <circle class="dot" id="d1" r="4" cx="142" cy="89" opacity="0"/>
+          <circle class="dot" id="d2" r="4" cx="454" cy="89" opacity="0"/>
+          <circle class="dot" id="d3" r="3.5" cx="361" cy="140" opacity="0"/>
+        </svg>
+
+        <div class="console">
+          <button class="send" id="sendBtn" type="button">Send a request</button>
+          <button class="send reset" id="resetBtn" type="button">Reset</button>
+          <div class="readouts">
+            <div class="readout">
+              <span class="num hot" id="rSent">0</span>
+              <span class="lbl">Requests sent</span>
+            </div>
+            <div class="readout">
+              <span class="num zero" id="rChanged">0</span>
+              <span class="lbl">Bytes changed in the model</span>
+            </div>
+            <div class="readout">
+              <span class="num hot" id="rLogged">0</span>
+              <span class="lbl">Prompts written to the log</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Fig. 4</b> &nbsp;Press it as many times as you like. The middle number never moves. The right-hand number always does.</figcaption>
+    </figure>
+
+    <p class="kicker">The corollary</p>
+    <p>The model also has no memory. What Copilot calls memory is a separate database of notes that gets pasted back into the prompt every single time, and the whole conversation is re-sent on every turn. It is not remembering. It is re-reading. That is also why the token bill looks the way it does.</p>
+  </section>
+
+  <!-- ============ PLATE 04 ============ -->
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">Sheet 04</span>
+      <h2>Four things, four addresses</h2>
+    </div>
+
+    <p>People say "the AI has our data" because they have collapsed four separate objects into one. They sit in four different places, under four different owners, for four different lengths of time. Name them separately and the governance work becomes obvious.</p>
+
+    <div class="ledger-wrap">
+      <table>
+        <caption>Where each object physically sits, who controls it, and how long it persists</caption>
+        <thead>
+          <tr>
+            <th scope="col">Object</th>
+            <th scope="col">Where it physically sits</th>
+            <th scope="col">Who controls it</th>
+            <th scope="col">How long it persists</th>
+            <th scope="col">Yours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rowno">01</span>THE WEIGHTS</td>
+            <td>Storage at the lab, and in GPU memory whenever a request is running</td>
+            <td>The lab. Or you, if the weights are open and self-hosted.</td>
+            <td class="mono">Frozen until a new training run produces a new file</td>
+            <td><span class="chip rented">Rented</span></td>
+          </tr>
+          <tr>
+            <td><span class="rowno">02</span>YOUR PROMPT &amp; THE RESPONSE</td>
+            <td>The vendor's log store. Transiently, a cache in GPU memory during the request.</td>
+            <td>The vendor, bounded by your contract</td>
+            <td class="mono">Zero to thirty-plus days. Frontier tiers often carry a retention floor.</td>
+            <td><span class="chip none">Exposed</span></td>
+          </tr>
+          <tr>
+            <td><span class="rowno">03</span>THE TRAINING DATA</td>
+            <td>The lab's data lake. Petabytes. <b>Not inside the model.</b></td>
+            <td>The lab</td>
+            <td class="mono">Retained by the lab. The model is a lossy compression of it, not a copy.</td>
+            <td><span class="chip none">Not yours</span></td>
+          </tr>
+          <tr class="spotlight">
+            <td><span class="rowno">04</span>YOUR CORPUS, RETRIEVAL INDEX, PROMPTS, EVALS</td>
+            <td>Your own storage. The model only ever sees this as text inside a prompt.</td>
+            <td><b>You</b></td>
+            <td class="mono">As long as you keep it</td>
+            <td><span class="chip owned">Owned</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:1.6rem">Row 03 is the one that surprises people. Petabytes go in and a few hundred gigabytes come out, so the training data cannot be in there. What survives is statistical regularity, not text. The exception, and it is the hinge of every copyright case now in court, is that material repeated often enough in training can sometimes be reconstructed close to verbatim.</p>
+  </section>
+
+  <!-- ============ PLATE 05 ============ -->
+  <section class="plate stamped">
+    <div class="plate-head">
+      <span class="plate-no">Sheet 05</span>
+      <h2>Ownership schedule</h2>
+    </div>
+
+    <p>Ownership attaches to objects. There are four of them here, and they have four different answers, which is why "do we own the AI" has no answer as asked. This is also the schedule to put in front of any vendor, because silence in a contract defaults every line to whoever physically holds the thing.</p>
+
+    <div class="ledger-wrap">
+      <table>
+        <caption>What protects each object, and who ends up owning it</caption>
+        <thead>
+          <tr>
+            <th scope="col">Object</th>
+            <th scope="col">What legally protects it</th>
+            <th scope="col">Who ends up owning it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rowno">01</span>THE WEIGHTS</td>
+            <td>Not copyright, most likely. Copyright protects human creative expression, and no human authored these numbers. The labs rely on trade secret, contract, and simply never shipping the file.</td>
+            <td>Whoever holds the file. There is no lock on it. <b>The moat is possession, not law</b>, which is why a leaked weights file is a total loss and why open-weight releases live or die by their license terms.</td>
+          </tr>
+          <tr>
+            <td><span class="rowno">02</span>THE TRAINING DATA</td>
+            <td>Fair use, contested, and being decided case by case. The pattern so far is that courts have looked far harder at <b>how the corpus was acquired</b> than at the act of training on it.</td>
+            <td>The lab, along with the liability. Provenance is what gets litigated. Learning from lawfully obtained material has fared better than building the library in the first place.</td>
+          </tr>
+          <tr>
+            <td><span class="rowno">03</span>THE OUTPUTS</td>
+            <td>Nothing, as to the machine's contribution. Under US law purely machine-generated expression carries no copyright. Add real human selection and arrangement and the human part is protectable. The machine's part never is.</td>
+            <td>Nobody. Vendors assign you their rights in outputs, but they cannot assign a copyright that does not exist. What you are actually buying is a promise plus an <b>indemnity</b>. Read its carve-outs. They all require you to use the vendor's guardrails.</td>
+          </tr>
+          <tr>
+            <td><span class="rowno">04</span>DERIVED WEIGHTS <span style="opacity:.6">(fine-tunes)</span></td>
+            <td>The base model's license, plus whatever your vendor agreement says.</td>
+            <td>Whoever holds the file. Fine-tune on a hosted service and <b>you do not get a file, you get an endpoint</b>. You pay to create a model you can only rent, and you cannot take it anywhere.</td>
+          </tr>
+          <tr class="spotlight">
+            <td><span class="rowno">05</span>THE CORPUS, THE RETRIEVAL INDEX, THE PROMPT LIBRARY, THE EVAL SUITE, THE GOLDEN DATASETS</td>
+            <td>Trade secret, and your own contract language. These are the only objects on this sheet you can protect the ordinary way.</td>
+            <td><b>You</b>, if and only if the agreement names each one. This is the row to negotiate. Everything above it is somebody else's.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="stamp">Directional, not advice &nbsp;·&nbsp; Verify before citing<br>
+    Legal posture moves quarterly. Confirm the current state of the case law and the vendor's indemnity terms before any of this is repeated in a board setting.</p>
+  </section>
+
+  <!-- ============ CLOSE ============ -->
+  <section class="close">
+    <p class="lead">The engine is a frozen file you rent and can never really own. Everything you can own is the car.</p>
+    <p>The corpus, the retrieval layer, the prompt library, the eval suite. That is the ownership map, and it turns out to be the same map as the value map. Most people arrive at that from the moat argument. The physicality gets you there from the opposite direction.</p>
+    <p>So the answer to the original question. Your data does not go into the model, it goes into a log. The model is not in the cloud, it is in a building. It is not code that runs against data, it is data that runs as code. And nobody owns it by authorship, only by holding on to the file.</p>
+
+    <div class="colophon">
+      <span>SAADIQ INDUSTRIES LLC</span>
+      <span>SAADIQ.XYZ</span>
+      <span>SHEET 05 OF 05</span>
+      <span>REV A</span>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Fig 2: the weights grid ---------- */
+  var grid = document.getElementById("weights");
+  if (grid) {
+    var cells = 340, out = "";
+    for (var i = 0; i < cells; i++) {
+      var v = (Math.random() * 2 - 1);
+      var s = v.toFixed(3);
+      if (v >= 0) { s = " " + s; }
+      out += "<span>" + s + "</span>";
+    }
+    grid.innerHTML = out;
+  }
+
+  /* ---------- punch card holes ---------- */
+  var punches = document.getElementById("punches");
+  if (punches) {
+    var holes = "";
+    for (var c = 0; c < 26; c++) {
+      for (var r = 0; r < 7; r++) {
+        if (Math.random() > 0.72) {
+          holes += '<rect x="' + (16 + c * 8.4).toFixed(1) + '" y="' +
+                   (20 + r * 9.6).toFixed(1) + '" width="5" height="6.4"/>';
+        }
+      }
+    }
+    punches.innerHTML = holes;
+  }
+
+  /* ---------- Fig 3: the zoom rail ---------- */
+  var levels = {
+    "1": {
+      title: "Region",
+      body: "The file lives on disks in a specific building, in a specific jurisdiction, drawing power from a specific grid. There is no “cloud.” There is that building.",
+      so: "SO WHAT · Which building, under whose agreement, in which country, is not a technicality. It is the entire compliance conversation. It is also why some models are still unavailable inside a government cloud boundary. Nobody has finished building the compliant room for them."
+    },
+    "2": {
+      title: "Rack",
+      body: "Inside the hall, the machines that serve the model occupy a row of racks. Each rack draws tens of kilowatts and needs the cooling to match, which is why these buildings get sited next to power, not next to customers.",
+      so: "SO WHAT · Capacity is physical. When a vendor says a model is unavailable in a region, they are telling you they have not put steel on the floor there yet."
+    },
+    "3": {
+      title: "Server",
+      body: "A frontier model does not fit on one chip. It is split across eight accelerators wired together inside a single chassis, sometimes across several chassis, so that a slice of the weights lives on each.",
+      so: "SO WHAT · This is the real reason a bigger model costs more per answer. Not licensing. Silicon, wired together, drawing power, for the length of your request."
+    },
+    "4": {
+      title: "Memory",
+      body: "Each accelerator holds its slice in high-bandwidth memory, physically stacked beside the processor. Answering your question means moving every one of those numbers past the arithmetic unit, and then doing it again for the next word.",
+      so: "SO WHAT · In this instant, the model exists as electric charge. Cut the power and the model does not vanish, but the running copy of it does, along with everything in the conversation."
+    },
+    "5": {
+      title: "Shard",
+      body: "And at the bottom, this. A few numbers, out of roughly half a trillion, on one chip, in one machine, in one building. That is the whole of it.",
+      so: "SO WHAT · Nothing here is a secret formula, and none of it can be read. Which is exactly why evaluation exists. You test the behavior because you cannot inspect the logic."
+    }
+  };
+
+  var zoom = document.getElementById("zoom");
+  var zdTitle = document.getElementById("zdTitle");
+  var zdBody = document.getElementById("zdBody");
+  var zdSoWhat = document.getElementById("zdSoWhat");
+
+  function selectLevel(n) {
+    var groups = zoom.querySelectorAll(".lvl");
+    for (var i = 0; i < groups.length; i++) {
+      var g = groups[i];
+      var isOn = g.getAttribute("data-lvl") === n;
+      g.classList.toggle("on", isOn);
+      g.classList.toggle("off", !isOn);
+    }
+    var btns = document.querySelectorAll(".rail button");
+    for (var j = 0; j < btns.length; j++) {
+      btns[j].setAttribute("aria-pressed", btns[j].getAttribute("data-lvl") === n ? "true" : "false");
+    }
+    zdTitle.textContent = levels[n].title;
+    zdBody.textContent = levels[n].body;
+    zdSoWhat.textContent = levels[n].so;
+  }
+
+  var railBtns = document.querySelectorAll(".rail button");
+  for (var k = 0; k < railBtns.length; k++) {
+    railBtns[k].addEventListener("click", function () {
+      selectLevel(this.getAttribute("data-lvl"));
+    });
+  }
+  selectLevel("1");
+
+  /* ---------- Fig 4: the request lifecycle ---------- */
+  var sent = 0, logged = 0, busy = false;
+  var rSent = document.getElementById("rSent");
+  var rLogged = document.getElementById("rLogged");
+  var loglines = document.getElementById("loglines");
+  var sendBtn = document.getElementById("sendBtn");
+  var resetBtn = document.getElementById("resetBtn");
+
+  function travel(dotId, pathId, dur, delay) {
+    return new Promise(function (resolve) {
+      var dot = document.getElementById(dotId);
+      var path = document.getElementById(pathId);
+      if (reduced || !path.getTotalLength) { resolve(); return; }
+      var len = path.getTotalLength();
+      var t0 = null;
+      setTimeout(function () {
+        dot.setAttribute("opacity", "1");
+        function frame(ts) {
+          if (t0 === null) { t0 = ts; }
+          var p = Math.min((ts - t0) / dur, 1);
+          var pt = path.getPointAtLength(len * p);
+          dot.setAttribute("cx", pt.x);
+          dot.setAttribute("cy", pt.y);
+          if (p < 1) {
+            requestAnimationFrame(frame);
+          } else {
+            dot.setAttribute("opacity", "0");
+            resolve();
+          }
+        }
+        requestAnimationFrame(frame);
+      }, delay);
+    });
+  }
+
+  function drawLogLine(n) {
+    var row = (n - 1) % 5;
+    var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    var yy = 194 + row * 6;
+    var w = 60 + Math.random() * 100;
+    line.setAttribute("class", "logline");
+    line.setAttribute("x1", "528");
+    line.setAttribute("y1", yy);
+    line.setAttribute("x2", 528 + w);
+    line.setAttribute("y2", yy);
+    loglines.appendChild(line);
+    while (loglines.childNodes.length > 5) {
+      loglines.removeChild(loglines.firstChild);
+    }
+  }
+
+  function send() {
+    if (busy) { return; }
+    busy = true;
+    sendBtn.disabled = true;
+
+    var a = travel("d1", "p1", 480, 0);
+    var b = travel("d3", "p3", 700, 520);
+    var c = travel("d2", "p2", 480, 900);
+
+    Promise.all([a, b, c]).then(function () {
+      sent += 1;
+      logged += 1;
+      rSent.textContent = sent;
+      rLogged.textContent = logged;
+      drawLogLine(logged);
+      busy = false;
+      sendBtn.disabled = false;
+    });
+  }
+
+  sendBtn.addEventListener("click", send);
+
+  resetBtn.addEventListener("click", function () {
+    sent = 0;
+    logged = 0;
+    rSent.textContent = "0";
+    rLogged.textContent = "0";
+    while (loglines.firstChild) { loglines.removeChild(loglines.firstChild); }
+  });
+})();
+</script>
+</body>
+</html>
