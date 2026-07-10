@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Reading the Meter</title>
-<meta name="description" content="What a reasoning model bills you for, why the sticker price is not the price, where open weights match the frontier, and what self-hosting actually costs.">
+<meta name="description" content="The flat seat is already gone, the price per word is not the price, open weights match the frontier on knowledge and not on calibration, and self-hosting is a payroll cost.">
 <meta property="og:title" content="Reading the Meter">
-<meta property="og:description" content="What a reasoning model bills you for, why the sticker price is not the price, where open weights match the frontier, and what self-hosting actually costs.">
+<meta property="og:description" content="The flat seat is already gone, the price per word is not the price, open weights match the frontier on knowledge and not on calibration, and self-hosting is a payroll cost.">
 <meta property="og:type" content="article">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F2F3ED" media="(prefers-color-scheme: light)">
@@ -672,13 +672,13 @@
 
     <div class="sum-row">
       <div class="sum-body">
-        <h3>You pay for words you never see, and they are doing the work.</h3>
-        <p>A reasoning model writes to itself before it answers, and that writing is how it solves hard problems. It bills at the answer's rate, it never reaches you, and it runs whether or not the question needed it.</p>
+        <h3>The $20 seat is already gone.</h3>
+        <p>Anthropic's enterprise plan is $20 for access, with every token billed on top. Microsoft began metering Copilot agent work by consumption on 1 July 2026, additive to the flat $30 seat. Ask which surface your agents run on and what it bills.</p>
         <a class="sum-link" href="#r01">Reading 01</a>
       </div>
       <div class="sum-amt">
-        <span class="sum-fig">81%</span>
-        <span class="sum-figlbl">of a Sonnet 5 task<br>is thinking</span>
+        <span class="sum-fig">$750</span>
+        <span class="sum-figlbl">reported monthly bill<br>where the seat was $29</span>
       </div>
     </div>
 
@@ -739,16 +739,21 @@
   <section class="plate" id="r01">
     <div class="plate-head">
       <span class="plate-no">READING 01</span>
-      <h2>The three dials</h2>
+      <h2>The flat rate already ended</h2>
     </div>
 
-    <p>Input is what you send. That means the question, the documents, the conversation so far, and the instructions the software wraps around all of it. Output is what comes back. Both bill per word, at different rates.</p>
+    <p>Anthropic's enterprise plan is $20 a seat for access and nothing else. Every word your people type bills at metered rates on top of it, from the first one.</p>
 
-    <p>The third dial does not appear anywhere in the product. A reasoning model writes to itself before it writes to you. That private writing bills as output and never reaches you. <em class="turn">You pay for it and never read it.</em></p>
+    <p>GitHub moved its entire Copilot business onto metered credits on 1 June 2026, and reported monthly bills went from $29 to around $750. Microsoft began billing Copilot agent work by consumption on 1 July 2026, on top of the flat $30 seat.</p>
 
-    <p>Those words are the work. Turn the dial down on the same weights and the model gets worse. Given a competition&#8209;math benchmark, gpt&#8209;oss&#8209;120b scores 56% at low effort and 96% at high. The thinking is what buys the second number, and on a hard problem it is the best money on this page.</p>
+    <blockquote class="said">
+      <p>&ldquo;GitHub has absorbed much of the escalating inference cost. The current model is no longer sustainable. A quick chat question and a multi&#8209;hour autonomous coding session can cost the user the same amount.&rdquo;</p>
+      <cite>Mario Rodriguez &middot; Chief Product Officer, GitHub &middot; April 2026</cite>
+    </blockquote>
 
-    <p>It also runs when the question does not need it. Asked to multiply two three&#8209;digit numbers, one model produced 3,657 words of thinking to deliver a 214&#8209;word answer, and the thinking bought nothing. Across 77 models, turning reasoning on multiplies words by about 8x. The dial is on by default, and it does not know what you asked.</p>
+    <p>Two vendors still sell a flat seat with no meter behind it. Both are absorbing the difference. Neither has committed to continuing. An AI budget built from headcount times a seat price is a forecast of last year.</p>
+
+    <p>The meter counts words, not questions or sessions or seats. And it counts words that never reach you. A reasoning model writes to itself before it writes to you, and that private writing bills at the output rate. <em class="turn">You pay for it and never read it.</em> Reading 02 covers why.</p>
 
     <figure>
       <div class="fig-body">
@@ -804,15 +809,17 @@
       </figcaption>
     </figure>
 
-    <p>Two things compound this. Conversation history re&#8209;bills as input on every turn, so turn ten pays again for turns one through nine. And an agent uses 5x to 30x the words of a chat turn, at an input&#8209;to&#8209;output ratio closer to 80:1 than the 8:1 of a conversation.</p>
+    <p>Two things compound this. Conversation history re&#8209;bills as input on every turn, so turn ten pays again for turns one through nine. And an agent uses 5x to 30x the words of a chat turn, at an input&#8209;to&#8209;output ratio closer to 80:1 than the 8:1 of a conversation. One seat can run either. That is why the seat price stopped predicting the bill.</p>
   </section>
 
   <!-- ============ 02 ============ -->
   <section class="plate" id="r02">
     <div class="plate-head">
       <span class="plate-no">READING 02</span>
-      <h2>Why a hard question costs more</h2>
+      <h2>Why the word count moves</h2>
     </div>
+
+    <p>Input is what you send. That means the question, the documents, the conversation so far, and the instructions the software wraps around all of it. Output is what comes back. Both bill per word, at different rates. The third dial appears nowhere in the product. It is the model's own working, billed at the output rate and never delivered.</p>
 
     <p>The picture most people arrive at is a cross&#8209;section of the earth. One model reaches 15 layers down, a better one reaches 25, a cheap one works the topsoil. The diamond is buried, so the deeper model finds it, and the digging shows up on the bill.</p>
 
@@ -860,6 +867,10 @@
         Layer count from Kimi K2.6's published architecture. 61 layers, 384 experts, <b>8 of which activate for any given word</b>. Trip counts are measured output tokens for a trivial prompt and for one hard benchmark task.
       </figcaption>
     </figure>
+
+    <p>Those private words are the work. Turn the dial down on the same weights and the model gets worse. Given a competition&#8209;math benchmark, gpt&#8209;oss&#8209;120b scores 56% at low effort and 96% at high. The thinking is what buys the second number, and on a hard problem it is the best money on this page.</p>
+
+    <p>It also runs when the question does not need it. Asked to multiply two three&#8209;digit numbers, one model produced 3,657 words of thinking to deliver a 214&#8209;word answer, and the thinking bought nothing. Across 77 models, turning reasoning on multiplies words by about 8x. The dial is on by default, and it does not know what you asked.</p>
 
     <div class="callout">
       <p class="kicker">The model you would call topsoil</p>
@@ -1141,9 +1152,9 @@
 
     <p>The cost of running frontier models is rising 3x to 18x a year. Claude Opus fell from $15 and $75 per million to $5 and $25 across its life. Fable 5 then replaced it at the top at $10 and $50.</p>
 
-    <p>Reasoning models are getting more verbose at about 5x a year, against 2.2x for models that do not reason. The frontier gets expensive because answers get longer, and you are billed for the part you never see.</p>
+    <p>Reasoning models are getting more verbose at about 5x a year, against 2.2x for models that do not reason. The frontier gets expensive because answers get longer.</p>
 
-    <p>Meanwhile an agent uses 5x to 30x the words of a chat turn. Uber spent its annual budget for coding assistants in four months and capped its engineers at $1,500 a month each.</p>
+    <p>Agents multiply that again. Uber spent its annual budget for coding assistants in four months and capped its engineers at $1,500 a month each.</p>
 
     <figure>
       <div class="fig-body">
@@ -1167,17 +1178,6 @@
       <p class="kicker">For the board</p>
       <p>Our cost per answer will fall every year. Our AI bill will rise every year. Both are true, and where we land on a 900x spread is set by routing discipline, not by vendor pricing.</p>
     </div>
-
-    <p class="kicker" style="margin-top:2.6rem">The flat rate already ended</p>
-
-    <p>Anthropic's enterprise plan is $20 a seat for access and nothing else. Every word your people type bills at metered rates on top of it, from the first one. GitHub moved its entire Copilot business onto metered credits on 1 June 2026, and reported monthly bills went from $29 to around $750. Microsoft began billing agent work by consumption on 1 July 2026, on top of the flat $30 seat.</p>
-
-    <blockquote class="said">
-      <p>&ldquo;GitHub has absorbed much of the escalating inference cost. The current model is no longer sustainable. A quick chat question and a multi&#8209;hour autonomous coding session can cost the user the same amount.&rdquo;</p>
-      <cite>Mario Rodriguez &middot; Chief Product Officer, GitHub &middot; April 2026</cite>
-    </blockquote>
-
-    <p>Two vendors still sell a flat seat with no meter behind it. Both are absorbing the difference. Neither has committed to continuing. An AI budget built from headcount times a seat price is a forecast of last year.</p>
 
     <p class="kicker" style="margin-top:2.6rem">Routing</p>
 
