@@ -22,16 +22,33 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 
 Stop Ghost before running `ghost update`. Running both at once OOM'd the droplet on 2026-05-13 (Ghost 6.32.0 → 6.38.0 attempt) — ghost-cli's pre-flight filesystem walk over `content/` combined with the running Ghost process exhausted memory and required a `doctl compute droplet-action power-cycle` to recover. Procedure:
 
-**Swap backstop**: a 2G swapfile (`/swapfile`, fstab `/swapfile none swap sw 0 0`, default swappiness 60) was added 2026-05-13 right after that OOM. It gave the headroom that let the 6.38.0 → 6.44.1 upgrade run cleanly on 2026-06-07 (peak ~1.2Gi free + swap mostly idle). The droplet only has 1.9Gi RAM, so the swap is the safety net — but **stopping Ghost first is still the primary safeguard**, not something the swap lets you skip. Verify with `swapon --show`; if it's ever missing, recreate before upgrading.
+**Swap backstop**: a 2G swapfile (`/swapfile`, fstab `/swapfile none swap sw 0 0`, default swappiness 60) was added 2026-05-13 right after that OOM. It gave the headroom that let the 6.38.0 → 6.44.1 upgrade run cleanly on 2026-06-07 (peak ~1.2Gi free + swap mostly idle), and 6.44.1 → 6.52.1 on 2026-07-11 (same profile: ~1.3Gi available with Ghost stopped, swap idle). The droplet only has 1.9Gi RAM, so the swap is the safety net — but **stopping Ghost first is still the primary safeguard**, not something the swap lets you skip. Verify with `swapon --show`; if it's ever missing, recreate before upgrading.
 
 ```bash
 cd /var/www/ghost
 sudo -u ghost-mgr ghost stop
-sudo -u ghost-mgr ghost update
-sudo -u ghost-mgr ghost start   # `update` usually restarts, but verify
+
+# run the update DETACHED so a dropped SSH session can't kill it mid-flight
+setsid nohup sudo -u ghost-mgr ghost update <version> </dev/null > /tmp/ghost-update.log 2>&1 &   # pin explicitly
+# poll: pgrep -f "gho[s]t update"  (bracket avoids the pattern matching your own shell)
+
+sudo -u ghost-mgr ghost start   # MANDATORY — see below
 ```
 
+**`ghost update` does NOT restart Ghost if you stopped it first.** Confirmed 2026-07-11. Since stopping first is required, the explicit `ghost start` is a **mandatory step, not a verification step** — skip it and Ghost stays down, nginx proxies to a dead upstream, and `/newsletter` 502s while the static Astro site keeps serving fine (so the site *looks* healthy). Always finish with `ghost start` and confirm `systemctl is-active ghost_167-71-169-225.service`.
+
+**Pin the version, don't take same-day releases.** Pass the version explicitly (`ghost update 6.52.1`). Let a release age a few days first — same reasoning as the ghost-cli pin below. The pnpm `minimum-release-age` cooldown does *not* protect you here, since `ghost update` is a frozen lockfile install.
+
+**Automation notes**: `saadiq` has **passwordless sudo to `ghost-mgr`**, so the whole upgrade is drivable over non-interactive SSH (`sudo -n -u ghost-mgr true` to confirm). Stopping Ghost first frees its ~900MB, which is what gives the native-module compiles headroom.
+
 Fix any pre-flight permission errors (e.g. theme files needing `chmod 664`) before retrying — ghost-cli prints the exact `find ... -exec chmod` command to run.
+
+**Verify after upgrading** (systemd `active` is not enough — check it actually serves):
+
+```bash
+curl -s https://saadiq.xyz/newsletter/ | grep -o '<meta name="generator" content="[^"]*"'   # running version
+curl -so /dev/null -w '%{http_code}\n' https://saadiq.xyz/newsletter/                        # expect 200
+```
 
 ### npm supply-chain hardening
 
