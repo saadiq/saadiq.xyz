@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --bg:#0c0c0c; --text:#f0ece4; --text-muted:#ac9e90; --accent:#d4a843; --rule:#2a2a2a; }
+    body { background:#000; display:flex; align-items:center; justify-content:center; min-height:100vh; font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+    .banner { width:1900px; height:400px; background:var(--bg); position:relative; overflow:hidden; }
+    .banner::before { content:""; position:absolute; inset:0; z-index:4; pointer-events:none; opacity:0.04;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat; background-size:200px 200px; }
+    .glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:1200px; height:460px;
+      background:radial-gradient(ellipse, rgba(212,168,67,0.08) 0%, transparent 66%); z-index:1; }
+    .art { position:absolute; inset:0; z-index:2; }
+    .corner { position:absolute; width:30px; height:30px; z-index:3; }
+    .corner-tr { top:22px; right:22px; border-top:1px solid var(--rule); border-right:1px solid var(--rule); }
+    .corner-br { bottom:22px; right:22px; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule); }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="glow"></div>
+    <svg class="art" viewBox="0 0 1900 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="sheet" viewBox="0 0 100 130" overflow="visible">
+          <path d="M4 4 H78 L96 22 V126 H4 Z" fill="#0c0c0c" fill-opacity="0.92" stroke="currentColor" stroke-width="2"/>
+          <path d="M78 4 V22 H96" fill="none" stroke="currentColor" stroke-width="2"/>
+          <g stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.55">
+            <line x1="16" y1="46" x2="84" y2="46"/>
+            <line x1="16" y1="64" x2="84" y2="64"/>
+            <line x1="16" y1="82" x2="84" y2="82"/>
+            <line x1="16" y1="100" x2="84" y2="100"/>
+            <line x1="16" y1="116" x2="62" y2="116"/>
+          </g>
+        </symbol>
+      </defs>
+
+      <!-- INPUT: a document feeding toward the engine -->
+      <g transform="translate(170,200) rotate(-4)">
+        <use href="#sheet" x="-44" y="-57" width="88" height="114" color="#ac9e90" opacity="0.38"/>
+      </g>
+      <path d="M226 200 H286" fill="none" stroke="#ac9e90" stroke-opacity="0.4" stroke-width="2" marker-end="url(#arrow)"/>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#ac9e90" fill-opacity="0.4"/>
+      </marker>
+
+      <!-- SMALL COG (solid, meshing upper-right) drawn behind the large one -->
+      <g transform="translate(545,128)">
+        <g fill="#d4a843" fill-opacity="0.7">
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(18)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(54)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(90)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(126)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(162)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(198)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(234)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(270)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(306)"/>
+          <rect x="-6.5" y="-65" width="13" height="13" rx="2" transform="rotate(342)"/>
+        </g>
+        <circle r="52" fill="#d4a843" fill-opacity="0.7"/>
+        <circle r="15" fill="#0c0c0c"/>
+      </g>
+
+      <!-- LARGE COG (solid) -->
+      <g transform="translate(440,205)">
+        <g fill="#d4a843">
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(0)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(30)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(60)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(90)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(120)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(150)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(180)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(210)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(240)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(270)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(300)"/>
+          <rect x="-9" y="-100" width="18" height="18" rx="3" transform="rotate(330)"/>
+        </g>
+        <circle r="82" fill="#d4a843"/>
+        <!-- lightening holes -->
+        <g fill="#0c0c0c">
+          <circle cx="0" cy="-52" r="11"/>
+          <circle cx="49" cy="-16" r="11"/>
+          <circle cx="30" cy="42" r="11"/>
+          <circle cx="-30" cy="42" r="11"/>
+          <circle cx="-49" cy="-16" r="11"/>
+        </g>
+        <!-- hub bore -->
+        <circle r="26" fill="#0c0c0c"/>
+        <circle r="11" fill="#d4a843"/>
+      </g>
+
+      <!-- OUTPUT: pages ejecting and fanning up-right; first is the gold primary -->
+      <g transform="translate(700,172) rotate(6)">
+        <use href="#sheet" x="-60" y="-78" width="120" height="156" color="#d4a843" opacity="0.95"/>
+      </g>
+      <g transform="translate(835,134) rotate(13)">
+        <use href="#sheet" x="-55" y="-71" width="110" height="143" color="#f0ece4" opacity="0.82"/>
+      </g>
+      <g transform="translate(975,118) rotate(21)">
+        <use href="#sheet" x="-50" y="-65" width="100" height="130" color="#f0ece4" opacity="0.58"/>
+      </g>
+      <g transform="translate(1125,130) rotate(28)">
+        <use href="#sheet" x="-44" y="-57" width="88" height="114" color="#f0ece4" opacity="0.4"/>
+      </g>
+      <g transform="translate(1275,162) rotate(34)">
+        <use href="#sheet" x="-37" y="-48" width="74" height="96" color="#f0ece4" opacity="0.25"/>
+      </g>
+      <g transform="translate(1410,205) rotate(39)">
+        <use href="#sheet" x="-31" y="-40" width="62" height="80" color="#f0ece4" opacity="0.15"/>
+      </g>
+    </svg>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-br"></div>
+  </div>
+</body>
+</html>

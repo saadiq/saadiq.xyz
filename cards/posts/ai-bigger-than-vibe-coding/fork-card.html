@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --surface: #151412;
+      --text: #f0ece4;
+      --text-muted: #ac9e90;
+      --accent: #d4a843;
+      --rule: #2a2a2a;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --sans: 'Inter', system-ui, sans-serif;
+      --serif: 'Instrument Serif', serif;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .card {
+      width: 1600px;
+      height: 2000px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 130px 130px 120px;
+    }
+
+    /* Noise texture */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    .card > * { position: relative; z-index: 2; }
+
+    .headline {
+      font-family: var(--serif);
+      font-size: 128px;
+      line-height: 1.04;
+      color: var(--text);
+      flex-shrink: 0;
+      letter-spacing: -0.01em;
+    }
+    .headline .hl { color: var(--accent); }
+
+    /* Diagram stage — fills middle */
+    .stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .node {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 18px;
+      padding: 54px 56px;
+      text-align: center;
+    }
+    .node.source { width: 900px; }
+    .node .label {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-size: 40px;
+      color: var(--text);
+    }
+    .node .desc {
+      font-family: var(--mono);
+      font-weight: 300;
+      font-size: 27px;
+      line-height: 1.4;
+      color: var(--text-muted);
+      margin-top: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .edge-label {
+      font-family: var(--mono);
+      font-size: 30px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin: 30px 0 6px;
+    }
+
+    .conn { display: block; }
+
+    .row3 {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      width: 100%;
+    }
+    .row3 .node { flex: 1; padding: 52px 24px; }
+    .row3 .label { font-size: 36px; }
+    .row3 .desc { font-size: 25px; white-space: nowrap; }
+    .row3 .num {
+      font-family: var(--mono);
+      font-size: 30px;
+      color: var(--accent);
+      opacity: 0.9;
+      margin-bottom: 14px;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--mono);
+      font-size: 40px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="headline">I stopped deciding<br><span class="hl">up front.</span></div>
+
+    <div class="stage">
+      <svg width="0" height="0" style="position:absolute"><defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#d4a843"/>
+        </marker>
+      </defs></svg>
+
+      <div class="node source">
+        <div class="label">A messy problem</div>
+        <div class="desc">a folder, a URL, a log, a spreadsheet</div>
+      </div>
+
+      <div class="edge-label">throw it at the model</div>
+
+      <svg class="conn" width="1340" height="250" viewBox="0 0 1340 250" fill="none" stroke="#d4a843" stroke-width="2.5">
+        <path d="M670 4 V100"/>
+        <path d="M670 100 C670 158, 213 150, 213 244" marker-end="url(#ar)"/>
+        <path d="M670 100 C670 170, 670 170, 670 244" marker-end="url(#ar)"/>
+        <path d="M670 100 C670 158, 1127 150, 1127 244" marker-end="url(#ar)"/>
+      </svg>
+
+      <div class="row3">
+        <div class="node">
+          <div class="num">01</div>
+          <div class="label">One-off</div>
+          <div class="desc">done in one pass</div>
+        </div>
+        <div class="node">
+          <div class="num">02</div>
+          <div class="label">A command</div>
+          <div class="desc">worth running again</div>
+        </div>
+        <div class="node">
+          <div class="num">03</div>
+          <div class="label">Real software</div>
+          <div class="desc">it recurs, unchanged</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Saadiq Rodgers-King</span>
+      <span>saadiq.xyz</span>
+    </div>
+  </div>
+</body>
+</html>

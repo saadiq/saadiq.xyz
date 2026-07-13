@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Workflow Note 01 — Meeting Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0c0c0c;
+      --text: #f0ece4;
+      --muted: #6a6a64;
+      --accent: #d4a843;
+      --line: #26251f;
+      --font-serif: "Instrument Serif", Georgia, serif;
+      --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    body {
+      background: #444;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+
+    .banner {
+      width: 1900px; height: 400px; background: var(--bg);
+      position: relative; overflow: hidden;
+      padding: 0 110px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 90px;
+    }
+
+    .banner::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .left { position: relative; z-index: 2; }
+
+    .series {
+      font-family: var(--font-mono); font-weight: 500; font-size: 24px;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
+    }
+    .topic {
+      font-family: var(--font-mono); font-weight: 400; font-size: 20px;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+      margin-top: 16px;
+    }
+    .headline {
+      font-family: var(--font-serif); font-size: 132px; line-height: 0.98;
+      color: var(--text); margin-top: 34px;
+    }
+    .headline .accent { color: var(--accent); }
+
+    .card {
+      position: relative; z-index: 2; flex: none;
+      border: 2px solid var(--line); border-radius: 6px;
+      padding: 46px 60px;
+      display: flex; flex-direction: column; align-items: flex-start;
+      background: rgba(255, 255, 255, 0.015);
+    }
+    .card-kicker {
+      font-family: var(--font-mono); font-weight: 500; font-size: 17px;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 30px;
+    }
+    .card-from {
+      font-family: var(--font-mono); font-weight: 400; font-size: 40px;
+      color: var(--muted);
+      text-decoration: line-through; text-decoration-color: var(--accent);
+      text-decoration-thickness: 4px;
+    }
+    .card-arrow {
+      font-family: var(--font-mono); font-size: 34px; color: var(--accent);
+      margin: 16px 0;
+    }
+    .card-to {
+      font-family: var(--font-mono); font-weight: 500; font-size: 44px;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <div class="left">
+      <div class="series">// AI Workflow Note 01</div>
+      <div class="topic">Meeting Notes</div>
+      <div class="headline">Summarize for<br><span class="accent">the job</span></div>
+    </div>
+    <div class="card">
+      <div class="card-kicker">// the move</div>
+      <div class="card-from">whole meeting</div>
+      <div class="card-arrow">&darr;</div>
+      <div class="card-to">useful slice</div>
+    </div>
+  </div>
+</body>
+</html>

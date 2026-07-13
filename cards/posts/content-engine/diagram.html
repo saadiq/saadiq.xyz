@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg:#0c0c0c; --surface:#151412; --text:#f0ece4; --text-muted:#ac9e90;
+      --accent:#d4a843; --rule:#2a2a2a;
+      --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Inter',system-ui,sans-serif;
+    }
+    body { background:#000; display:flex; justify-content:center; font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+    .diagram { width:1200px; background:var(--bg); position:relative; overflow:hidden; padding:80px 72px; }
+    .diagram::before { content:""; position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0.04;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat:repeat; background-size:200px 200px; }
+    .diagram > * { position:relative; z-index:2; }
+
+    .row { display:flex; justify-content:center; gap:64px; }
+    .card { width:520px; background:var(--surface); border:1px solid var(--rule); border-radius:14px; padding:26px 30px; text-align:center; }
+    .row .card { width:460px; }
+    .label { font-family:var(--mono); text-transform:uppercase; letter-spacing:0.13em; font-size:23px; color:var(--text); }
+    .desc { font-family:var(--sans); font-weight:300; font-size:19px; line-height:1.4; color:var(--text-muted); margin-top:10px; }
+    .desc .dim { color:var(--text); opacity:0.85; }
+
+    .card.gold { border:1.6px solid var(--accent); background:rgba(212,168,67,0.07); }
+    .card.gold .label { color:var(--accent); }
+
+    .conn { width:100%; display:block; }
+    .edge-label { text-align:center; font-family:var(--mono); font-size:15px; letter-spacing:0.08em; color:var(--text-muted); opacity:0.8; margin:2px 0 -6px; }
+  </style>
+</head>
+<body>
+  <div class="diagram">
+    <svg width="0" height="0" style="position:absolute"><defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 L10 5 L0 10 z" fill="#d4a843"/>
+      </marker>
+    </defs></svg>
+
+    <!-- sources -->
+    <div class="row">
+      <div class="card">
+        <div class="label">Targeting</div>
+        <div class="desc"><span class="dim">positioning &middot; audience</span><br>who I am, who I'm for</div>
+      </div>
+      <div class="card">
+        <div class="label">Inputs</div>
+        <div class="desc"><span class="dim">meeting transcripts, talks,</span><br>others' research</div>
+      </div>
+    </div>
+
+    <!-- merge -->
+    <svg class="conn" viewBox="0 0 1200 70" height="70" fill="none" stroke="#d4a843" stroke-width="2">
+      <path d="M338 4 C338 44, 600 26, 600 64" marker-end="url(#ar)"/>
+      <path d="M862 4 C862 44, 600 26, 600 64" marker-end="url(#ar)"/>
+    </svg>
+
+    <div class="row"><div class="card">
+      <div class="label">Load into context</div>
+      <div class="desc">Claude Chat / CoWork / Code</div>
+    </div></div>
+
+    <svg class="conn" viewBox="0 0 1200 54" height="54" fill="none" stroke="#d4a843" stroke-width="2">
+      <path d="M600 2 V48" marker-end="url(#ar)"/>
+    </svg>
+
+    <div class="row"><div class="card gold">
+      <div class="label">I write long-form</div>
+      <div class="desc">from real work, in my voice, pulling from the inputs</div>
+    </div></div>
+
+    <svg class="conn" viewBox="0 0 1200 54" height="54" fill="none" stroke="#d4a843" stroke-width="2">
+      <path d="M600 2 V48" marker-end="url(#ar)"/>
+    </svg>
+
+    <div class="row"><div class="card">
+      <div class="label">The hub, my own platform</div>
+      <div class="desc">published first, the source of truth</div>
+    </div></div>
+
+    <div class="edge-label">each piece is mined</div>
+    <svg class="conn" viewBox="0 0 1200 54" height="54" fill="none" stroke="#d4a843" stroke-width="2">
+      <path d="M600 2 V48" marker-end="url(#ar)"/>
+    </svg>
+
+    <div class="row"><div class="card">
+      <div class="label">Design system + tools</div>
+      <div class="desc">every piece runs through it where visuals are needed</div>
+    </div></div>
+
+    <!-- split -->
+    <svg class="conn" viewBox="0 0 1200 72" height="72" fill="none" stroke="#d4a843" stroke-width="2">
+      <path d="M600 2 V26"/>
+      <path d="M600 26 C600 26, 338 30, 338 68" marker-end="url(#ar)"/>
+      <path d="M600 26 C600 26, 862 30, 862 68" marker-end="url(#ar)"/>
+    </svg>
+
+    <div class="row">
+      <div class="card">
+        <div class="label">Short-form spokes</div>
+        <div class="desc">text + image</div>
+      </div>
+      <div class="card">
+        <div class="label">Visual assets</div>
+        <div class="desc">covers, cards, decks</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
