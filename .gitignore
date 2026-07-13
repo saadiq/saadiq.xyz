@@ -26,5 +26,6 @@ pnpm-debug.log*
 # superpowers scratch files
 .superpowers/
 
-# generated card images
+# generated card images and documents (regenerate from the .html sources)
 cards/**/*.png
+cards/**/*.pdf
