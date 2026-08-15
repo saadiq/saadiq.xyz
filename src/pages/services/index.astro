@@ -3,11 +3,16 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import FooterCTA from "../../components/FooterCTA.astro";
 import StatusBar from "../../components/StatusBar.astro";
+import BookingCTA from "../../components/BookingCTA.astro";
 import { websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd } from "../../lib/schema";
 
 const services = [
   {
+    slug: "talks",
     name: "Talks and executive briefings",
+    forShort: "leadership teams",
+    shape: "one session, or a written brief",
+    cta: "Book a talk",
     format: ["one session · in person or remote", "briefs · written, 1-2 weeks"],
     who: "For leadership teams that need a concrete picture of what AI changes about how they build.",
     body:
@@ -16,7 +21,11 @@ const services = [
       "A product-offsite talk for a global research firm was still being discussed two days later, and the deck went to everyone who missed the room. A panel on AI agents in a public library's AI literacy series drew about 80 people for live demos.",
   },
   {
+    slug: "advisory",
     name: "Executive AI advisory",
+    forShort: "CEOs and CPOs",
+    shape: "weekly sessions on retainer",
+    cta: "Book a conversation",
     format: ["monthly retainer · weekly sessions", "three-month initial term"],
     who: "For CEOs and CPOs facing AI decisions they can't delegate.",
     body:
@@ -25,7 +34,11 @@ const services = [
       "Current engagements include weekly sessions with the chief executive of a Fortune 500 company and advisory to a senior technology leader navigating a company-wide rework of how the business operates and delivers its services.",
   },
   {
+    slug: "sprint",
     name: "AI discovery sprint",
+    forShort: "executives picking the first problem",
+    shape: "1-2 weeks, fixed fee",
+    cta: "Scope a sprint",
     format: ["1-2 weeks · fixed fee", "ends with a scoped proposal"],
     who: "For executives who want AI working in their business but need to know which problems are worth solving first.",
     body:
@@ -34,7 +47,11 @@ const services = [
       "A two-week sprint for a database company tested how seven AI models saw their product, found a zero percent mention rate and a blog invisible to AI crawlers, and shipped a 90-day roadmap that turned into follow-on work.",
   },
   {
+    slug: "builds",
     name: "Agent and automation builds",
+    forShort: "teams stuck in manual work",
+    shape: "4-8 weeks per phase, milestones",
+    cta: "Scope a build",
     format: ["fixed fee · milestone billed", "4-8 weeks per phase"],
     who: "For companies whose skilled people burn hours on manual work across systems.",
     body:
@@ -43,7 +60,11 @@ const services = [
       "Recent builds include a campaign-setup agent for a 70-million-member advocacy organization, delivered and accepted milestone by milestone, and a voice agent in production for a hospitality company, making first-pass qualification calls that replace 8 to 12 hours of manual calling per request.",
   },
   {
+    slug: "embedded",
     name: "Embedded technical leadership",
+    forShort: "founder-led companies",
+    shape: "weekly cadence on retainer",
+    cta: "Book a conversation",
     format: ["monthly retainer · weekly cadence", "starts with one scoped win"],
     who: "For established founder-led companies that need senior technical leadership without the full-time hire.",
     body:
@@ -78,10 +99,36 @@ const services = [
         Scope expands only when results earn it.
       </p>
 
+      <div class="border-t border-rule pt-12 mb-16 md:mb-20">
+        <p class="section-label mb-8">// at a glance</p>
+        <div class="divide-y divide-rule border-y border-rule">
+          {
+            services.map((service) => (
+              <a
+                href={`#${service.slug}`}
+                class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] items-baseline gap-x-8 gap-y-1 py-3 group"
+                data-ph-capture="section_jump"
+                data-ph-section="services_index"
+                data-ph-destination={service.slug}
+              >
+                <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
+                  {service.name.toLowerCase()}_
+                </span>
+                <span class="text-sm text-text-muted">for {service.forShort}</span>
+                <span class="font-mono text-xs text-text-muted">{service.shape}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
       <div class="border-t border-rule pt-12 space-y-12 md:space-y-16">
         {
           services.map((service) => (
-            <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-12 md:pb-16">
+            <div
+              id={service.slug}
+              class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-10 md:pb-12"
+            >
               <div>
                 <h2 class="font-display text-2xl md:text-3xl leading-tight mb-4">
                   {service.name}
@@ -98,9 +145,14 @@ const services = [
                   {service.body}
                 </p>
                 <p class="font-mono text-xs text-text-muted mb-2">proof_</p>
-                <p class="text-sm text-text-muted leading-relaxed">
+                <p class="text-sm text-text-muted leading-relaxed mb-6">
                   {service.proof}
                 </p>
+                <BookingCTA
+                  section={`services_${service.slug}`}
+                  variant="text"
+                  label={service.cta}
+                />
               </div>
             </div>
           ))
