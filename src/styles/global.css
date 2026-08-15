@@ -15,13 +15,23 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep anchor targets clear of the fixed nav and status bar. */
+  scroll-padding-block: 7rem 3.5rem;
   background-color: var(--color-bg);
   color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 body {
   font-family: var(--font-body);
   line-height: 1.6;
+  /* viewport-fit=cover: keep in-flow content clear of notches in landscape.
+     Fixed bars (Nav, StatusBar) handle their own insets. */
+  padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -53,6 +63,31 @@ body::before {
 
 .cursor-blink {
   animation: blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .cursor-blink {
+    animation: none;
+  }
+}
+
+/* Mono text link with a touch-safe target; pair with accent or muted colors.
+   Lives in the components layer so Tailwind utilities (min-h-*, text-*) can
+   override individual declarations at a call site. */
+@layer components {
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    transition-property: color, background-color, border-color;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 /* Section label utility */

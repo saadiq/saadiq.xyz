@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { defaultJsonLd, websiteJsonLd } from "../lib/schema";
+import { normalizePath } from "../lib/paths";
 
 interface Props {
   title?: string;
@@ -18,8 +19,7 @@ const {
 
 const fontsUrl = "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
 
-const rawPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '');
-const canonicalURL = new URL(rawPath || '/', Astro.site);
+const canonicalURL = new URL(normalizePath(Astro.url.pathname), Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site).href;
 const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
 ---
@@ -28,7 +28,7 @@ const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Saadiq Rodgers-King" />
