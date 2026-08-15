@@ -10,12 +10,17 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* Mirrors src/styles/global.css. Three text tiers: display, running prose,
+       metadata. Prose belongs on --text-body; --text-muted is for mono captions,
+       sources, and attributions only. Putting prose on muted is what made the
+       site read flat. */
     :root {
-      --bg: #0c0c0c;
-      --text: #f0ece4;
-      --text-muted: #ac9e90;
+      --bg: #0b0a09;
+      --text: #f2eee6;
+      --text-body: #cfc5b8;
+      --text-muted: #ab9d91;
       --accent: #d4a843;
-      --rule: #2a2a2a;
+      --rule: #2f2926;
     }
 
     body {

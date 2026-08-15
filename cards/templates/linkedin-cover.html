@@ -10,14 +10,16 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* Mirrors src/styles/global.css. Three text tiers: display, running prose,
+       metadata. Prose belongs on --text-body; --text-muted is for mono captions,
+       sources, and URLs only. No --accent-hover here: nothing hovers in a PNG. */
     :root {
-      --bg: #0c0c0c;
-      --bg-surface: #141414;
-      --text: #f0ece4;
-      --text-muted: #ac9e90;
+      --bg: #0b0a09;
+      --text: #f2eee6;
+      --text-body: #cfc5b8;
+      --text-muted: #ab9d91;
       --accent: #d4a843;
-      --accent-hover: #e8bd5a;
-      --rule: #2a2a2a;
+      --rule: #2f2926;
     }
 
     body {
@@ -115,10 +117,11 @@
       font-style: normal;
     }
 
+    /* Running prose sits on the body tier, never on muted. */
     .sub {
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 17px;
-      color: var(--text-muted);
+      color: var(--text-body);
       font-weight: 300;
       letter-spacing: 0.01em;
     }
