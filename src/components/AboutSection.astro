@@ -1,9 +1,13 @@
 ---
+import { Image } from "astro:assets";
+import portrait from "../assets/images/portrait.jpg";
+
 const metadata = [
   { key: "name_", value: "Saadiq Rodgers-King" },
   { key: "location_", value: "Brooklyn, NY" },
-  { key: "edu_", value: "Princeton CS, MIT Sloan MBA" },
-  { key: "exp_", value: "20+ years" },
+  { key: "education_", value: "Princeton CS, MIT Sloan MBA" },
+  { key: "experience_", value: "20+ years" },
+  { key: "exits_", value: "Facebook, GoDaddy, Gerber Life, Yuga Labs" },
   { key: "focus_", value: "AI transformation" },
 ];
 ---
@@ -13,16 +17,26 @@ const metadata = [
     <p class="section-label mb-12">// about</p>
 
     <div class="grid md:grid-cols-3 gap-8 md:gap-12">
-      <!-- Left column: metadata -->
-      <div class="font-mono text-sm space-y-3">
-        {
-          metadata.map(({ key, value }) => (
-            <div>
-              <span class="text-text-muted">{key}</span>{" "}
-              <span class="text-text">{value}</span>
-            </div>
-          ))
-        }
+      <!-- Left column: portrait + metadata -->
+      <div>
+        <Image
+          src={portrait}
+          alt="Saadiq Rodgers-King"
+          widths={[400, 620, 886]}
+          sizes="(min-width: 768px) 290px, 240px"
+          class="w-full max-w-60 md:max-w-none border border-rule mb-8"
+          loading="lazy"
+        />
+        <div class="font-mono text-sm space-y-3">
+          {
+            metadata.map(({ key, value }) => (
+              <div>
+                <span class="text-text-muted">{key}</span>{" "}
+                <span class="text-text">{value}</span>
+              </div>
+            ))
+          }
+        </div>
       </div>
 
       <!-- Right column: prose -->
@@ -31,8 +45,7 @@ const metadata = [
           I've spent my career at the intersection of product, engineering, and
           strategy. Four of the companies I built and led were acquired, by
           Facebook, GoDaddy, Gerber Life, and Yuga Labs. I know
-          what high performance with these tools looks like. Not the LinkedIn
-          version.
+          what high performance with these tools looks like firsthand.
         </p>
         <p class="text-text-muted leading-relaxed mb-8">
           If you're a CEO or CPO at a tech company where the AI mandate
@@ -41,7 +54,7 @@ const metadata = [
         </p>
         <a
           href="/about"
-          class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+          class="text-link text-accent hover:text-accent-hover"
           data-ph-capture="cta_about"
           data-ph-section="about_preview"
         >

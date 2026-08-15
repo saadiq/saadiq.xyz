@@ -29,7 +29,7 @@ const stats = [
 
 <section class="py-20 md:py-28 border-t border-rule">
   <div class="max-w-5xl mx-auto px-6">
-    <p class="section-label mb-12">// the signal</p>
+    <p class="section-label mb-12">// the problem</p>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
       {stats.map((stat) => (
@@ -44,7 +44,7 @@ const stats = [
             href={stat.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="font-mono text-[10px] text-text-muted/60 hover:text-accent transition-colors"
+            class="mt-1 inline-flex min-h-6 items-center font-mono text-xs text-text-muted underline decoration-text-muted/40 underline-offset-2 hover:text-accent transition-colors"
           >
             — {stat.source}
           </a>

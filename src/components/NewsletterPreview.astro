@@ -40,7 +40,7 @@ try {
               {post.reading_time} min read
             </span>
           </div>
-          <p class="text-text-muted text-sm mt-2 line-clamp-2">
+          <p class="text-text-muted text-sm mt-2 line-clamp-2 max-w-prose">
             {post.excerpt}
           </p>
         </div>
@@ -49,7 +49,7 @@ try {
 
     <a
       href="/newsletter"
-      class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
+      class="text-link text-accent hover:text-accent-hover"
       data-ph-capture="cta_newsletter"
       data-ph-section="newsletter_preview"
     >
@@ -96,7 +96,7 @@ try {
             <span class="font-mono text-xs text-text-muted">${fmtDate(post.published_at)}</span>
             <span class="font-mono text-xs text-text-muted">${post.reading_time} min read</span>
           </div>
-          <p class="text-text-muted text-sm mt-2 line-clamp-2">${esc(post.excerpt ?? "")}</p>
+          <p class="text-text-muted text-sm mt-2 line-clamp-2 max-w-prose">${esc(post.excerpt ?? "")}</p>
         </div>`,
         )
         .join("");

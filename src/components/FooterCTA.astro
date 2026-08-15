@@ -1,35 +1,28 @@
 ---
-import { BOOKING_URL } from "../lib/constants";
+import BookingCTA from "./BookingCTA.astro";
 import NewsletterSignup from "./NewsletterSignup.astro";
 ---
 
 <footer class="pt-20 md:pt-28 pb-32 border-t border-rule">
   <div class="max-w-5xl mx-auto px-6">
     <p class="font-display text-2xl md:text-3xl leading-snug mb-10 max-w-3xl">
-      You've tried. It hasn't worked yet.
-      I'm the person who makes it work.
+      If the mandate landed and nothing changed, that's the work I take on.
     </p>
 
-    <div class="flex flex-wrap gap-6">
-      <a
-        href={BOOKING_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
-        data-ph-capture="cta_book_consultation"
-        data-ph-section="footer"
-      >
-        Book a conversation &rarr;
-      </a>
+    <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+      <BookingCTA section="footer" />
       <a
         href="/newsletter"
-        class="font-mono text-sm text-text-muted hover:text-text transition-colors"
+        class="text-link text-text-muted hover:text-text"
         data-ph-capture="cta_newsletter"
         data-ph-section="footer"
       >
         Read the newsletter &rarr;
       </a>
     </div>
+    <p class="mt-3 font-mono text-xs text-text-muted">
+      opens my cal.com calendar · no prep needed on your side
+    </p>
 
     <div class="mt-12">
       <p class="text-text-muted mb-4">Not ready to book? Get the newsletter instead.</p>
