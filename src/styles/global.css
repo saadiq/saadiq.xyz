@@ -99,7 +99,34 @@ body::before {
   }
 }
 
-/* Section label utility */
+/* Section heading that carries its own hairline, so the label and the rule are
+   one device instead of two stacked ones. The rule starts after the label
+   rather than spanning the container, so it reads as a heading and not as a
+   section border — homepage sections are still bounded by the plane change.
+   Reserved for labels that index or group content; a label that only restates
+   the heading below it should be deleted, not styled. */
+@layer components {
+  .rule-heading {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .rule-heading::after {
+    content: "";
+    flex: 1 1 auto;
+    height: 1px;
+    background-color: var(--color-rule);
+  }
+}
+
+/* Bare mono label, no rule. Only the 404 status code uses this now. */
 .section-label {
   font-family: var(--font-mono);
   font-size: 0.75rem;
