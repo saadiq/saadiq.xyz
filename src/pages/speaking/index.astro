@@ -3,9 +3,41 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import FooterCTA from "../../components/FooterCTA.astro";
 import StatusBar from "../../components/StatusBar.astro";
+import BookingCTA from "../../components/BookingCTA.astro";
+import { Image } from "astro:assets";
+import nyplDemo from "../../assets/images/nypl-demo.jpg";
+import nyplPanel from "../../assets/images/nypl-panel.jpg";
+import ffihPanel from "../../assets/images/speaking-ffih.jpg";
 import { websiteJsonLd, speakingBreadcrumbJsonLd } from "../../lib/schema";
-import { BOOKING_URL } from "../../lib/constants";
-import { appearances, themes } from "../../lib/speaking-data";
+import { appearances, themeGroups } from "../../lib/speaking-data";
+
+// Grid columns are [1fr_1.5fr_1.5fr] inside max-w-5xl px-6 with gap-3, so the
+// slots are ~24vw / ~35vw of the viewport until the container maxes out at
+// 1024px, where they land at ~240px / ~360px. nypl-demo.jpg is portrait
+// (724px wide), so its widths stop at its intrinsic width.
+const stagePhotos = [
+  {
+    src: nyplDemo,
+    alt: "Saadiq at the podium running a live agent demo at the New York Public Library",
+    caption: "live agent build · nypl",
+    widths: [360, 480, 724],
+    sizes: "(min-width: 1024px) 240px, (min-width: 640px) 24vw, calc(100vw - 3rem)",
+  },
+  {
+    src: nyplPanel,
+    alt: "Saadiq speaking on the Exploring AI Agents panel at the New York Public Library",
+    caption: "exploring ai agents · nypl",
+    widths: [480, 724, 1086],
+    sizes: "(min-width: 1024px) 360px, (min-width: 640px) 35vw, calc(100vw - 3rem)",
+  },
+  {
+    src: ffihPanel,
+    alt: "Saadiq moderating the AI in Action panel at the Female Founders in Hospitality Summit",
+    caption: "ai in action · ffih summit",
+    widths: [480, 724, 1086],
+    sizes: "(min-width: 1024px) 360px, (min-width: 640px) 35vw, calc(100vw - 3rem)",
+  },
+];
 ---
 
 <BaseLayout
@@ -35,7 +67,30 @@ import { appearances, themes } from "../../lib/speaking-data";
 
       <div class="border-t border-rule pt-12 mb-12 md:mb-16">
         <p class="section-label mb-10">// rooms</p>
-        <div class="space-y-10">
+
+        <div class="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1.5fr] gap-3 mb-12 md:mb-14">
+          {
+            stagePhotos.map(({ src, alt, caption, widths, sizes }) => (
+              <figure>
+                <div class="h-64 sm:h-52 md:h-72 border border-rule overflow-hidden">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    widths={widths}
+                    sizes={sizes}
+                    class="h-full w-full object-cover object-top"
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption class="font-mono text-xs text-text-muted mt-2">
+                  {caption}
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+
+        <div class="space-y-12 md:space-y-14">
           {
             appearances.map((a) => (
               <div class="grid md:grid-cols-2 gap-2 md:gap-16">
@@ -54,6 +109,19 @@ import { appearances, themes } from "../../lib/speaking-data";
                       {a.note}
                     </p>
                   )}
+                  {a.recording && (
+                    <a
+                      href={a.recording}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-link text-accent hover:text-accent-hover"
+                      data-ph-capture="outbound_click"
+                      data-ph-section="speaking"
+                      data-ph-destination="recording"
+                    >
+                      Watch the recording &rarr;<span class="sr-only"> (opens YouTube in a new tab)</span>
+                    </a>
+                  )}
                 </div>
               </div>
             ))
@@ -63,36 +131,36 @@ import { appearances, themes } from "../../lib/speaking-data";
 
       <div class="border-t border-rule pt-12">
         <p class="section-label mb-10">// current themes</p>
-        <div class="space-y-8 md:space-y-10">
+        <div class="space-y-14 md:space-y-16">
           {
-            themes.map((t) => (
-              <div class="grid md:grid-cols-2 gap-2 md:gap-16">
-                <div>
-                  <h2 class="font-display text-2xl md:text-3xl leading-tight">
-                    {t.title}
-                  </h2>
-                  {t.delivered && (
-                    <p class="font-mono text-xs text-accent mt-1">
-                      delivered live_
-                    </p>
-                  )}
+            themeGroups.map(({ group, themes }) => (
+              <div>
+                <h2 class="font-mono text-xs text-text-muted mb-8">{group}_</h2>
+                <div class="space-y-12 md:space-y-14">
+                  {themes.map((t) => (
+                    <div class="grid md:grid-cols-2 gap-2 md:gap-16">
+                      <div>
+                        <h3 class="font-display text-2xl md:text-3xl leading-tight">
+                          {t.title}
+                        </h3>
+                        {t.delivered && (
+                          <p class="font-mono text-xs text-accent mt-1">
+                            delivered live_
+                          </p>
+                        )}
+                      </div>
+                      <p class="text-text-muted leading-relaxed">{t.hook}</p>
+                    </div>
+                  ))}
                 </div>
-                <p class="text-text-muted leading-relaxed">{t.hook}</p>
               </div>
             ))
           }
         </div>
 
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mt-16 font-mono text-sm text-accent hover:text-accent-hover transition-colors"
-          data-ph-capture="cta_book_consultation"
-          data-ph-section="speaking"
-        >
-          Book a talk &rarr;
-        </a>
+        <div class="mt-16">
+          <BookingCTA section="speaking" label="Book a talk" />
+        </div>
       </div>
     </div>
   </main>
