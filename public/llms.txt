@@ -18,6 +18,8 @@ Engineering teams shift from grinding through tickets to building systems. Routi
 
 - [Home](https://saadiq.xyz) — Overview of services and positioning
 - [Services](https://saadiq.xyz/services) — Five engagement shapes: talks and executive briefings, executive AI advisory, AI discovery sprints, agent and automation builds, embedded technical leadership
+- [Work](https://saadiq.xyz/work) — Case studies with measured results across executive advisory, embedded delivery, and enablement and strategy
+- [Speaking](https://saadiq.xyz/speaking) — Talks for product and engineering orgs, leadership offsites, and mixed rooms
 - [About](https://saadiq.xyz/about) — Background, credentials, and approach
 - [Newsletter](https://saadiq.xyz/newsletter) — Writing on AI transformation, product, and engineering
 - [Book a Conversation](https://cal.com/saadiq/ai-strategy) — Schedule an AI strategy call
