@@ -48,13 +48,14 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
             <p class="section-label mb-10">// {group.toLowerCase()}</p>
             <div class="space-y-12 md:space-y-16">
               {studies.map((cs) => (
-                <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-12 md:pb-16 last:border-b-0 last:pb-0">
+                <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-10 md:pb-12 last:border-b-0 last:pb-0">
                   <div>
                     <h2 class="font-display text-2xl md:text-3xl leading-tight mb-4">
-                      {cs.displayName}
+                      {cs.headline}
                     </h2>
+                    <p class="font-mono text-sm text-text mb-1">{cs.displayName}</p>
                     {cs.pendingNote && (
-                      <p class="font-mono text-xs text-accent mb-3">
+                      <p class="font-mono text-xs text-accent mb-1">
                         name pending release_ ({cs.pendingNote})
                       </p>
                     )}
@@ -70,8 +71,9 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                     <p class="font-mono text-xs text-text-muted mb-2">results_</p>
                     <ul class="space-y-2">
                       {cs.results.map((r) => (
-                        <li class="text-sm text-text-muted leading-relaxed">
-                          <span class="text-accent">&mdash;</span> {r}
+                        <li class="flex gap-2 text-sm text-text-muted leading-relaxed">
+                          <span class="text-accent shrink-0" aria-hidden="true">+</span>
+                          <span>{r}</span>
                         </li>
                       ))}
                     </ul>

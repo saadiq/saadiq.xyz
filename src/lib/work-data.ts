@@ -16,6 +16,9 @@ export interface CaseStudy {
   client: string;
   anonym: string;
   nameCleared: boolean;
+  // Display headline: the strongest verified result, phrased within the proof
+  // constraints. The client descriptor renders beneath it, not above it.
+  headline: string;
   format: string[];
   challenge: string;
   work: string;
@@ -43,6 +46,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Molina Healthcare",
         anonym: "A Fortune 500 company",
         nameCleared: false,
+        headline: "A standing weekly AI session with the chief executive",
         format: ["executive AI advisory", "weekly one-on-one with the CEO"],
         challenge:
           "The chief executive needed to reason about AI at the level of mechanics rather than vendor decks. The decisions in front of him could not be delegated to a team still forming its own view.",
@@ -56,6 +60,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Kantar",
         anonym: "A global research firm",
         nameCleared: false,
+        headline: "Go-to-market recommendation and architecture for a new API and MCP surface",
         format: ["executive AI advisory", "weekly sessions"],
         challenge:
           "A senior technology leader was driving a company-wide rework of how the business operates and delivers its services. AI decisions were landing faster than the organization could evaluate them.",
@@ -75,6 +80,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Lanyard Stays",
         anonym: "A B2B corporate-housing company",
         nameCleared: false,
+        headline: "A voice agent in production, replacing 8 to 12 hours of calling per request",
         format: [
           "embedded technical leadership",
           "thirteen months and running",
@@ -93,6 +99,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Avaaz",
         anonym: "A 70-million-member advocacy organization",
         nameCleared: false,
+        headline: "A campaign-setup agent, built and accepted milestone by milestone",
         format: ["agent and automation build", "milestone billed"],
         challenge:
           "Campaign setup was manual work repeated across a global organization. Every hour spent standing a campaign up was an hour not spent on the campaign itself.",
@@ -106,6 +113,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Our Kids Read",
         anonym: "A children's literacy nonprofit",
         nameCleared: false,
+        headline: "Partner tracking moved from spreadsheets to automated status updates",
         format: ["operations automation", "pro bono"],
         challenge:
           "The nonprofit tracked hospital book partnerships in spreadsheets, phone calls, and photographed shipping receipts. The manual load capped how many hospital partners the team could serve.",
@@ -124,6 +132,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "TigerData",
         anonym: "A venture-backed database company",
         nameCleared: false,
+        headline: "A zero percent AI mention rate diagnosed across seven models",
         format: ["2-week discovery sprint", "converted to a 6-month retainer"],
         challenge:
           "The company had shipped real AI products, and no AI assistant recommended them. Buyers increasingly ask models what to use, and the company was absent from the answers.",
@@ -138,6 +147,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Takes",
         anonym: "A consumer product team",
         nameCleared: false,
+        headline: "Prototype iteration cut from weeks to about three hours",
         format: ["3 weeks embedded", "AI-native prototyping"],
         challenge:
           "Product feedback moved through static designs, an external engineering team, and a debugging cycle before anyone learned anything. Iterations took weeks, and keeping the app moving required a full-time CTO plus two developers.",
