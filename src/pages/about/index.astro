@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
+import FooterCTA from "../../components/FooterCTA.astro";
 import StatusBar from "../../components/StatusBar.astro";
+import BookingCTA from "../../components/BookingCTA.astro";
+import { Image } from "astro:assets";
+import portrait from "../../assets/images/portrait.jpg";
 import { aboutJsonLd, websiteJsonLd, aboutBreadcrumbJsonLd } from "../../lib/schema";
-import { BOOKING_URL } from "../../lib/constants";
 ---
 
 <BaseLayout
@@ -26,17 +29,17 @@ import { BOOKING_URL } from "../../lib/constants";
 
       <!-- Metadata block -->
       <div class="border-t border-rule pt-12 mb-12">
-        <div class="grid md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 mb-8">
           <div>
             <p class="font-mono text-xs text-text-muted">location_</p>
             <p class="font-mono text-sm text-text">Brooklyn, NY</p>
           </div>
           <div>
-            <p class="font-mono text-xs text-text-muted">edu_</p>
+            <p class="font-mono text-xs text-text-muted">education_</p>
             <p class="font-mono text-sm text-text">Princeton CS, MIT Sloan MBA</p>
           </div>
           <div>
-            <p class="font-mono text-xs text-text-muted">exp_</p>
+            <p class="font-mono text-xs text-text-muted">experience_</p>
             <p class="font-mono text-sm text-text">20+ years</p>
           </div>
           <div>
@@ -44,12 +47,30 @@ import { BOOKING_URL } from "../../lib/constants";
             <p class="font-mono text-sm text-text">AI transformation consulting</p>
           </div>
         </div>
+        <div>
+          <p class="font-mono text-xs text-text-muted">exits_</p>
+          <p class="font-mono text-sm text-text">
+            <span class="whitespace-nowrap">Hot Potato <span class="text-text-muted">&rarr;</span> Facebook</span> ·
+            <span class="whitespace-nowrap">Nodejitsu <span class="text-text-muted">&rarr;</span> GoDaddy</span> ·
+            <span class="whitespace-nowrap">Fabric <span class="text-text-muted">&rarr;</span> Gerber Life</span> ·
+            <span class="whitespace-nowrap">PROOF <span class="text-text-muted">&rarr;</span> Yuga Labs</span>
+          </p>
+        </div>
       </div>
 
       <!-- Bio section -->
       <div class="border-t border-rule pt-12">
         <div class="grid md:grid-cols-3 gap-12">
-          <div></div>
+          <div>
+            <Image
+              src={portrait}
+              alt="Saadiq Rodgers-King"
+              widths={[400, 620, 886]}
+              sizes="(min-width: 768px) 310px, min(100vw - 3rem, 24rem)"
+              class="w-full max-w-sm border border-rule"
+              loading="eager"
+            />
+          </div>
           <div class="md:col-span-2">
             <p class="text-lg md:text-xl leading-relaxed mb-8">
               I've spent my career at the intersection of product, engineering, and strategy.
@@ -71,28 +92,19 @@ import { BOOKING_URL } from "../../lib/constants";
               I've been fully AI-native since 2024, running my own work through the same systems
               I set up for clients. I embed with your team, work on real outcomes, and when I'm
               done, the capability is theirs. I know what high performance with these tools looks
-              like. Not the LinkedIn version.
+              like firsthand.
             </p>
             <p class="text-text-muted leading-relaxed mb-12">
               If you're a CEO or CPO at a tech company where the team has the tools but
               nothing's changed, I can show you what the path forward looks like.
             </p>
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-mono text-sm text-accent hover:text-accent-hover transition-colors"
-              data-ph-capture="cta_book_consultation"
-              data-ph-section="about"
-            >
-              Book a conversation →
-            </a>
+            <BookingCTA section="about" variant="text" />
             <div class="flex gap-6 mt-8">
               <a
                 href="https://www.linkedin.com/in/saadiq/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-mono text-sm text-text-muted hover:text-text transition-colors"
+                class="text-link text-text-muted hover:text-text"
                 data-ph-capture="outbound_click"
                 data-ph-section="about"
                 data-ph-destination="linkedin"
@@ -103,7 +115,7 @@ import { BOOKING_URL } from "../../lib/constants";
                 href="https://github.com/saadiq"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-mono text-sm text-text-muted hover:text-text transition-colors"
+                class="text-link text-text-muted hover:text-text"
                 data-ph-capture="outbound_click"
                 data-ph-section="about"
                 data-ph-destination="github"
@@ -111,18 +123,11 @@ import { BOOKING_URL } from "../../lib/constants";
                 GitHub →
               </a>
             </div>
-            <div class="mt-8">
-              <a
-                href="/"
-                class="font-mono text-sm text-text-muted hover:text-text transition-colors"
-              >
-                ← Back to home
-              </a>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </main>
+  <FooterCTA />
   <StatusBar />
 </BaseLayout>
