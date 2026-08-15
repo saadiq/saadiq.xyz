@@ -46,6 +46,65 @@ export const personSchema = {
   ],
 };
 
+const serviceOffers = [
+  {
+    "@type": "Offer" as const,
+    "itemOffered": {
+      "@type": "Service" as const,
+      "name": "Talks and Executive Briefings",
+      "url": "https://saadiq.xyz/services",
+      "description":
+        "Live-demo sessions for leadership teams on what AI changes about how they build, plus standalone written executive briefs.",
+    },
+  },
+  {
+    "@type": "Offer" as const,
+    "itemOffered": {
+      "@type": "Service" as const,
+      "name": "Executive AI Advisory",
+      "url": "https://saadiq.xyz/services",
+      "description":
+        "A standing weekly session for CEOs and CPOs on AI decisions they can't delegate, with source-verified research briefs between sessions.",
+    },
+  },
+  {
+    "@type": "Offer" as const,
+    "itemOffered": {
+      "@type": "Service" as const,
+      "name": "AI Discovery Sprint",
+      "url": "https://saadiq.xyz/services",
+      "description":
+        "One to two weeks embedded in your meetings, your stack, and your processes to find where AI can move the business. Ends with a prioritized set of opportunities and a scoped proposal. Fixed fee.",
+    },
+  },
+  {
+    "@type": "Offer" as const,
+    "itemOffered": {
+      "@type": "Service" as const,
+      "name": "Agent and Automation Builds",
+      "url": "https://saadiq.xyz/services",
+      "description":
+        "Production agents and automations with human review designed in. Milestone billed, with knowledge transfer so your team owns the system.",
+    },
+  },
+  {
+    "@type": "Offer" as const,
+    "itemOffered": {
+      "@type": "Service" as const,
+      "name": "Embedded Technical Leadership",
+      "url": "https://saadiq.xyz/services",
+      "description":
+        "A weekly cadence as your de facto technical lead. Systems shipped, vendor decisions owned, and a team that levels up along the way.",
+    },
+  },
+];
+
+const offerCatalog = (name: string) => ({
+  "@type": "OfferCatalog" as const,
+  "name": name,
+  "itemListElement": serviceOffers,
+});
+
 export const defaultJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -59,30 +118,7 @@ export const defaultJsonLd = {
     "name": "United States",
   },
   "provider": personSchema,
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog" as const,
-    "name": "AI Transformation Services",
-    "itemListElement": [
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Product Team AI Transformation",
-          "description":
-            "Customer support signals, sales conversations, competitive moves, and usage analytics synthesized in real time. Fewer sprints wasted building the wrong thing.",
-        },
-      },
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Engineering Team AI Transformation",
-          "description":
-            "Routine work executed by agents. Engineers focus on architecture and strategy. Output per engineer increases because the nature of the work changes.",
-        },
-      },
-    ],
-  },
+  "hasOfferCatalog": offerCatalog("AI Transformation Services"),
 };
 
 export const aboutJsonLd = {
@@ -114,65 +150,10 @@ export const servicesJsonLd = {
     "name": "United States",
   },
   "provider": personSchema,
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog" as const,
-    "name": "AI Consulting Services",
-    "itemListElement": [
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Talks and Executive Briefings",
-          "url": "https://saadiq.xyz/services",
-          "description":
-            "Live-demo sessions for leadership teams on what AI changes about how they build, plus standalone written executive briefs.",
-        },
-      },
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Executive AI Advisory",
-          "url": "https://saadiq.xyz/services",
-          "description":
-            "A standing weekly session for CEOs and CPOs on AI decisions they can't delegate, with source-verified research briefs between sessions.",
-        },
-      },
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "AI Discovery Sprint",
-          "url": "https://saadiq.xyz/services",
-          "description":
-            "One to two weeks embedded in your meetings, your stack, and your processes to find where AI can move the business. Ends with a prioritized set of opportunities and a scoped proposal. Fixed fee.",
-        },
-      },
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Agent and Automation Builds",
-          "url": "https://saadiq.xyz/services",
-          "description":
-            "Production agents and automations with human review designed in. Milestone billed, with knowledge transfer so your team owns the system.",
-        },
-      },
-      {
-        "@type": "Offer" as const,
-        "itemOffered": {
-          "@type": "Service" as const,
-          "name": "Embedded Technical Leadership",
-          "url": "https://saadiq.xyz/services",
-          "description":
-            "A weekly cadence as your de facto technical lead. Systems shipped, vendor decisions owned, and a team that levels up along the way.",
-        },
-      },
-    ],
-  },
+  "hasOfferCatalog": offerCatalog("AI Consulting Services"),
 };
 
-export const servicesBreadcrumbJsonLd = {
+const breadcrumbJsonLd = (name: string, path: string) => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
@@ -185,27 +166,13 @@ export const servicesBreadcrumbJsonLd = {
     {
       "@type": "ListItem" as const,
       "position": 2,
-      "name": "Services",
-      "item": "https://saadiq.xyz/services",
+      "name": name,
+      "item": `https://saadiq.xyz${path}`,
     },
   ],
-};
+});
 
-export const aboutBreadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem" as const,
-      "position": 1,
-      "name": "Home",
-      "item": "https://saadiq.xyz/",
-    },
-    {
-      "@type": "ListItem" as const,
-      "position": 2,
-      "name": "About",
-      "item": "https://saadiq.xyz/about",
-    },
-  ],
-};
+export const servicesBreadcrumbJsonLd = breadcrumbJsonLd("Services", "/services");
+export const aboutBreadcrumbJsonLd = breadcrumbJsonLd("About", "/about");
+export const workBreadcrumbJsonLd = breadcrumbJsonLd("Work", "/work");
+export const speakingBreadcrumbJsonLd = breadcrumbJsonLd("Speaking", "/speaking");
