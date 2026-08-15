@@ -36,7 +36,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
       <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
         What shipped
       </h1>
-      <p class="text-xl md:text-2xl text-text-muted mb-16 max-w-3xl">
+      <p class="text-xl md:text-2xl text-text-body mb-16 max-w-3xl">
         What changed across {caseStudyCount} engagements. Clients are anonymized
         until a written release lands. The details stay exact, and I'm happy to
         talk through any of them.
@@ -67,11 +67,11 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                   </div>
                   <div>
                     <p class="text-text leading-relaxed mb-4">{cs.challenge}</p>
-                    <p class="text-text-muted leading-relaxed mb-6">{cs.work}</p>
+                    <p class="text-text-body leading-relaxed mb-6">{cs.work}</p>
                     <p class="font-mono text-xs text-text-muted mb-2">results_</p>
                     <ul class="space-y-2">
                       {cs.results.map((r) => (
-                        <li class="flex gap-2 text-sm text-text-muted leading-relaxed">
+                        <li class="flex gap-2 text-sm text-text-body leading-relaxed">
                           <span class="text-accent shrink-0" aria-hidden="true">+</span>
                           <span>{r}</span>
                         </li>

@@ -88,12 +88,12 @@ const services = [
       <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
         How I work
       </h1>
-      <p class="text-xl md:text-2xl text-text-muted mb-6 max-w-3xl">
+      <p class="text-xl md:text-2xl text-text-body mb-6 max-w-3xl">
         I get product and engineering teams actually using AI. For companies
         without those teams, I build the systems and stay until they run
         without me.
       </p>
-      <p class="text-text-muted leading-relaxed mb-16 max-w-2xl">
+      <p class="text-text-body leading-relaxed mb-16 max-w-2xl">
         A talk seeds the idea, a sprint proves it on your real work, a build
         ships it. Engagements start with a scoped, fixed-fee first project.
         Scope expands only when results earn it.
@@ -114,7 +114,7 @@ const services = [
                 <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
                   {service.name.toLowerCase()}_
                 </span>
-                <span class="text-sm text-text-muted">for {service.forShort}</span>
+                <span class="text-sm text-text-body">for {service.forShort}</span>
                 <span class="font-mono text-xs text-text-muted">{service.shape}</span>
               </a>
             ))
@@ -141,11 +141,11 @@ const services = [
               </div>
               <div>
                 <p class="text-text leading-relaxed mb-4">{service.who}</p>
-                <p class="text-text-muted leading-relaxed mb-6">
+                <p class="text-text-body leading-relaxed mb-6">
                   {service.body}
                 </p>
                 <p class="font-mono text-xs text-text-muted mb-2">proof_</p>
-                <p class="text-sm text-text-muted leading-relaxed mb-6">
+                <p class="text-sm text-text-body leading-relaxed mb-6">
                   {service.proof}
                 </p>
                 <BookingCTA

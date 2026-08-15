@@ -40,7 +40,7 @@ try {
               {post.reading_time} min read
             </span>
           </div>
-          <p class="text-text-muted text-sm mt-2 line-clamp-2 max-w-prose">
+          <p class="text-text-body text-sm mt-2 line-clamp-2 max-w-prose">
             {post.excerpt}
           </p>
         </div>
@@ -57,7 +57,7 @@ try {
     </a>
 
     <div class="mt-12 pt-8 border-t border-rule">
-      <p class="text-text-muted mb-4">Get the next one in your inbox.</p>
+      <p class="text-text-body mb-4">Get the next one in your inbox.</p>
       <NewsletterSignup section="newsletter_preview" />
     </div>
   </div>
@@ -96,7 +96,7 @@ try {
             <span class="font-mono text-xs text-text-muted">${fmtDate(post.published_at)}</span>
             <span class="font-mono text-xs text-text-muted">${post.reading_time} min read</span>
           </div>
-          <p class="text-text-muted text-sm mt-2 line-clamp-2 max-w-prose">${esc(post.excerpt ?? "")}</p>
+          <p class="text-text-body text-sm mt-2 line-clamp-2 max-w-prose">${esc(post.excerpt ?? "")}</p>
         </div>`,
         )
         .join("");
