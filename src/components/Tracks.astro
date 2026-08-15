@@ -1,3 +1,31 @@
+---
+{/* Third-party results, labeled `elsewhere_` rather than `proof_`. The
+    /services proof_ device carries claims about my own engagements; these
+    are other companies' self-reported numbers and must not read as mine. */}
+const receipts = [
+  {
+    company: "Intercom",
+    result: "2x merged PRs per R&D head in 9 months, defect backlog down 54%",
+    url: "https://ideas.fin.ai/p/2x-nine-months-later",
+  },
+  {
+    company: "Amplitude",
+    result: "3x PRs in 6 months, bug reports down 55%",
+    url: "https://amplitude.com/3x",
+  },
+  {
+    company: "Salesforce",
+    result: "Effective output up 151%, incidents down 5%",
+    url: "https://www.salesforce.com/news/stories/how-engineering-became-agentic/",
+  },
+  {
+    company: "Replit",
+    result: "2.9x code per engineer, reversions and incidents flat",
+    url: "https://x.com/amasad/status/2077802290304684404",
+  },
+];
+---
+
 <section class="py-20 md:py-28 bg-bg-surface">
   <div class="max-w-5xl mx-auto px-6">
     <h2 class="rule-heading mb-12">What changes</h2>
@@ -11,6 +39,20 @@
           every six months when someone has time to do a research cycle.
           Fewer sprints wasted building the wrong thing.
         </p>
+        <p class="font-mono text-xs text-text-muted mt-8 mb-2">elsewhere_</p>
+        <p class="text-sm text-text-body leading-relaxed max-w-2xl">
+          Midjourney's product team runs one to three user interviews a week
+          through a shared research skill. Interview start to company-wide
+          insight takes 45 minutes.
+          <a
+            href="https://theskip.substack.com/p/lessons-from-three-product-leaders"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-mono text-xs text-text-muted underline decoration-text-muted/40 underline-offset-2 hover:text-accent transition-colors"
+          >
+            — The Skip
+          </a>
+        </p>
       </div>
 
       <div class="border-b border-rule pb-16 md:pb-24">
@@ -20,6 +62,29 @@
           strategy, and the decisions that actually require judgment. Output per
           engineer increases because the nature of the work changes, not just the
           speed.
+        </p>
+        <p class="font-mono text-xs text-text-muted mt-8 mb-2">elsewhere_</p>
+        <div class="divide-y divide-rule border-y border-rule bg-bg-raise px-5 md:px-6 max-w-2xl">
+          {receipts.map((receipt) => (
+            <a
+              href={receipt.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="grid grid-cols-1 md:grid-cols-[7rem_1fr] items-baseline gap-x-6 gap-y-1 py-3 group"
+              data-ph-capture="outbound_click"
+              data-ph-section="tracks_receipts"
+              data-ph-destination={receipt.company.toLowerCase()}
+            >
+              <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
+                {receipt.company.toLowerCase()}_
+              </span>
+              <span class="text-sm text-text-body">{receipt.result}</span>
+            </a>
+          ))}
+        </div>
+        <p class="font-mono text-xs text-text-muted mt-3 max-w-2xl leading-relaxed">
+          Self-reported by each company. Four independent teams, output up and
+          defects down in every one.
         </p>
       </div>
 
