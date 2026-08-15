@@ -119,7 +119,19 @@ Every tier clears AAA on `bg` and `bg-surface`. The one exception is `text-muted
 
 Sections alternate planes rather than being separated by hairlines. On the homepage, Stats / Tracks / NewsletterPreview sit on `bg-surface`; Hero / WhyNotThem / ServicesTeaser / About stay on `bg`. Those sections carry no `border-t` — the plane change *is* the boundary. `FooterCTA` keeps its rule because it follows ground-plane content and is shared with all four subpages.
 
-Design review that produced this system, including the changes not yet made (break the shared `max-w-5xl` container, one large accent moment per page, thin out the 17 `// section` labels, bring photography above the fold): https://claude.ai/code/artifact/219fdc26-0c51-4d53-b23f-1379a56bf049
+Design review that produced this system, including the changes not yet made (break the shared `max-w-5xl` container, one large accent moment per page, bring photography above the fold): https://claude.ai/code/artifact/219fdc26-0c51-4d53-b23f-1379a56bf049
+
+## Section labels
+
+The 17 `// section` eyebrows were cut to 9 on 2026-08-15. **The test is not "does the label restate the heading below it" — it is "does the section identify itself without the label."** Getting that wrong in the first pass stripped two sections that genuinely needed one; see below.
+
+Cut (8): every page-level label, where the nav highlight and the h1 already say the word three times over (`// work` above "What shipped", `// services` above "How I work", `// about`, `// speaking`), plus `// ai transformation` above an h1 that says AI, `// the problem` above four 5xl gold percentages, `// about` above a portrait, and `// what clients say` above attributed blockquotes. Those sections identify themselves; the label only added a line. Uniform overture is what made the page read flat — when all seven homepage sections open the same way, the announcement stops carrying rank and degrades into an `<hr>` with words on it.
+
+**Kept `Services` and `From the newsletter` on the homepage after cutting them first and being corrected.** A list of five service nouns and three post titles look like generic content until something frames them — unlike the stats or the portrait, they do not announce what they are. Restating a nearby heading is not the disqualifier; leaving the reader unsure what they are looking at is.
+
+Survivors use `.rule-heading` in `global.css`: a mono label carrying its own hairline via `::after`, so the label and the rule are one device instead of two stacked ones. **The rule starts after the label rather than spanning the container** — that is what keeps it reading as a heading and not as a section border, so it does not fight the plane-change boundary rule above. It replaced the old `border-t border-rule pt-12` + `.section-label mb-10` stack on `/work`, `/speaking`, `/services` (keep the `pt-12`, drop the `border-t`). `.section-label` survives for exactly one use, the `// 404` status code.
+
+**Every surviving label is a real `<h2>`, not a `<p>`.** They used to be paragraphs while the items *inside* them were `<h2>`s, so group names were absent from the heading outline and every item was a flat sibling. Items dropped to `<h3>` (and `/speaking` themes to `<h4>`) to match. The three sections that lost their only label — Stats, AboutSection, and the `/work` testimonials — got an `sr-only` `<h2>` so the outline stays complete. Write labels in sentence case in the markup and let `text-transform` uppercase them, so screen readers get real words.
 
 ## Content rules and proof gating
 
