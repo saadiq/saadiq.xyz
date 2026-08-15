@@ -39,6 +39,18 @@ sudo -u ghost-mgr ghost start   # MANDATORY — see below
 
 **Pin the version, don't take same-day releases.** Pass the version explicitly (`ghost update 6.52.1`). Let a release age a few days first — same reasoning as the ghost-cli pin below. The pnpm `minimum-release-age` cooldown does *not* protect you here, since `ghost update` is a frozen lockfile install.
 
+**Check the Node engine requirement before starting.** `ghost update` hard-fails at the download step if Node is too old, *before* modifying anything — `Ghost v6.57.1 is not compatible with the current Node version. Your node version is 22.22.3, but Ghost v6.57.1 requires ^22.23.1` (hit 2026-08-15). Every 6.53+ release wanted `^22.23.1`, so there was no intermediate Ghost version that avoided the Node bump. Check first, and confirm the *currently installed* Ghost also accepts the new Node so a failed update still leaves a bootable install:
+
+```bash
+npm view ghost@<target> engines.node      # what the target needs
+npm view ghost@<installed> engines.node   # rollback safety
+sudo apt-get install -y nodejs=22.23.2-1nodesource1   # Node comes from deb.nodesource.com/node_22.x
+```
+
+A same-major Node bump (22.22 → 22.23) keeps the ABI, so Ghost's compiled native modules stay valid and no rebuild is needed.
+
+**The NodeSource package silently removes the global npm pin.** It logs `Detected old npm client, removing` and installs its bundled npm over yours (11.16.0 → 10.9.8 on 2026-08-15). Re-pin explicitly after every Node bump — never `@latest`, since upstream npm is already on 12.x.
+
 **Automation notes**: `saadiq` has **passwordless sudo to `ghost-mgr`**, so the whole upgrade is drivable over non-interactive SSH (`sudo -n -u ghost-mgr true` to confirm). Stopping Ghost first frees its ~900MB, which is what gives the native-module compiles headroom.
 
 Fix any pre-flight permission errors (e.g. theme files needing `chmod 664`) before retrying — ghost-cli prints the exact `find ... -exec chmod` command to run.
