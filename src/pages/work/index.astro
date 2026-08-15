@@ -91,11 +91,11 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
             <p class="section-label mb-12">// what clients say</p>
             <div class="space-y-12">
               {visibleTestimonials.map((t) => (
-                <blockquote class="max-w-3xl">
+                <blockquote class="max-w-3xl bg-bg-raise p-6 md:p-8">
                   <p class="font-display text-xl md:text-2xl leading-relaxed mb-4">
                     "{t.quote}"
                   </p>
-                  <footer class="font-mono text-sm text-text-muted">
+                  <footer class="font-mono text-sm text-text-body">
                     {t.name} · {t.title}
                     {!t.cleared && SHOW_PENDING && (
                       <span class="text-accent"> · pending release_</span>
