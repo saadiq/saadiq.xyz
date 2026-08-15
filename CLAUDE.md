@@ -108,6 +108,12 @@ The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 
 | `accent-hover` | `#e8bd5a` | Hover state |
 | `rule` | `#2a2a2a` | Decorative borders |
 
+## Content rules and proof gating
+
+- Site prose follows the vault writing rules (no em-dashes, no colon setup/payoff, no filler, no aphoristic kickers). Per-claim proof constraints — what is and isn't claimable about each engagement — live in `docs/plans/2026-06-10-services-page-design.md`; read it before writing or editing any proof copy. No prices anywhere on the site.
+- `/work` case-study names and testimonials are gated in `src/lib/work-data.ts`. Everything ships anonymized until a written release lands; then flip that entry's `nameCleared` (case studies) or `cleared` (testimonials) flag. Naming gates: Lanyard needs written consent per the SOW publicity clause, Kantar has a signed NDA, Molina needs explicit permission, Our Kids Read was an explicit testimonial swap. Preview all names/testimonials locally with `SHOW_PENDING=1 bun run dev`.
+- The newsletter signup forms (homepage + FooterCTA) POST to the Ghost Members API under `/newsletter/members/api/` (integrity token, then send-magic-link — no keys). They only work where nginx serves Ghost on the same origin, so on localhost dev the form errors and shows a fallback link to `/newsletter`. Successful signups fire a `newsletter_signup` PostHog event.
+
 ## Deploy
 
 Pushing to `main` deploys automatically: `.github/workflows/deploy.yml` builds with bun, rsyncs `dist/` to the droplet, deploys `server/ghost-redirects.conf`, and reloads nginx. There is no manual deploy script (deploy.sh was removed 2026-06-10 after a local deploy and a CI deploy raced and silently overwrote each other). To ship: merge to `main`, push, and watch with `gh run list` / `gh run watch`.
@@ -118,8 +124,9 @@ Pushing to `main` deploys automatically: `.github/workflows/deploy.yml` builds w
 
 ## Commands
 
-- `bun run dev` — local dev server
+- `bun run dev` — local dev server (`bun run dev -- --host 0.0.0.0` to reach it over Tailscale; allowed hostnames are in `astro.config.mjs` `vite.server.allowedHosts`)
 - `bun run build` — production build to `dist/`
+- `SHOW_PENDING=1` before either command reveals gated client names and testimonials on `/work` (never set in CI)
 
 ## Google Search Console
 

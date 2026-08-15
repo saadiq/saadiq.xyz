@@ -12,5 +12,9 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      // Dev-only: let Tailscale hostnames through (IP access is always allowed).
+      allowedHosts: ['nox', '.ts.net'],
+    },
   },
 });
