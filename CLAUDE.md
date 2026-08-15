@@ -62,6 +62,20 @@ curl -s https://saadiq.xyz/newsletter/ | grep -o '<meta name="generator" content
 curl -so /dev/null -w '%{http_code}\n' https://saadiq.xyz/newsletter/                        # expect 200
 ```
 
+### Droplet OS updates — check for a pending reboot
+
+`unattended-upgrades` is active and keeps **security** packages current by itself, but it cannot reboot. Kernel and glibc fixes therefore install and then sit **inactive** until someone restarts the box. Nothing in this runbook used to prompt for that, which is how the droplet reached **9 weeks 6 days uptime running a kernel 13 revisions behind** what was installed (6.8.0-124 vs 6.8.0-137) on 2026-08-15. Check on every visit:
+
+```bash
+[ -f /var/run/reboot-required ] && cat /var/run/reboot-required.pkgs   # what is waiting
+sudo needrestart -b | grep NEEDRESTART-K                               # KSTA 1 = current, 3 = reboot needed
+apt list --upgradable                                                  # non-security -updates are NOT auto-applied
+```
+
+Before rebooting, confirm it will come back — this box previously needed a power-cycle, and a bad nginx conf is the known way to strand it: `sudo nginx -t` passes, `ls /etc/nginx/sites-enabled/` holds only `.conf` files, `systemctl is-enabled nginx mysql ghost_167-71-169-225` are all `enabled`, and `/swapfile` is still in `/etc/fstab`. With those green, `sudo systemctl reboot` took ~30s on 2026-08-15 and every service came back unattended.
+
+Most remaining `-updates` packages are base-image cruft irrelevant to a headless droplet (qemu, plymouth, ovmf, alsa, firmware). Taking all of them via `apt-get upgrade` is fine; note that `apparmor` sets `reboot-required` again afterwards.
+
 ### npm supply-chain hardening
 
 The box pulls from the npm registry in only two spots, so the surface is narrow — but kept deliberately conservative given the 2026 self-propagating worm wave (Shai-Hulud/Miasma; "Phantom Gyp" executes via `binding.gyp` during native builds, so blanket `ignore-scripts` is *not* a fix — and Ghost needs those builds: sqlite3, sharp, re2, dtrace-provider compile during every `ghost update`).
