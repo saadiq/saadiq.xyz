@@ -173,8 +173,22 @@ export const testimonials: Testimonial[] = [
       "Saadiq is one of my favorite colleagues to work with. He is incredibly sharp, has a keen critical eye, and is one of the best communicators that I've ever met. He bridges the gaps between engineering, product, and business seamlessly.",
     name: "Ajay Kulkarni",
     title: "CEO, TigerData",
-    cleared: false,
+    // Cleared by Saadiq 2026-08-15: public LinkedIn recommendation.
+    cleared: true,
     source: "LinkedIn recommendation",
+  },
+  {
+    quote:
+      "I'm excited, man. You've just changed my life in the last hour. So thank you. This is nuts. I had no idea this technology existed. Super helpful, man. Thank you so much, Saadiq. I really appreciate you, man.",
+    name: "Jahmal Lake",
+    title: "Founder & CEO, Our Kids Read",
+    // Quote chosen by Saadiq 2026-08-15: two consecutive utterances from the
+    // end of the first working session, joined. Wording is the cleaned Granola
+    // transcript from the Trust Artifacts canon, which asks to confirm exact
+    // wording with Jahmal before public use; get his written sign-off when
+    // convenient.
+    cleared: true,
+    source: "Recorded first working session, 2025-05-30 (Trust Artifacts)",
   },
   {
     quote:
