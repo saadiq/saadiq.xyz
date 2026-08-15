@@ -98,15 +98,27 @@ The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 
 
 ## Color tokens (in `src/styles/global.css`)
 
+Three ground planes and three text tiers. Neutrals are warmed off pure grey so the ground sits in the same light as the type.
+
 | Token | Value | Notes |
 |---|---|---|
-| `bg` | `#0c0c0c` | Page background |
-| `bg-surface` | `#141414` | Card/elevated surfaces |
-| `text` | `#f0ece4` | Primary text (16.6:1 on bg) |
-| `text-muted` | `#ac9e90` | Secondary text (7.5:1 AAA on bg) |
-| `accent` | `#d4a843` | Gold accent (8.8:1 on bg) |
+| `bg` | `#0b0a09` | Page ground |
+| `bg-surface` | `#131110` | Alternating section plane |
+| `bg-raise` | `#1c1917` | Quotes, tables, code |
+| `text` | `#f2eee6` | Display and headings (17.1:1 on bg) |
+| `text-body` | `#cfc5b8` | **All running prose** (11.6:1 on bg) |
+| `text-muted` | `#ab9d91` | Metadata only (7.5:1 AAA on bg) |
+| `accent` | `#d4a843` | Gold accent (8.9:1 on bg) |
 | `accent-hover` | `#e8bd5a` | Hover state |
-| `rule` | `#2a2a2a` | Decorative borders |
+| `rule` | `#2f2926` | Decorative borders |
+
+**The tier split is load-bearing.** `text-muted` means *metadata* — `font-mono` captions, sources, timestamps, link rest-states, input placeholders. Running prose uses `text-body`. Putting prose back on `text-muted` is what made the site read flat and grey before 2026-08-15.
+
+Every tier clears AAA on `bg` and `bg-surface`. The one exception is `text-muted` on `bg-raise` at 6.63:1 (AA, not AAA), which is a deliberate trade: darkening `bg-raise` far enough to reach 7:1 collapses its separation from `bg-surface` to 1.03:1 and the plane stops reading.
+
+Sections alternate planes rather than being separated by hairlines. On the homepage, Stats / Tracks / NewsletterPreview sit on `bg-surface`; Hero / WhyNotThem / ServicesTeaser / About stay on `bg`. Those sections carry no `border-t` — the plane change *is* the boundary. `FooterCTA` keeps its rule because it follows ground-plane content and is shared with all four subpages.
+
+Design review that produced this system, including the changes not yet made (break the shared `max-w-5xl` container, one large accent moment per page, thin out the 17 `// section` labels, bring photography above the fold): https://claude.ai/code/artifact/219fdc26-0c51-4d53-b23f-1379a56bf049
 
 ## Content rules and proof gating
 
