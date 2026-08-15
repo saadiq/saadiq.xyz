@@ -14,7 +14,7 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 - **Ghost blog**: runs on `127.0.0.1:2368`, served at `/newsletter`
 - **Ghost users**: `ghost-mgr` (UID 1000) owns the install and is the user for `ghost` CLI commands; `ghost` (UID 998) is the Node process user only. Run cli as: `cd /var/www/ghost && sudo -u ghost-mgr ghost <cmd>`. Running ghost-cli as `ghost` shows "No installed ghost instances found".
 - **Ghost systemd unit**: `ghost_167-71-169-225.service` — use `sudo systemctl restart ghost_167-71-169-225.service` to apply config changes
-- **Ghost themes**: `/var/www/ghost/content/themes/` (active theme: `journal-dark`)
+- **Ghost themes**: `/var/www/ghost/content/themes/` (active theme: `journal-field-notes`; `journal-dark` is a stale fallback dir)
 - **Ghost admin**: `https://saadiq.xyz/newsletter/ghost/`
 - **Ghost mail config**: `/var/www/ghost/config.production.json` → `mail.from` sets the display name on **admin notification emails** (e.g. new free signup). Distinct from Site Title (general settings) and per-newsletter Sender Name. Restart Ghost after editing.
 
@@ -87,8 +87,9 @@ The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 
 
 ## Related repo
 
-- **Ghost theme** (`journal-dark`): `~/dev/journal`
-- Both repos share a color system — keep `text-muted`, `accent`, `bg`, etc. in sync when changing colors
+- **Ghost theme** (`journal-field-notes`, branch `field-notes`): `~/dev/journal`
+- The two do **not** share a palette, and syncing tokens between them is not the goal. The site is dark (`bg #0b0a09`); Field Notes is deliberately light (`--bg #f6f6f4`) because an archive is read, not scanned. What they share is a *vocabulary*: JetBrains Mono for metadata, `// section` eyebrow labels, the trailing-underscore terminal motif, a green live dot, and the gold `#d4a843` (the site's `accent`, the theme's `--accent-bright`). Keep that vocabulary in sync; let the grounds differ.
+- Field Notes darkens the accent to `#a47018` for its own body copy because `#d4a843` fails contrast on a light ground. That's correct, not drift.
 
 ## Tech stack
 
