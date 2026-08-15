@@ -1,5 +1,6 @@
 ---
 import { BOOKING_URL } from "../lib/constants";
+import NewsletterSignup from "./NewsletterSignup.astro";
 ---
 
 <footer class="pt-20 md:pt-28 pb-32 border-t border-rule">
@@ -28,6 +29,11 @@ import { BOOKING_URL } from "../lib/constants";
       >
         Read the newsletter &rarr;
       </a>
+    </div>
+
+    <div class="mt-12">
+      <p class="text-text-muted mb-4">Not ready to book? Get the newsletter instead.</p>
+      <NewsletterSignup section="footer" />
     </div>
 
     <p class="mt-16 font-mono text-xs text-text-muted">

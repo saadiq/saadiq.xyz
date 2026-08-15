@@ -1,6 +1,7 @@
 ---
 import { contentApiUrl, getRecentPosts } from "../lib/ghost";
 import type { GhostPost } from "../lib/ghost";
+import NewsletterSignup from "./NewsletterSignup.astro";
 
 let posts: GhostPost[] = [];
 try {
@@ -54,6 +55,11 @@ try {
     >
       Read all posts &rarr;
     </a>
+
+    <div class="mt-12 pt-8 border-t border-rule">
+      <p class="text-text-muted mb-4">Get the next one in your inbox.</p>
+      <NewsletterSignup section="newsletter_preview" />
+    </div>
   </div>
 </section>
 
