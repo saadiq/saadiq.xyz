@@ -1,0 +1,38 @@
+---
+// The four section links, shared by Nav's desktop and mobile rows so the
+// list, active state, and analytics attributes have one source.
+import { normalizePath } from "../lib/paths";
+
+const links = [
+  { href: "/work", label: "work" },
+  { href: "/services", label: "services" },
+  { href: "/speaking", label: "speaking" },
+  { href: "/about", label: "about" },
+];
+
+interface Props {
+  linkClass?: string;
+}
+
+const { linkClass = "" } = Astro.props;
+const path = normalizePath(Astro.url.pathname);
+---
+
+{
+  links.map(({ href, label }) => (
+    <a
+      href={href}
+      aria-current={path === href ? "page" : undefined}
+      class:list={[
+        "items-center transition-colors duration-200",
+        linkClass,
+        path === href ? "text-text" : "text-text-muted hover:text-text",
+      ]}
+      data-ph-capture="nav_click"
+      data-ph-section="nav"
+      data-ph-destination={label}
+    >
+      {label}
+    </a>
+  ))
+}

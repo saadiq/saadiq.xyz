@@ -1,57 +1,34 @@
+---
+import BookingCTA from "./BookingCTA.astro";
+import NavLinks from "./NavLinks.astro";
+---
+
 <nav
   id="main-nav"
-  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 transition-colors duration-300 md:px-10"
+  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300 pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
 >
-  <a href="/" class="font-display text-lg text-text tracking-wide no-underline">
-    saadiq_
-  </a>
+  <div class="flex items-center justify-between px-6 py-2 md:px-10 md:py-3">
+    <a href="/" class="inline-flex min-h-11 items-center font-display text-lg text-text tracking-wide no-underline">
+      saadiq_
+    </a>
 
-  <div class="flex items-center gap-8 font-mono text-sm">
-    <a
-      href="/work"
-      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
-      data-ph-capture="nav_click"
-      data-ph-section="nav"
-      data-ph-destination="work"
-    >
-      work
-    </a>
-    <a
-      href="/services"
-      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
-      data-ph-capture="nav_click"
-      data-ph-section="nav"
-      data-ph-destination="services"
-    >
-      services
-    </a>
-    <a
-      href="/speaking"
-      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
-      data-ph-capture="nav_click"
-      data-ph-section="nav"
-      data-ph-destination="speaking"
-    >
-      speaking
-    </a>
-    <a
-      href="/about"
-      class="hidden text-text-muted transition-colors duration-200 hover:text-text md:inline"
-      data-ph-capture="nav_click"
-      data-ph-section="nav"
-      data-ph-destination="about"
-    >
-      about
-    </a>
-    <a
-      href="/newsletter"
-      class="text-text-muted transition-colors duration-200 hover:text-text"
-      data-ph-capture="nav_click"
-      data-ph-section="nav"
-      data-ph-destination="newsletter"
-    >
-      /newsletter
-    </a>
+    <div class="flex items-center gap-5 md:gap-8 font-mono text-sm">
+      <NavLinks linkClass="hidden md:inline-flex min-h-11" />
+      <a
+        href="/newsletter"
+        class="inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
+        data-ph-capture="nav_click"
+        data-ph-section="nav"
+        data-ph-destination="newsletter"
+      >
+        /newsletter
+      </a>
+      <BookingCTA section="nav" variant="outline" label="book" />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-x-6 gap-y-0 px-6 pb-1 font-mono text-[13px] md:hidden">
+    <NavLinks linkClass="inline-flex min-h-11" />
   </div>
 </nav>
 
