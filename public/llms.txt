@@ -23,3 +23,11 @@ Engineering teams shift from grinding through tickets to building systems. Routi
 - [About](https://saadiq.xyz/about) — Background, credentials, and approach
 - [Newsletter](https://saadiq.xyz/newsletter) — Writing on AI transformation, product, and engineering
 - [Book a Conversation](https://cal.com/saadiq/ai-strategy) — Schedule an AI strategy call
+
+## Newsletter Archive
+
+Field Notes, the newsletter at /newsletter, runs on Ghost and publishes its own
+machine-readable indexes. Append `.md` to any post URL for its Markdown source.
+
+- [Field Notes index](https://saadiq.xyz/newsletter/llms.txt) — Index of every published post, with excerpts
+- [Field Notes full text](https://saadiq.xyz/newsletter/llms-full.txt) — Consolidated full text of all public posts
