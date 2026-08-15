@@ -101,12 +101,15 @@ const services = [
 
       <div class="border-t border-rule pt-12 mb-16 md:mb-20">
         <p class="section-label mb-8">// at a glance</p>
-        <div class="divide-y divide-rule border-y border-rule bg-bg-raise px-5 md:px-6">
+        {/* One grid on the container, rows as subgrid. Each row used to be its
+            own grid, so the column widths were recomputed per row and nothing
+            lined up down the table. */}
+        <div class="divide-y divide-rule border-y border-rule bg-bg-raise px-5 md:px-6 md:grid md:grid-cols-[1fr_1fr_auto]">
           {
             services.map((service) => (
               <a
                 href={`#${service.slug}`}
-                class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] items-baseline gap-x-8 gap-y-1 py-3 group"
+                class="grid grid-cols-1 md:col-span-3 md:grid-cols-subgrid items-baseline gap-x-8 gap-y-1 py-3 group"
                 data-ph-capture="section_jump"
                 data-ph-section="services_index"
                 data-ph-destination={service.slug}
@@ -115,7 +118,7 @@ const services = [
                   {service.name.toLowerCase()}_
                 </span>
                 <span class="text-sm text-text-body">for {service.forShort}</span>
-                <span class="font-mono text-xs text-text-muted">{service.shape}</span>
+                <span class="font-mono text-xs text-text-muted md:text-right">{service.shape}</span>
               </a>
             ))
           }
