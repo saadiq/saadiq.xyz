@@ -23,12 +23,6 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 - The two do **not** share a palette, and syncing tokens between them is not the goal. The site is dark (`bg #0b0a09`); Field Notes is deliberately light (`--bg #f6f6f4`) because an archive is read, not scanned. What they share is a *vocabulary*: JetBrains Mono for metadata, `// section` eyebrow labels, the trailing-underscore terminal motif, a green live dot, and the gold `#d4a843` (the site's `accent`, the theme's `--accent-bright`). Keep that vocabulary in sync; let the grounds differ.
 - Field Notes darkens the accent to `#a47018` for its own body copy because `#d4a843` fails contrast on a light ground. That's correct, not drift.
 
-## Tech stack
-
-- Astro (static output)
-- Tailwind CSS v4 (via `@tailwindcss/vite`)
-- Fonts: Instrument Serif, JetBrains Mono, Inter
-
 ## Color tokens (in `src/styles/global.css`)
 
 Three ground planes and three text tiers. Neutrals are warmed off pure grey so the ground sits in the same light as the type.
