@@ -90,13 +90,25 @@
       padding-right: 60px;
     }
 
+    /* The site's .rule-heading: mono label plus its own trailing hairline, one
+       device instead of two. No "//" prefix; the hairline marks it now. */
     .section-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 14px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 16px;
+    }
+
+    .section-label::after {
+      content: "";
+      flex: 1 1 auto;
+      height: 1px;
+      background: var(--rule);
     }
 
     .headline {
@@ -199,7 +211,7 @@
 
     <!-- Main content -->
     <div class="content">
-      <div class="section-label">// ai transformation</div>
+      <div class="section-label">AI transformation</div>
       <div class="headline">
         Smart leaders are stuck<br>
         on AI. I get their teams<br>

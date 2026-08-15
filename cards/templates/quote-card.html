@@ -57,15 +57,29 @@
       background-size: 200px 200px;
     }
 
-    /* Label */
+    /* Label — the site's .rule-heading: a mono label carrying its own hairline,
+       so the label and the rule are one device instead of two stacked ones. The
+       rule starts after the label, not at the edge, so it reads as a heading.
+       No "//" prefix; the hairline is the marking device now. Name the piece,
+       not the genre — a label that says "insight" is a rule with a word on it. */
     .label {
+      display: flex;
+      align-items: center;
+      gap: 64px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 52px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
       z-index: 2;
       flex-shrink: 0;
+    }
+
+    .label::after {
+      content: "";
+      flex: 1 1 auto;
+      height: 3px;
+      background: var(--rule);
     }
 
     /* Quote zone — fills middle, vertically centers text */
@@ -108,7 +122,7 @@
 </head>
 <body>
   <div class="card">
-    <div class="label">// insight</div>
+    <div class="label">The context tax</div>
 
     <div class="quote-zone">
       <div class="quote">
