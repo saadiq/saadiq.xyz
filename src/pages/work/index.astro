@@ -32,7 +32,6 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
     <div class="max-w-5xl mx-auto px-6">
-      <p class="section-label mb-8">// work</p>
       <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
         What shipped
       </h1>
@@ -44,15 +43,15 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
 
       {
         grouped.map(({ group, studies }) => (
-          <div class="border-t border-rule pt-12 mb-4 md:mb-8">
-            <p class="section-label mb-10">// {group.toLowerCase()}</p>
+          <div class="pt-12 mb-4 md:mb-8">
+            <h2 class="rule-heading mb-10">{group}</h2>
             <div class="space-y-12 md:space-y-16">
               {studies.map((cs) => (
                 <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-10 md:pb-12 last:border-b-0 last:pb-0">
                   <div>
-                    <h2 class="font-display text-2xl md:text-3xl leading-tight mb-4">
+                    <h3 class="font-display text-2xl md:text-3xl leading-tight mb-4">
                       {cs.headline}
-                    </h2>
+                    </h3>
                     <p class="font-mono text-sm text-text mb-1">{cs.displayName}</p>
                     {cs.pendingNote && (
                       <p class="font-mono text-xs text-accent mb-1">
@@ -88,7 +87,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
       {
         visibleTestimonials.length > 0 && (
           <div class="pt-16 md:pt-20">
-            <p class="section-label mb-12">// what clients say</p>
+            <h2 class="sr-only">What clients say</h2>
             <div class="space-y-12">
               {visibleTestimonials.map((t) => (
                 <blockquote class="max-w-3xl bg-bg-raise p-6 md:p-8">

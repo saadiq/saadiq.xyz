@@ -49,7 +49,6 @@ const stagePhotos = [
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
     <div class="max-w-5xl mx-auto px-6">
-      <p class="section-label mb-8">// speaking</p>
       <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
         Talks
       </h1>
@@ -65,8 +64,8 @@ const stagePhotos = [
         different today.
       </p>
 
-      <div class="border-t border-rule pt-12 mb-12 md:mb-16">
-        <p class="section-label mb-10">// rooms</p>
+      <div class="pt-12 mb-12 md:mb-16">
+        <h2 class="rule-heading mb-10">Rooms</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr_1.5fr] gap-3 mb-12 md:mb-14">
           {
@@ -95,9 +94,9 @@ const stagePhotos = [
             appearances.map((a) => (
               <div class="grid md:grid-cols-2 gap-2 md:gap-16">
                 <div>
-                  <h2 class="font-display text-xl md:text-2xl leading-tight">
+                  <h3 class="font-display text-xl md:text-2xl leading-tight">
                     {a.title}
-                  </h2>
+                  </h3>
                   <p class="font-mono text-xs text-text-muted mt-2">
                     {a.role.toLowerCase()}_ &middot; {a.date.toLowerCase()}
                   </p>
@@ -129,20 +128,20 @@ const stagePhotos = [
         </div>
       </div>
 
-      <div class="border-t border-rule pt-12">
-        <p class="section-label mb-10">// current themes</p>
+      <div class="pt-12">
+        <h2 class="rule-heading mb-10">Current themes</h2>
         <div class="space-y-14 md:space-y-16">
           {
             themeGroups.map(({ group, themes }) => (
               <div>
-                <h2 class="font-mono text-xs text-text-muted mb-8">{group}_</h2>
+                <h3 class="font-mono text-xs text-text-muted mb-8">{group}_</h3>
                 <div class="space-y-12 md:space-y-14">
                   {themes.map((t) => (
                     <div class="grid md:grid-cols-2 gap-2 md:gap-16">
                       <div>
-                        <h3 class="font-display text-2xl md:text-3xl leading-tight">
+                        <h4 class="font-display text-2xl md:text-3xl leading-tight">
                           {t.title}
-                        </h3>
+                        </h4>
                         {t.delivered && (
                           <p class="font-mono text-xs text-accent mt-1">
                             delivered live_
