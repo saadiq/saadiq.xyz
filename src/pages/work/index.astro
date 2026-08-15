@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Nav from "../../components/Nav.astro";
+import FooterCTA from "../../components/FooterCTA.astro";
+import StatusBar from "../../components/StatusBar.astro";
+import { websiteJsonLd, workBreadcrumbJsonLd } from "../../lib/schema";
+import {
+  caseStudyGroups,
+  caseStudyCount,
+  testimonials,
+  SHOW_PENDING,
+} from "../../lib/work-data";
+
+const visibleTestimonials = testimonials.filter((t) => t.cleared || SHOW_PENDING);
+// Resolve the naming gate once so the template renders values, not policy.
+const grouped = caseStudyGroups.map(({ group, studies }) => ({
+  group,
+  studies: studies.map((cs) => ({
+    ...cs,
+    displayName: cs.nameCleared || SHOW_PENDING ? cs.client : cs.anonym,
+    pendingNote: !cs.nameCleared && SHOW_PENDING ? cs.anonym : null,
+  })),
+}));
+---
+
+<BaseLayout
+  title="Work — Saadiq Rodgers-King"
+  description="Executive advisory, production agents, discovery sprints, and embedded engagements. What was built, what changed, and what the numbers were."
+  ogImage="/work/og.png"
+  jsonLd={[websiteJsonLd, workBreadcrumbJsonLd]}
+>
+  <Nav />
+  <main class="pt-40 md:pt-48 pb-20 md:pb-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="section-label mb-8">// work</p>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
+        What shipped
+      </h1>
+      <p class="text-xl md:text-2xl text-text-muted mb-16 max-w-3xl">
+        What changed across {caseStudyCount} engagements. Clients are anonymized
+        until a written release lands. The details stay exact, and I'm happy to
+        talk through any of them.
+      </p>
+
+      {
+        grouped.map(({ group, studies }) => (
+          <div class="border-t border-rule pt-12 mb-4 md:mb-8">
+            <p class="section-label mb-10">// {group.toLowerCase()}</p>
+            <div class="space-y-12 md:space-y-16">
+              {studies.map((cs) => (
+                <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-12 md:pb-16 last:border-b-0 last:pb-0">
+                  <div>
+                    <h2 class="font-display text-2xl md:text-3xl leading-tight mb-4">
+                      {cs.displayName}
+                    </h2>
+                    {cs.pendingNote && (
+                      <p class="font-mono text-xs text-accent mb-3">
+                        name pending release_ ({cs.pendingNote})
+                      </p>
+                    )}
+                    <div class="space-y-1">
+                      {cs.format.map((line) => (
+                        <p class="font-mono text-xs text-text-muted">{line}</p>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <p class="text-text leading-relaxed mb-4">{cs.challenge}</p>
+                    <p class="text-text-muted leading-relaxed mb-6">{cs.work}</p>
+                    <p class="font-mono text-xs text-text-muted mb-2">results_</p>
+                    <ul class="space-y-2">
+                      {cs.results.map((r) => (
+                        <li class="text-sm text-text-muted leading-relaxed">
+                          <span class="text-accent">&mdash;</span> {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+
+      {
+        visibleTestimonials.length > 0 && (
+          <div class="pt-16 md:pt-20">
+            <p class="section-label mb-12">// what clients say</p>
+            <div class="space-y-12">
+              {visibleTestimonials.map((t) => (
+                <blockquote class="max-w-3xl">
+                  <p class="font-display text-xl md:text-2xl leading-relaxed mb-4">
+                    "{t.quote}"
+                  </p>
+                  <footer class="font-mono text-sm text-text-muted">
+                    {t.name} · {t.title}
+                    {!t.cleared && SHOW_PENDING && (
+                      <span class="text-accent"> · pending release_</span>
+                    )}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </main>
+  <FooterCTA />
+  <StatusBar />
+</BaseLayout>
