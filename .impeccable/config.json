@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "instrument serif",
+        "createdAt": "2026-08-15T03:19:44.158Z",
+        "reason": "incumbent brand commitment: Instrument Serif/JetBrains Mono/Inter type system approved in docs/plans/2026-03-04-saadiq-xyz-redesign-design.md and recorded in CLAUDE.md and PRODUCT.md; shared with the Ghost journal-dark theme"
+      }
+    ]
+  }
+}
