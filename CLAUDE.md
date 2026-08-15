@@ -84,9 +84,10 @@ The box pulls from the npm registry in only two spots, so the surface is narrow 
 - **pnpm cooldown**: `/home/ghost-mgr/.npmrc` sets `minimum-release-age=1440` (24h) — pnpm refuses any version published <24h ago, blunting fast worm publishes. Harmless to the frozen `ghost update` install; protects ad-hoc/non-frozen resolution. Key must be **kebab-case** (`minimum-release-age`); camelCase is silently ignored. Tune the minutes or comment it out if a legit fresh dep is ever blocked.
 - **ghost-cli updates**: do **not** use `@latest`. Pin a specific, already-published-for-a-few-days version and run as root only when deliberately updating:
   ```bash
-  npm install -g ghost-cli@1.29.3   # pin the version; let a new release age a few days first
+  npm install -g ghost-cli@1.30.1   # pin the version; let a new release age a few days first
   ```
-- **npm itself** is pinned-bumped the same way (`npm install -g npm@<ver>`), currently 11.16.0.
+  Currently **1.30.1** (installed 2026-08-15; 1.31.1 existed but was 2 days old). Worth taking once it ages: **1.31.0 fixes "nginx failing to start when ap.ghost.org is unresolvable"** — the exact failure that took the site down twice. Low urgency here, because that bug lives in ghost-cli's *generated* nginx config and `saadiq.xyz.conf` is hand-managed and already carries the resolver fix.
+- **npm itself** is pinned-bumped the same way (`npm install -g npm@<ver>`), currently 11.16.0. Its `allow-scripts` gate is load-bearing: it blocked a `yarn` preinstall script during the 2026-08-15 ghost-cli install. Re-pin after any Node bump (see above).
 - The **Astro site never builds on the droplet** — the server just receives static `dist/` over rsync. Builds run in GitHub Actions on every push to `main` (and on the dev machine for local work), so that supply chain lives in CI and the dev machine. The droplet's SSH deploy key exists in **two** places: the dev machine and the repo's `SSH_PRIVATE_KEY` Actions secret — GitHub repo/secrets access is a crown jewel accordingly.
 
 ### Routing (nginx)
