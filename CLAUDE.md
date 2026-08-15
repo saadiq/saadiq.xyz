@@ -112,6 +112,14 @@ sudo nginx -t && sudo systemctl start nginx
 
 The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 127.0.0.53 valid=300s;` + `set $ap_ghost https://ap.ghost.org; proxy_pass $ap_ghost;`. A variable in `proxy_pass` defers DNS to request-time via the resolver, so a momentary DNS failure can't break `nginx -t`. Keep that pattern; never reintroduce a bare `proxy_pass https://ap.ghost.org;`.
 
+#### llms.txt discovery headers are rewritten in nginx (subdirectory workaround)
+
+Ghost's `core/frontend/web/middleware/llms-discovery.js` **hardcodes root-relative** discovery paths — `Link: </llms.txt>` and `X-Llms-Txt: /llms.txt` — with no subdirectory awareness. Ghost lives at `/newsletter`, so the advertised path resolved to this repo's own `public/llms.txt` (the consulting index) and crawlers never reached the archive; `/llms-full.txt` at root was a 404. Since 2026-08-15 the `location /newsletter` block does `proxy_hide_header` on both headers and re-adds the corrected `/newsletter/` paths. Verified safe: those are the *only* `Link` headers Ghost emits under `/newsletter` (admin, Content API, and members endpoints send none).
+
+**Remove the workaround once Ghost fixes this upstream** — `proxy_hide_header` would otherwise keep masking their corrected header indefinitely. Harmless while the replacement value is right, but it is a silent override.
+
+The feature itself is the Ghost setting `llms_enabled` (**Settings → General → Meta data**, "Enable structured data for LLMs and AI search engines"). It ships **off for sites predating the 6.46 grandfather migration**, which is why it needed enabling by hand despite the code being present since 6.46. It serves `/newsletter/llms.txt`, `/newsletter/llms-full.txt`, and a `.md` variant of every post. Members-only posts are correctly gated: `.md` returns 403 and `llms-full.txt` carries title/excerpt only. `public/llms.txt` links both Ghost indexes so root-level discovery works from either entry point.
+
 ## Related repo
 
 - **Ghost theme** (`journal-field-notes`, branch `field-notes`): `~/dev/journal`
