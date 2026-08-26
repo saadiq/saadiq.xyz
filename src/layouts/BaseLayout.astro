@@ -81,6 +81,12 @@ const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
       <script type="application/ld+json" set:html={JSON.stringify(block)} />
     ))}
 
+    <!-- Ghost member attribution -->
+    <script
+      is:inline
+      defer
+      src="/newsletter/public/member-attribution.min.js"></script>
+
     <!-- Umami -->
     <script
       is:inline

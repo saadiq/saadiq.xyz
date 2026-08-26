@@ -37,6 +37,20 @@ const { section } = Astro.props;
   const FAILURE_HTML =
     'That did not go through. <a href="/newsletter" class="text-accent">Subscribe on the newsletter page</a> instead.';
 
+  // What Ghost's member-attribution script recorded for this tab. Portal sends
+  // the same array as urlHistory; without it every signup here reads as direct.
+  function urlHistory(): unknown[] | undefined {
+    try {
+      const raw = sessionStorage.getItem("ghost-history");
+      if (!raw) return undefined;
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : undefined;
+    } catch {
+      // Storage access throws outright in some privacy modes.
+      return undefined;
+    }
+  }
+
   async function subscribe(email: string): Promise<boolean> {
     let integrityToken = "";
     try {
@@ -52,6 +66,7 @@ const { section } = Astro.props;
     } catch {
       // Older Ghost versions have no integrity token endpoint.
     }
+    const history = urlHistory();
     const res = await fetch(`${GHOST_API}/send-magic-link/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -59,6 +74,7 @@ const { section } = Astro.props;
         email,
         emailType: "signup",
         ...(integrityToken ? { integrityToken } : {}),
+        ...(history ? { urlHistory: history } : {}),
       }),
     });
     return res.ok;
