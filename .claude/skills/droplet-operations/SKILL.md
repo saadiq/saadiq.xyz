@@ -115,6 +115,53 @@ sudo nginx -t && sudo systemctl start nginx
 
 The **active** `saadiq.xyz.conf` does the ActivityPub proxy right — `resolver 127.0.0.53 valid=300s;` + `set $ap_ghost https://ap.ghost.org; proxy_pass $ap_ghost;`. A variable in `proxy_pass` defers DNS to request-time via the resolver, so a momentary DNS failure can't break `nginx -t`. Keep that pattern; never reintroduce a bare `proxy_pass https://ap.ghost.org;`.
 
+### Tor exits are blocked on the newsletter magic-link endpoint
+
+Added 2026-08-26 after an automated signup campaign: 46 `send-magic-link` POSTs in
+three days, each from a different Tor exit, which produced 6 confirmed spam members
+(deleted; backup at `/home/ghost-mgr/member-spam-backup-2026-08-26.sql`). 41 of the
+43 distinct POST source IPs were Tor exits; the only two that were not are the two
+genuine signups in the same logs, so the separation is clean.
+
+The tell in the access log is a **User-Agent whose value is literally wrapped in
+quote characters**, which nginx renders as `\x22Mozilla/5.0 ... Chrome/142.0.0.0
+Safari/537.36\x22`. No browser sends that. Real signups have an unquoted UA. The
+bot drives a real headless browser, fetching `member-attribution.min.js`, the
+Content API call, and `integrity-token` before POSTing, so honeypots and
+`ignore-scripts`-style tricks do not catch it and per-IP rate limiting is useless
+(nearly every POST is a fresh exit).
+
+How it is wired:
+
+- `geo $tor_exit` in `saadiq.xyz.conf` includes `/etc/nginx/snippets/tor-exits.conf`.
+  **`snippets/` is not wildcard-included**, unlike `sites-enabled/`, so a stray file
+  there cannot break `nginx -t`.
+- A `map` on `"$tor_exit$request_method$request_uri"` sets `$deny_tor_signup`, and
+  `location /newsletter` and `location /members` each open with
+  `if ($deny_tor_signup) { return 403; }`. **Only POSTs to the magic-link path are
+  gated** — Tor readers keep full access to the site, the archive, RSS, and Portal
+  browsing. Both paths are covered because `/members/...` is a legacy alias that
+  rewrites into `/newsletter/members/...`.
+- `/usr/local/sbin/update-tor-exits.sh` refreshes the list from
+  `https://check.torproject.org/torbulkexitlist` (~1400 entries). It refuses any
+  download containing a non-address line or fewer than 500 entries, keeps the prior
+  copy at `/var/backups/nginx/tor-exits.conf.prev`, and **rolls back and re-runs
+  `nginx -t` if the new list would fail the config test**, because a bad config here
+  takes the whole site down.
+- `update-tor-exits.timer` runs it daily (`OnCalendar=daily`, 1h jitter,
+  `Persistent=true`). The list goes stale fast, so if the timer is ever disabled the
+  block quietly decays. Check with `systemctl list-timers update-tor-exits.timer`.
+
+To verify the block end to end without waiting for an attacker, append `127.0.0.1 1;`
+to the snippet, reload, and curl through `--resolve saadiq.xyz:443:127.0.0.1`: the
+magic-link POST should give 403 while `/`, `/newsletter/`, and
+`/newsletter/members/api/member/` still answer 200/204. Always restore the snippet
+afterwards (re-running the update script regenerates it clean).
+
+The site's own signup form also carries a honeypot field (`NewsletterSignup.astro`),
+but that is a floor, not the control — this bot targets `input[type=email]` directly
+and never touches it.
+
 ### llms.txt discovery headers are rewritten in nginx (subdirectory workaround)
 
 Ghost's `core/frontend/web/middleware/llms-discovery.js` **hardcodes root-relative** discovery paths — `Link: </llms.txt>` and `X-Llms-Txt: /llms.txt` — with no subdirectory awareness. Ghost lives at `/newsletter`, so the advertised path resolved to this repo's own `public/llms.txt` (the consulting index) and crawlers never reached the archive; `/llms-full.txt` at root was a 404. Since 2026-08-15 the `location /newsletter` block does `proxy_hide_header` on both headers and re-adds the corrected `/newsletter/` paths. Verified safe: those are the *only* `Link` headers Ghost emits under `/newsletter` (admin, Content API, and members endpoints send none).
