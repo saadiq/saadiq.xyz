@@ -7,7 +7,7 @@ const exits = [
   { href: "/", label: "← Back to home", destination: "home", accent: true },
   { href: "/work", label: "See the work →", destination: "work" },
   { href: "/services", label: "How I work →", destination: "services" },
-  { href: "/newsletter", label: "Read the newsletter →", destination: "newsletter" },
+  { href: "/newsletter", label: "Read the newsletter →", destination: "newsletter", noreferrer: true },
 ];
 ---
 
@@ -27,9 +27,10 @@ const exits = [
       </p>
       <div class="flex flex-wrap gap-x-8 gap-y-2">
         {
-          exits.map(({ href, label, destination, accent }) => (
+          exits.map(({ href, label, destination, accent, noreferrer }) => (
             <a
               href={href}
+              rel={noreferrer ? "noreferrer" : undefined}
               class:list={[
                 "text-link",
                 accent ? "text-accent hover:text-accent-hover" : "text-text-muted hover:text-text",

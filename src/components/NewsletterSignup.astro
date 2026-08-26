@@ -35,7 +35,7 @@ const { section } = Astro.props;
 <script>
   const GHOST_API = "/newsletter/members/api";
   const FAILURE_HTML =
-    'That did not go through. <a href="/newsletter" class="text-accent">Subscribe on the newsletter page</a> instead.';
+    'That did not go through. <a href="/newsletter" rel="noreferrer" class="text-accent">Subscribe on the newsletter page</a> instead.';
 
   // What Ghost's member-attribution script recorded for this tab. Portal sends
   // the same array as urlHistory; without it every signup here reads as direct.

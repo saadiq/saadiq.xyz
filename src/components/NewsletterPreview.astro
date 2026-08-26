@@ -24,6 +24,7 @@ try {
         <div class={`pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}`}>
           <a
             href={`/newsletter/${post.slug}/`}
+            rel="noreferrer"
             class="font-display text-xl md:text-2xl hover:text-accent transition-colors"
           >
             {post.title}
@@ -49,6 +50,7 @@ try {
 
     <a
       href="/newsletter"
+      rel="noreferrer"
       class="text-link text-accent hover:text-accent-hover"
       data-ph-capture="cta_newsletter"
       data-ph-section="newsletter_preview"
@@ -91,7 +93,7 @@ try {
         .map(
           (post, i) => `
         <div class="pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}">
-          <a href="/newsletter/${esc(post.slug)}/" class="font-display text-xl md:text-2xl hover:text-accent transition-colors">${esc(post.title)}</a>
+          <a href="/newsletter/${esc(post.slug)}/" rel="noreferrer" class="font-display text-xl md:text-2xl hover:text-accent transition-colors">${esc(post.title)}</a>
           <div class="flex gap-4 mt-1">
             <span class="font-mono text-xs text-text-muted">${fmtDate(post.published_at)}</span>
             <span class="font-mono text-xs text-text-muted">${post.reading_time} min read</span>
