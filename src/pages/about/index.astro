@@ -17,9 +17,9 @@ import { aboutJsonLd, websiteJsonLd, aboutBreadcrumbJsonLd } from "../../lib/sch
 >
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
-    <div class="max-w-5xl mx-auto px-6">
+    <div class="container-wide">
       <!-- Name block -->
-      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl mb-6">
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight mb-8">
         Saadiq Rodgers-King
       </h1>
       <p class="text-xl md:text-2xl text-text-body mb-12 max-w-2xl">
@@ -27,8 +27,8 @@ import { aboutJsonLd, websiteJsonLd, aboutBreadcrumbJsonLd } from "../../lib/sch
       </p>
 
       <!-- Metadata block -->
-      <div class="border-t border-rule pt-12 mb-12">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 mb-8">
+      <div class="panel p-6 md:p-10 mb-16 md:mb-20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 mb-8 pb-8 border-b border-rule">
           <div>
             <p class="font-mono text-xs text-text-muted">location_</p>
             <p class="font-mono text-sm text-text">Brooklyn, NY</p>
@@ -49,24 +49,24 @@ import { aboutJsonLd, websiteJsonLd, aboutBreadcrumbJsonLd } from "../../lib/sch
         <div>
           <p class="font-mono text-xs text-text-muted">exits_</p>
           <p class="font-mono text-sm text-text">
-            <span class="whitespace-nowrap">Hot Potato <span class="text-text-muted">&rarr;</span> Facebook</span> ·
-            <span class="whitespace-nowrap">Nodejitsu <span class="text-text-muted">&rarr;</span> GoDaddy</span> ·
-            <span class="whitespace-nowrap">Fabric <span class="text-text-muted">&rarr;</span> Gerber Life</span> ·
+            <span class="whitespace-nowrap">Hot Potato <span class="text-text-muted">&rarr;</span> Facebook</span>{" · "}
+            <span class="whitespace-nowrap">Nodejitsu <span class="text-text-muted">&rarr;</span> GoDaddy</span>{" · "}
+            <span class="whitespace-nowrap">Fabric <span class="text-text-muted">&rarr;</span> Gerber Life</span>{" · "}
             <span class="whitespace-nowrap">PROOF <span class="text-text-muted">&rarr;</span> Yuga Labs</span>
           </p>
         </div>
       </div>
 
       <!-- Bio section -->
-      <div class="border-t border-rule pt-12">
+      <div>
         <div class="grid md:grid-cols-3 gap-12">
           <div>
             <Image
               src={portrait}
               alt="Saadiq Rodgers-King"
               widths={[400, 620, 886]}
-              sizes="(min-width: 768px) 310px, min(100vw - 3rem, 24rem)"
-              class="w-full max-w-sm border border-rule"
+              sizes="(min-width: 1312px) 384px, (min-width: 768px) 30vw, min(100vw - 3rem, 24rem)"
+              class="w-full max-w-sm border border-rule shadow-[0_32px_72px_rgb(0_0_0/0.55)]"
               loading="eager"
             />
           </div>
