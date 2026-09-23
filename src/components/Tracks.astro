@@ -26,76 +26,93 @@ const receipts = [
 ];
 ---
 
-<section class="py-20 md:py-28">
+{/* Numbered rows, heading left and evidence right, so each outcome uses the
+    full width instead of a narrow column over empty black. */}
+<section class="py-16 md:py-20">
   <div class="container-wide">
-    <h2 class="rule-heading mb-12">What changes</h2>
+    <h2 class="rule-heading mb-10">What changes</h2>
 
-    <div class="space-y-16 md:space-y-24">
-      <div class="border-b border-rule pb-16 md:pb-24">
-        <h3 class="font-display text-3xl md:text-5xl leading-tight mb-6">Product teams operate on live intelligence.</h3>
-        <p class="text-text-body leading-relaxed max-w-2xl">
-          Customer support signals, sales conversations, competitive moves,
-          and usage analytics synthesized as fast as the data comes in. Not
-          every six months when someone has time to do a research cycle.
-          Fewer sprints wasted building the wrong thing.
-        </p>
-        <p class="font-mono text-xs text-text-muted mt-8 mb-2">elsewhere_</p>
-        <p class="text-sm text-text-body leading-relaxed max-w-2xl">
-          Midjourney's product team runs one to three user interviews a week
-          through a shared research skill. Interview start to company-wide
-          insight takes 45 minutes.
-          <a
-            href="https://theskip.substack.com/p/lessons-from-three-product-leaders"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-mono text-xs text-text-muted underline decoration-text-muted/40 underline-offset-2 hover:text-accent transition-colors"
-          >
-            — The Skip
-          </a>
-        </p>
-      </div>
-
-      <div class="border-b border-rule pb-16 md:pb-24">
-        <h3 class="font-display text-3xl md:text-5xl leading-tight mb-6">Engineers build systems instead of grinding through tickets.</h3>
-        <p class="text-text-body leading-relaxed max-w-2xl">
-          Routine work gets executed by agents. Engineers focus on architecture,
-          strategy, and the decisions that actually require judgment. Output per
-          engineer increases because the nature of the work changes, not just the
-          speed.
-        </p>
-        <p class="font-mono text-xs text-text-muted mt-8 mb-2">elsewhere_</p>
-        <div class="panel divide-y divide-rule px-5 md:px-6 max-w-2xl">
-          {receipts.map((receipt) => (
+    <ol class="divide-y divide-rule">
+      <li class="grid lg:grid-cols-2 gap-x-16 gap-y-6 pb-10">
+        <div>
+          <p class="font-mono text-sm text-accent mb-3" aria-hidden="true">01</p>
+          <h3 class="font-display text-3xl md:text-5xl leading-[1.05]">Product teams operate on live intelligence.</h3>
+        </div>
+        <div class="lg:pt-8">
+          <p class="text-text-body leading-relaxed">
+            Customer support signals, sales conversations, competitive moves,
+            and usage analytics synthesized as fast as the data comes in. Not
+            every six months when someone has time to do a research cycle.
+            Fewer sprints wasted building the wrong thing.
+          </p>
+          <p class="font-mono text-xs text-text-muted mt-6 mb-2">elsewhere_</p>
+          <p class="text-sm text-text-body leading-relaxed">
+            Midjourney's product team runs one to three user interviews a week
+            through a shared research skill. Interview start to company-wide
+            insight takes 45 minutes.
             <a
-              href={receipt.url}
+              href="https://theskip.substack.com/p/lessons-from-three-product-leaders"
               target="_blank"
               rel="noopener noreferrer"
-              class="grid grid-cols-1 md:grid-cols-[7rem_1fr] items-baseline gap-x-6 gap-y-1 py-3 group"
-              data-ph-capture="outbound_click"
-              data-ph-section="tracks_receipts"
-              data-ph-destination={receipt.company.toLowerCase()}
+              class="font-mono text-xs text-text-muted underline decoration-text-muted/40 underline-offset-2 hover:text-accent transition-colors"
             >
-              <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
-                {receipt.company.toLowerCase()}_
-              </span>
-              <span class="text-sm text-text-body">{receipt.result}</span>
+              — The Skip
             </a>
-          ))}
+          </p>
         </div>
-        <p class="font-mono text-xs text-text-muted mt-3 max-w-2xl leading-relaxed">
-          Self-reported by each company. Four independent teams, output up and
-          defects down in every one.
-        </p>
-      </div>
+      </li>
 
-      <div>
-        <h3 class="font-display text-3xl md:text-5xl leading-tight mb-6">When I leave, the systems are already running.</h3>
-        <p class="text-text-body leading-relaxed max-w-2xl">
-          I embed with your team and work on your actual processes. The environment
-          is set up. The workflows are built. Your team has done it, not just
-          watched it. The capability is theirs.
-        </p>
-      </div>
-    </div>
+      <li class="grid lg:grid-cols-2 gap-x-16 gap-y-6 py-10">
+        <div>
+          <p class="font-mono text-sm text-accent mb-3" aria-hidden="true">02</p>
+          <h3 class="font-display text-3xl md:text-5xl leading-[1.05]">Engineers build systems instead of grinding through tickets.</h3>
+        </div>
+        <div class="lg:pt-8">
+          <p class="text-text-body leading-relaxed">
+            Routine work gets executed by agents. Engineers focus on architecture,
+            strategy, and the decisions that actually require judgment. Output per
+            engineer increases because the nature of the work changes, not just the
+            speed.
+          </p>
+          <p class="font-mono text-xs text-text-muted mt-6 mb-2">elsewhere_</p>
+          <div class="panel divide-y divide-rule px-5 md:px-6">
+            {receipts.map((receipt) => (
+              <a
+                href={receipt.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="grid grid-cols-1 md:grid-cols-[7rem_1fr] items-baseline gap-x-6 gap-y-1 py-3 group"
+                data-ph-capture="outbound_click"
+                data-ph-section="tracks_receipts"
+                data-ph-destination={receipt.company.toLowerCase()}
+              >
+                <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
+                  {receipt.company.toLowerCase()}_
+                </span>
+                <span class="text-sm text-text-body">{receipt.result}</span>
+              </a>
+            ))}
+          </div>
+          <p class="font-mono text-xs text-text-muted mt-3 leading-relaxed">
+            Self-reported by each company. Four independent teams, output up and
+            defects down in every one.
+          </p>
+        </div>
+      </li>
+
+      <li class="grid lg:grid-cols-2 gap-x-16 gap-y-6 pt-10">
+        <div>
+          <p class="font-mono text-sm text-accent mb-3" aria-hidden="true">03</p>
+          <h3 class="font-display text-3xl md:text-5xl leading-[1.05]">When I leave, the systems are already running.</h3>
+        </div>
+        <div class="lg:pt-8">
+          <p class="text-text-body leading-relaxed">
+            I embed with your team and work on your actual processes. The environment
+            is set up. The workflows are built. Your team has done it, not just
+            watched it. The capability is theirs.
+          </p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
