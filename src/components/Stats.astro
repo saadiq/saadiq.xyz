@@ -29,14 +29,18 @@ const stats = [
 ];
 ---
 
-<section class="py-20 md:py-28 bg-bg-surface">
-  <div class="max-w-5xl mx-auto px-6">
+<section class="pb-20 md:pb-28">
+  <div class="container-wide">
     <h2 class="sr-only">The problem</h2>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
-      {stats.map((stat) => (
-        <div>
-          <p class="font-display text-4xl md:text-5xl text-accent mb-2">
+    <div class="panel grid grid-cols-2 lg:grid-cols-4 gap-y-10 py-10 md:py-14">
+      {stats.map((stat, i) => (
+        <div class:list={[
+          "px-5 md:px-10",
+          i % 2 === 1 && "border-l border-rule",
+          i === 2 && "lg:border-l lg:border-rule",
+        ]}>
+          <p class="font-display text-5xl md:text-7xl lg:text-6xl xl:text-8xl leading-[0.9] whitespace-nowrap text-accent mb-4">
             {stat.number}
           </p>
           <p class="font-mono text-xs text-text-muted leading-relaxed">
@@ -54,7 +58,7 @@ const stats = [
       ))}
     </div>
 
-    <p class="text-lg md:text-xl text-text-body max-w-2xl">
+    <p class="font-display text-3xl md:text-[2.75rem] leading-tight text-text max-w-4xl mt-16 md:mt-20">
       The tools exist. The results don't. The gap is not access. It's knowing what to aim for.
     </p>
   </div>
