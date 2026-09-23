@@ -13,23 +13,16 @@ try {
 
 <section
   id="newsletter-preview"
-  class="py-20 md:py-28"
+  class="py-16 md:py-20"
   hidden={posts.length === 0}
 >
   <div class="container-wide">
-    <h2 class="rule-heading mb-12">From the newsletter</h2>
+    <h2 class="rule-heading mb-10">From the newsletter</h2>
 
-    <div data-posts>
-      {posts.map((post, i) => (
-        <div class={`pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}`}>
-          <a
-            href={`/newsletter/${post.slug}/`}
-            rel="noreferrer"
-            class="font-display text-xl md:text-2xl hover:text-accent transition-colors"
-          >
-            {post.title}
-          </a>
-          <div class="flex gap-4 mt-1">
+    <div data-posts class="grid md:grid-cols-3 gap-6">
+      {posts.map((post) => (
+        <div class="panel flex flex-col gap-3 p-6 md:p-8">
+          <div class="flex gap-4">
             <span class="font-mono text-xs text-text-muted">
               {new Date(post.published_at).toLocaleDateString("en-GB", {
                 day: "2-digit",
@@ -41,26 +34,34 @@ try {
               {post.reading_time} min read
             </span>
           </div>
-          <p class="text-text-body text-sm mt-2 line-clamp-2 max-w-prose">
+          <a
+            href={`/newsletter/${post.slug}/`}
+            rel="noreferrer"
+            class="font-display text-2xl md:text-[1.75rem] leading-tight hover:text-accent transition-colors"
+          >
+            {post.title}
+          </a>
+          <p class="text-text-body text-sm leading-relaxed line-clamp-3">
             {post.excerpt}
           </p>
         </div>
       ))}
     </div>
 
-    <a
-      href="/newsletter"
-      rel="noreferrer"
-      class="text-link text-accent hover:text-accent-hover"
-      data-ph-capture="cta_newsletter"
-      data-ph-section="newsletter_preview"
-    >
-      Read all posts &rarr;
-    </a>
-
-    <div class="mt-12 pt-8 border-t border-rule">
-      <p class="text-text-body mb-4">Get the next one in your inbox.</p>
-      <NewsletterSignup section="newsletter_preview" />
+    <div class="mt-10 flex flex-col lg:flex-row lg:items-baseline lg:justify-between gap-6">
+      <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-6">
+        <p class="text-text-body shrink-0">Get the next one in your inbox.</p>
+        <NewsletterSignup section="newsletter_preview" />
+      </div>
+      <a
+        href="/newsletter"
+        rel="noreferrer"
+        class="text-link text-accent hover:text-accent-hover shrink-0"
+        data-ph-capture="cta_newsletter"
+        data-ph-section="newsletter_preview"
+      >
+        Read all posts &rarr;
+      </a>
     </div>
   </div>
 </section>
@@ -91,14 +92,14 @@ try {
       // Markup mirrors the server-rendered template above — keep them in sync.
       list.innerHTML = posts
         .map(
-          (post, i) => `
-        <div class="pb-6 pt-6 ${i > 0 ? "border-t border-rule" : ""}">
-          <a href="/newsletter/${esc(post.slug)}/" rel="noreferrer" class="font-display text-xl md:text-2xl hover:text-accent transition-colors">${esc(post.title)}</a>
-          <div class="flex gap-4 mt-1">
+          (post) => `
+        <div class="panel flex flex-col gap-3 p-6 md:p-8">
+          <div class="flex gap-4">
             <span class="font-mono text-xs text-text-muted">${fmtDate(post.published_at)}</span>
             <span class="font-mono text-xs text-text-muted">${post.reading_time} min read</span>
           </div>
-          <p class="text-text-body text-sm mt-2 line-clamp-2 max-w-prose">${esc(post.excerpt ?? "")}</p>
+          <a href="/newsletter/${esc(post.slug)}/" rel="noreferrer" class="font-display text-2xl md:text-[1.75rem] leading-tight hover:text-accent transition-colors">${esc(post.title)}</a>
+          <p class="text-text-body text-sm leading-relaxed line-clamp-3">${esc(post.excerpt ?? "")}</p>
         </div>`,
         )
         .join("");
