@@ -1,66 +1,69 @@
 ---
 import { Image } from "astro:assets";
 import BookingCTA from "./BookingCTA.astro";
-import speakingMic from "../assets/images/speaking-mic.jpg";
+import speakingMic from "../assets/images/speaking-mic-mirrored.jpg";
 
-// The buyer is hiring a person, so the person and the exits sit above the
-// fold. On mobile the photo drops to a thumbnail beside the name so the
-// headline still leads.
+// The message leads and the person follows: the headline runs the full width,
+// and the photo sits small in the corner beside the credentials. The image is
+// mirrored so the gaze points back into the page instead of off its edge. On
+// mobile the photo drops to a thumbnail beside the name.
 const exits = ["Facebook", "GoDaddy", "Gerber Life", "Yuga Labs"];
 ---
 
-<section class="pt-40 md:pt-48 pb-20 md:pb-28">
-  <div class="max-w-6xl mx-auto px-6 md:grid md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem] md:items-end md:gap-16 lg:gap-20">
-    <div>
-      <div class="flex items-center gap-4 mb-8 md:hidden">
-        <Image
-          src={speakingMic}
-          alt=""
-          widths={[128, 192]}
-          sizes="64px"
-          class="w-16 h-20 object-cover object-[55%_30%] border border-rule"
-          loading="lazy"
-        />
-        <div class="font-mono text-xs leading-relaxed">
-          <p class="text-text">Saadiq Rodgers-King</p>
-          <p class="text-text-muted">{exits.length} exits · {exits.join(", ")}</p>
-        </div>
-      </div>
-      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
-        Smart leaders are stuck on AI. I get their teams unstuck.<span class="cursor-blink text-accent" aria-hidden="true">_</span>
-      </h1>
-      <p class="text-lg md:text-xl text-text-body max-w-2xl mb-10 leading-relaxed">
-        You've purchased the licenses. You've made the proclamations. You may even have an internal champion. Nothing has changed. I take a hands-on approach to showing your team what's possible and how.
-      </p>
-      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
-        <BookingCTA section="hero" />
-        <a
-          href="#shipped"
-          class="text-link text-accent hover:text-accent-hover"
-          data-ph-capture="cta_shipped"
-          data-ph-section="hero"
-        >
-          What shipped &darr;
-        </a>
-      </div>
-      <div class="hidden md:block mt-10 pt-5 border-t border-rule font-mono text-sm space-y-1">
-        <p>
-          <span class="text-text-muted">exits_</span>{" "}
-          <span class="text-text">{exits.join(" · ")}</span>
-        </p>
-        <p>
-          <span class="text-text-muted">before_</span>{" "}
-          <span class="text-text">Princeton CS · MIT Sloan MBA · 20+ years in product and engineering</span>
-        </p>
+<section class="pt-40 md:pt-48 pb-16 md:pb-24">
+  <div class="container-wide">
+    <div class="flex items-center gap-4 mb-8 md:hidden">
+      <Image
+        src={speakingMic}
+        alt=""
+        widths={[128, 192]}
+        sizes="64px"
+        class="w-16 h-20 object-cover object-[45%_30%] border border-rule"
+        loading="lazy"
+      />
+      <div class="font-mono text-xs leading-relaxed">
+        <p class="text-text">Saadiq Rodgers-King</p>
+        <p class="text-text-muted">{exits.length} exits · {exits.join(", ")}</p>
       </div>
     </div>
-    <Image
-      src={speakingMic}
-      alt="Saadiq Rodgers-King speaking with a microphone"
-      widths={[384, 576, 724]}
-      sizes="(min-width: 1024px) 384px, (min-width: 768px) 320px, 1px"
-      class="hidden md:block w-full aspect-[2/3] object-cover border border-rule"
-      loading="eager"
-    />
+    <h1 class="font-display text-5xl md:text-7xl lg:text-8xl xl:text-[8.25rem] leading-[1.05] md:leading-[0.98] tracking-tight mb-10 md:mb-12">
+      Smart leaders are stuck on AI. I get their teams <em class="text-accent">unstuck.</em><span class="cursor-blink text-accent" aria-hidden="true">_</span>
+    </h1>
+    <div class="md:grid md:grid-cols-[minmax(0,1fr)_13rem] lg:grid-cols-[minmax(0,45rem)_18.75rem] md:justify-between md:items-end md:gap-12">
+      <div>
+        <p class="text-lg md:text-[1.375rem] text-text-body max-w-[45rem] mb-10 leading-relaxed">
+          You've purchased the licenses. You've made the proclamations. You may even have an internal champion. Nothing has changed. I take a hands-on approach to showing your team what's possible and how.
+        </p>
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+          <BookingCTA section="hero" />
+          <a
+            href="#shipped"
+            class="text-link text-accent hover:text-accent-hover"
+            data-ph-capture="cta_shipped"
+            data-ph-section="hero"
+          >
+            What shipped &darr;
+          </a>
+        </div>
+        <div class="hidden md:block mt-12 pt-5 border-t border-rule font-mono text-sm space-y-1">
+          <p>
+            <span class="text-text-muted">exits_</span>{" "}
+            <span class="text-text">{exits.join(" · ")}</span>
+          </p>
+          <p>
+            <span class="text-text-muted">before_</span>{" "}
+            <span class="text-text">Princeton CS · MIT Sloan MBA · 20+ years in product and engineering</span>
+          </p>
+        </div>
+      </div>
+      <Image
+        src={speakingMic}
+        alt="Saadiq Rodgers-King speaking with a microphone"
+        widths={[208, 300, 416, 600]}
+        sizes="(min-width: 1024px) 300px, (min-width: 768px) 208px, 1px"
+        class="hidden md:block w-full aspect-[4/5] object-cover object-[50%_25%] border border-rule shadow-[0_32px_72px_rgb(0_0_0/0.55)]"
+        loading="eager"
+      />
+    </div>
   </div>
 </section>
