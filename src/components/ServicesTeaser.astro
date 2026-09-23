@@ -1,23 +1,51 @@
-<section id="services" class="py-20 md:py-28">
-  <div class="container-wide">
-    <h2 class="rule-heading mb-12">Services</h2>
+---
+import { services } from "../lib/services-data";
+---
 
-    <h3 class="font-display text-3xl md:text-5xl leading-tight mb-6 max-w-3xl">
-      Talks, advisory, sprints, builds, and embedded leadership.
-    </h3>
-    <p class="text-text-body leading-relaxed max-w-2xl mb-10">
-      Five shapes of engagement, from a single talk to ongoing technical
-      leadership. Each one stands on its own and earns the next. For CEOs
-      facing decisions they can't delegate, a standing weekly advisory
-      session is the usual starting point.
-    </p>
-    <a
-      href="/services"
-      class="text-link text-accent hover:text-accent-hover"
-      data-ph-capture="cta_services"
-      data-ph-section="services_teaser"
-    >
-      How I work &rarr;
-    </a>
+<section id="services" class="py-16 md:py-20">
+  <div class="container-wide">
+    <h2 class="rule-heading mb-10">Services</h2>
+
+    <div class="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16 items-start">
+      <div>
+        <h3 class="font-display text-3xl md:text-[2.75rem] leading-tight mb-5">
+          Talks, advisory, sprints, builds, and embedded leadership.
+        </h3>
+        <p class="text-text-body leading-relaxed mb-8">
+          Five shapes of engagement, from a single talk to ongoing technical
+          leadership. Each one stands on its own and earns the next. For CEOs
+          facing decisions they can't delegate, a standing weekly advisory
+          session is the usual starting point.
+        </p>
+        <a
+          href="/services"
+          class="text-link text-accent hover:text-accent-hover"
+          data-ph-capture="cta_services"
+          data-ph-section="services_teaser"
+        >
+          How I work &rarr;
+        </a>
+      </div>
+
+      <div class="panel divide-y divide-rule px-5 md:px-7">
+        {services.map((service) => (
+          <a
+            href={`/services#${service.slug}`}
+            class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-1 py-4 group"
+            data-ph-capture="cta_services"
+            data-ph-section="services_teaser"
+            data-ph-destination={service.slug}
+          >
+            <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
+              {service.name.toLowerCase()}_
+            </span>
+            <span class="order-last sm:order-none font-mono text-xs text-text-muted sm:text-right sm:row-span-2 sm:self-center">
+              {service.shape}
+            </span>
+            <span class="text-sm text-text-body">for {service.forShort}</span>
+          </a>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
