@@ -2,9 +2,26 @@
 ---
 
 <div
-  class="fixed bottom-0 left-0 right-0 z-50 bg-bg/90 backdrop-blur-md border-t border-rule py-2 pl-[max(1.5rem,env(safe-area-inset-left))] pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+  id="status-bar"
+  class="fixed bottom-0 transition-transform duration-300 motion-reduce:transition-none left-0 right-0 z-50 bg-bg/90 backdrop-blur-md border-t border-rule py-2 pl-[max(1.5rem,env(safe-area-inset-left))] pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(0.5rem,env(safe-area-inset-bottom))]"
 >
   <p class="font-mono text-xs text-text-muted">
     &gt; saadiq &mdash; <span class="inline-block w-1.5 h-1.5 rounded-full bg-green-500 mr-1" aria-hidden="true"></span>available for engagement<span class="cursor-blink text-accent" aria-hidden="true">_</span>
   </p>
 </div>
+
+<script>
+  // Tuck the bar away while reading down the page and bring it back on any
+  // scroll up, so it never sits over content the reader is looking at.
+  const bar = document.getElementById("status-bar");
+  if (bar) {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const down = y > lastY && y > 120;
+      bar.classList.toggle("translate-y-full", down);
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+</script>
