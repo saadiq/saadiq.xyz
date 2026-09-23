@@ -43,7 +43,13 @@ Three ground planes and three text tiers. Neutrals are warmed off pure grey so t
 
 Every tier clears AAA on `bg` and `bg-surface`. The one exception is `text-muted` on `bg-raise` at 6.63:1 (AA, not AAA), which is a deliberate trade: darkening `bg-raise` far enough to reach 7:1 collapses its separation from `bg-surface` to 1.03:1 and the plane stops reading.
 
-Sections alternate planes rather than being separated by hairlines. On the homepage, Stats / WhyNotThem / ServicesTeaser / About sit on `bg-surface`; Hero / ShippedStrip / Tracks / NewsletterPreview stay on `bg`. Inserting a section means re-alternating everything below it. Those sections carry no `border-t` — the plane change *is* the boundary. `FooterCTA` keeps its rule because it follows ground-plane content and is shared with all four subpages.
+**The homepage runs on continuous `bg` and sets raised objects on it** (2026-09-23, replacing the old bg / bg-surface alternation). The black is the setting, not the thing every section lives in. Raised objects use `.panel` in `global.css`: a `bg-raise` gradient, a hairline border with a lighter top edge, and a deep shadow. The lighter top edge is what makes it lift, because a shadow alone barely shows on near-black. `.panel-accent` adds the gold top edge for the What shipped cards. Current panels: the Stats row, the What shipped cards, and the Tracks receipts. The hero photo and the About portrait take the same shadow. Sections carry no `border-t`; the `.rule-heading` labels and the panels mark the boundaries. Keep panels for things that are objects (numbers, cards, tables). Boxing every section brings back the flatness in a new form. `FooterCTA` keeps its rule.
+
+Homepage sections share `.container-wide` (82rem), which is wider than the subpages' `max-w-5xl`. Prose inside it keeps its own `max-w-*` measure. `FooterCTA` takes a `wide` prop so its left edge lines up on the homepage. Subpages still use `max-w-5xl` and have not been moved to the panel system.
+
+The hero puts the message ahead of the person. The headline runs the full container width at up to 8.25rem, credentials stay as the small mono `exits_` / `before_` lines, and the photo sits small in the bottom-right corner. `speaking-mic-mirrored.jpg` is deliberately flipped so the gaze points into the page, not off its edge. Keep it that way if the photo is replaced.
+
+Design canvas with the treatments that led here: https://claude.ai/artifact/Y2rS3ZjaK33S8rRFNsuT3p
 
 Design review that produced this system, including the changes not yet made (break the shared `max-w-5xl` container, one large accent moment per page, bring photography above the fold): https://claude.ai/code/artifact/219fdc26-0c51-4d53-b23f-1379a56bf049
 
