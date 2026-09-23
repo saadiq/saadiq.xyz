@@ -9,6 +9,8 @@ import {
   caseStudyCount,
   testimonials,
   SHOW_PENDING,
+  displayName,
+  pendingNote,
 } from "../../lib/work-data";
 
 const visibleTestimonials = testimonials.filter((t) => t.cleared || SHOW_PENDING);
@@ -17,8 +19,8 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
   group,
   studies: studies.map((cs) => ({
     ...cs,
-    displayName: cs.nameCleared || SHOW_PENDING ? cs.client : cs.anonym,
-    pendingNote: !cs.nameCleared && SHOW_PENDING ? cs.anonym : null,
+    displayName: displayName(cs),
+    pendingNote: pendingNote(cs),
   })),
 }));
 ---
@@ -49,6 +51,16 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
               {studies.map((cs) => (
                 <div class="grid md:grid-cols-2 gap-4 md:gap-16 border-b border-rule pb-10 md:pb-12 last:border-b-0 last:pb-0">
                   <div>
+                    {cs.metric && (
+                      <>
+                        <p class="font-display text-7xl md:text-8xl leading-none text-accent mb-2">
+                          {cs.metric.value}
+                        </p>
+                        <p class="font-mono text-xs text-text-muted mb-6">
+                          {cs.metric.label}
+                        </p>
+                      </>
+                    )}
                     <h3 class="font-display text-2xl md:text-3xl leading-tight mb-4">
                       {cs.headline}
                     </h3>
@@ -67,7 +79,11 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                   <div>
                     <p class="text-text leading-relaxed mb-4">{cs.challenge}</p>
                     <p class="text-text-body leading-relaxed mb-6">{cs.work}</p>
-                    <p class="font-mono text-xs text-text-muted mb-2">results_</p>
+                    {cs.results.length > 0 && (
+                      <p class="font-mono text-xs text-text-muted mb-2">
+                        {cs.metric ? "also shipped_" : "results_"}
+                      </p>
+                    )}
                     <ul class="space-y-2">
                       {cs.results.map((r) => (
                         <li class="flex gap-2 text-sm text-text-body leading-relaxed">

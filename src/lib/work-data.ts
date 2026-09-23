@@ -19,6 +19,11 @@ export interface CaseStudy {
   // Display headline: the strongest verified result, phrased within the proof
   // constraints. The client descriptor renders beneath it, not above it.
   headline: string;
+  // The one number a reader should leave with. Set only where the result is a
+  // verified figure; it leads the case study on /work and qualifies the study
+  // for the homepage What shipped strip. `label` must read on its own, and the
+  // claim is not repeated in `results`.
+  metric?: { value: string; label: string };
   format: string[];
   challenge: string;
   work: string;
@@ -81,6 +86,10 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A B2B corporate-housing company",
         nameCleared: false,
         headline: "A voice agent in production, replacing 8 to 12 hours of calling per request",
+        metric: {
+          value: "8–12 hrs",
+          label: "of manual calling per request, replaced by a voice agent in production",
+        },
         format: [
           "embedded technical leadership",
           "thirteen months and running",
@@ -89,7 +98,6 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           "Core operations ran by hand. Sourcing a single housing request took hours of manual search and property calls, and triaging property emails consumed the team's day.",
         work: "The engagement started with one email automation and grew into fractional technical leadership. A voice agent went into production making first-pass qualification calls. The website was replatformed. The team was in the work the whole way, so the capability stayed.",
         results: [
-          "Voice agent in production, replacing 8 to 12 hours of manual calling per request",
           "Property email triage automated",
           "Website replatform shipped",
           "The non-technical founder now runs her own dev environment and merges her own pull requests",
@@ -133,12 +141,15 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A venture-backed database company",
         nameCleared: false,
         headline: "A zero percent AI mention rate diagnosed across seven models",
+        metric: {
+          value: "0%",
+          label: "AI mention rate across seven models, diagnosed with the cause in a two-week sprint",
+        },
         format: ["2-week discovery sprint", "converted to a 6-month retainer"],
         challenge:
           "The company had shipped real AI products, and no AI assistant recommended them. Buyers increasingly ask models what to use, and the company was absent from the answers.",
         work: "A two-week discovery sprint. I built a custom visibility audit, tested how seven AI models saw the product across the queries buyers actually ask, found a zero percent mention rate and a blog invisible to AI crawlers, and traced the problem to how the content was structured.",
         results: [
-          "Zero percent AI mention rate diagnosed across seven models, with the cause identified",
           "90-day roadmap delivered with an executive brief and a measurement framework",
           "Converted into a six-month advisory retainer",
         ],
@@ -148,12 +159,15 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A consumer product team",
         nameCleared: false,
         headline: "Prototype iteration cut from weeks to about three hours",
+        metric: {
+          value: "~3 hrs",
+          label: "per prototype iteration, down from weeks, after three weeks embedded",
+        },
         format: ["3 weeks embedded", "AI-native prototyping"],
         challenge:
           "Product feedback moved through static designs, an external engineering team, and a debugging cycle before anyone learned anything. Iterations took weeks, and keeping the app moving required a full-time CTO plus two developers.",
         work: "Three weeks embedded with the team. We separated prototyping from production, stood up an AI toolstack the team ran themselves, and rebuilt the testing loop around working prototypes instead of mockups.",
         results: [
-          "Prototype iteration went from weeks to about three hours",
           "Engineering need dropped from a full-time CTO plus two developers to office hours and a fraction of one",
           "Users reacted to working software, which sharpened every feedback cycle",
         ],
@@ -162,10 +176,21 @@ export const caseStudyGroups: CaseStudyGroup[] = [
   },
 ];
 
-export const caseStudyCount = caseStudyGroups.reduce(
-  (n, g) => n + g.studies.length,
-  0,
+// The naming gate, resolved once so templates render values, not policy.
+export const displayName = (cs: CaseStudy) =>
+  cs.nameCleared || SHOW_PENDING ? cs.client : cs.anonym;
+
+// Local previews only: the descriptor a cleared name would replace.
+export const pendingNote = (cs: CaseStudy) =>
+  !cs.nameCleared && SHOW_PENDING ? cs.anonym : null;
+
+const allStudies = caseStudyGroups.flatMap((g) => g.studies);
+
+export const featuredStudies = allStudies.filter(
+  (cs): cs is CaseStudy & Required<Pick<CaseStudy, "metric">> => !!cs.metric,
 );
+
+export const caseStudyCount = allStudies.length;
 
 export const testimonials: Testimonial[] = [
   {
