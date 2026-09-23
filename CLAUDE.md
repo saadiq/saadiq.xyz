@@ -43,7 +43,7 @@ Three ground planes and three text tiers. Neutrals are warmed off pure grey so t
 
 Every tier clears AAA on `bg` and `bg-surface`. The one exception is `text-muted` on `bg-raise` at 6.63:1 (AA, not AAA), which is a deliberate trade: darkening `bg-raise` far enough to reach 7:1 collapses its separation from `bg-surface` to 1.03:1 and the plane stops reading.
 
-Sections alternate planes rather than being separated by hairlines. On the homepage, Stats / Tracks / NewsletterPreview sit on `bg-surface`; Hero / WhyNotThem / ServicesTeaser / About stay on `bg`. Those sections carry no `border-t` — the plane change *is* the boundary. `FooterCTA` keeps its rule because it follows ground-plane content and is shared with all four subpages.
+Sections alternate planes rather than being separated by hairlines. On the homepage, Stats / WhyNotThem / ServicesTeaser / About sit on `bg-surface`; Hero / ShippedStrip / Tracks / NewsletterPreview stay on `bg`. Inserting a section means re-alternating everything below it. Those sections carry no `border-t` — the plane change *is* the boundary. `FooterCTA` keeps its rule because it follows ground-plane content and is shared with all four subpages.
 
 Design review that produced this system, including the changes not yet made (break the shared `max-w-5xl` container, one large accent moment per page, bring photography above the fold): https://claude.ai/code/artifact/219fdc26-0c51-4d53-b23f-1379a56bf049
 
