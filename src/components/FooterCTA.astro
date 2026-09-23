@@ -1,17 +1,10 @@
 ---
 import BookingCTA from "./BookingCTA.astro";
 import NewsletterSignup from "./NewsletterSignup.astro";
-
-interface Props {
-  // The homepage runs on the wider shared container; subpages stay at 5xl.
-  wide?: boolean;
-}
-
-const { wide = false } = Astro.props;
 ---
 
 <footer class="pt-16 md:pt-20 pb-32 border-t border-rule">
-  <div class={wide ? "container-wide" : "max-w-5xl mx-auto px-6"}>
+  <div class="container-wide">
     <p class="font-display text-2xl md:text-3xl leading-snug mb-10 max-w-3xl">
       Ready to get your team going on AI but can't get traction? Let's talk.
     </p>
