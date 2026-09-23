@@ -22,6 +22,9 @@
   --font-display: "Instrument Serif", serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-body: "Inter", system-ui, sans-serif;
+
+  /* The lift under panels, and under the photos that sit beside them. */
+  --shadow-panel: 0 32px 72px rgb(0 0 0 / 0.55);
 }
 
 html {
@@ -150,7 +153,7 @@ body::before {
     background: linear-gradient(180deg, #211d1a 0%, var(--color-bg-raise) 100%);
     border: 1px solid var(--color-rule);
     border-top-color: #3a332f;
-    box-shadow: 0 32px 72px rgb(0 0 0 / 0.55);
+    box-shadow: var(--shadow-panel);
   }
 
   /* Case-study cards: a panel that leads with a gold edge. */
