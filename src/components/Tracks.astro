@@ -27,7 +27,7 @@ const receipts = [
 ---
 
 <section class="py-20 md:py-28">
-  <div class="max-w-5xl mx-auto px-6">
+  <div class="container-wide">
     <h2 class="rule-heading mb-12">What changes</h2>
 
     <div class="space-y-16 md:space-y-24">
@@ -64,7 +64,7 @@ const receipts = [
           speed.
         </p>
         <p class="font-mono text-xs text-text-muted mt-8 mb-2">elsewhere_</p>
-        <div class="divide-y divide-rule border-y border-rule bg-bg-raise px-5 md:px-6 max-w-2xl">
+        <div class="panel divide-y divide-rule px-5 md:px-6 max-w-2xl">
           {receipts.map((receipt) => (
             <a
               href={receipt.url}
