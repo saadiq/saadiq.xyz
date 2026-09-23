@@ -156,6 +156,11 @@ body::before {
     box-shadow: var(--shadow-panel);
   }
 
+  /* The one subpage h1 scale. */
+  .page-title {
+    @apply font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight mb-8;
+  }
+
   /* Case-study cards: a panel that leads with a gold edge. */
   .panel-accent {
     border-top: 2px solid var(--color-accent);
