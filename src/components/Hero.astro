@@ -1,15 +1,66 @@
 ---
+import { Image } from "astro:assets";
 import BookingCTA from "./BookingCTA.astro";
+import speakingMic from "../assets/images/speaking-mic.jpg";
+
+// The buyer is hiring a person, so the person and the exits sit above the
+// fold. On mobile the photo drops to a thumbnail beside the name so the
+// headline still leads.
+const exits = ["Facebook", "GoDaddy", "Gerber Life", "Yuga Labs"];
 ---
 
 <section class="pt-40 md:pt-48 pb-20 md:pb-28">
-  <div class="max-w-5xl mx-auto px-6">
-    <h1 class="font-display text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
-      Smart leaders are stuck on AI. I get their teams unstuck.<span class="cursor-blink text-accent" aria-hidden="true">_</span>
-    </h1>
-    <p class="text-lg md:text-xl text-text-body max-w-3xl mb-10 leading-relaxed">
-      You've purchased the licenses. You've made the proclamations. You may even have an internal champion. Nothing has changed. I take a hands-on approach to showing your team what's possible and how.
-    </p>
-    <BookingCTA section="hero" />
+  <div class="max-w-6xl mx-auto px-6 md:grid md:grid-cols-[minmax(0,1fr)_20rem] lg:grid-cols-[minmax(0,1fr)_24rem] md:items-end md:gap-16 lg:gap-20">
+    <div>
+      <div class="flex items-center gap-4 mb-8 md:hidden">
+        <Image
+          src={speakingMic}
+          alt=""
+          widths={[128, 192]}
+          sizes="64px"
+          class="w-16 h-20 object-cover object-[55%_30%] border border-rule"
+          loading="lazy"
+        />
+        <div class="font-mono text-xs leading-relaxed">
+          <p class="text-text">Saadiq Rodgers-King</p>
+          <p class="text-text-muted">{exits.length} exits · {exits.join(", ")}</p>
+        </div>
+      </div>
+      <h1 class="font-display text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+        Smart leaders are stuck on AI. I get their teams unstuck.<span class="cursor-blink text-accent" aria-hidden="true">_</span>
+      </h1>
+      <p class="text-lg md:text-xl text-text-body max-w-2xl mb-10 leading-relaxed">
+        You've purchased the licenses. You've made the proclamations. You may even have an internal champion. Nothing has changed. I take a hands-on approach to showing your team what's possible and how.
+      </p>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+        <BookingCTA section="hero" />
+        <a
+          href="#shipped"
+          class="text-link text-accent hover:text-accent-hover"
+          data-ph-capture="cta_shipped"
+          data-ph-section="hero"
+        >
+          What shipped &darr;
+        </a>
+      </div>
+      <div class="hidden md:block mt-10 pt-5 border-t border-rule font-mono text-sm space-y-1">
+        <p>
+          <span class="text-text-muted">exits_</span>{" "}
+          <span class="text-text">{exits.join(" · ")}</span>
+        </p>
+        <p>
+          <span class="text-text-muted">before_</span>{" "}
+          <span class="text-text">Princeton CS · MIT Sloan MBA · 20+ years in product and engineering</span>
+        </p>
+      </div>
+    </div>
+    <Image
+      src={speakingMic}
+      alt="Saadiq Rodgers-King speaking with a microphone"
+      widths={[384, 576, 724]}
+      sizes="(min-width: 1024px) 384px, (min-width: 768px) 320px, 1px"
+      class="hidden md:block w-full aspect-[2/3] object-cover border border-rule"
+      loading="eager"
+    />
   </div>
 </section>
