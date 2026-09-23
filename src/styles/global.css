@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  /* Three ground planes, not one. The homepage runs on continuous bg and sets
-     raised objects (.panel) on it; subpages alternate bg / bg-surface. bg-raise
-     carries panels, quotes, tables, and code. Warmed off pure neutral so the
+  /* Three ground planes, not one. Every page runs on continuous bg and sets
+     raised objects (.panel) on it. bg-surface is unused but kept because the
+     contrast figures reference it. bg-raise carries panels, quotes, tables,
+     and code. Warmed off pure neutral so the
      ground sits in the same light as the type. */
   --color-bg: #0b0a09;
   --color-bg-surface: #131110;
@@ -127,8 +128,8 @@ body::before {
   }
 }
 
-/* The homepage's shared width. Wider than the subpages' max-w-5xl so the
-   display type and panels have room; prose inside keeps its own max-w measure. */
+/* The shared site width, every page and the footer. Prose inside keeps its
+   own max-w measure. */
 @layer components {
   .container-wide {
     max-width: 82rem;
