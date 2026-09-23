@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  /* Three ground planes, not one. Sections alternate bg / bg-surface so the
-     page has vertical rhythm; bg-raise carries quotes, tables, and code.
-     Warmed off pure neutral so the ground sits in the same light as the type. */
+  /* Three ground planes, not one. The homepage runs on continuous bg and sets
+     raised objects (.panel) on it; subpages alternate bg / bg-surface. bg-raise
+     carries panels, quotes, tables, and code. Warmed off pure neutral so the
+     ground sits in the same light as the type. */
   --color-bg: #0b0a09;
   --color-bg-surface: #131110;
   --color-bg-raise: #1c1917;
@@ -123,6 +124,37 @@ body::before {
     flex: 1 1 auto;
     height: 1px;
     background-color: var(--color-rule);
+  }
+}
+
+/* The homepage's shared width. Wider than the subpages' max-w-5xl so the
+   display type and panels have room; prose inside keeps its own max-w measure. */
+@layer components {
+  .container-wide {
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .container-wide {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* A raised object on the black: stats, case studies, receipts. The lighter
+     top edge is what makes it read as lifted, since a shadow alone barely
+     registers on a near-black ground. */
+  .panel {
+    background: linear-gradient(180deg, #211d1a 0%, var(--color-bg-raise) 100%);
+    border: 1px solid var(--color-rule);
+    border-top-color: #3a332f;
+    box-shadow: 0 32px 72px rgb(0 0 0 / 0.55);
+  }
+
+  /* Case-study cards: a panel that leads with a gold edge. */
+  .panel-accent {
+    border-top: 2px solid var(--color-accent);
   }
 }
 
