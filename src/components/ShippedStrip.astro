@@ -1,0 +1,59 @@
+---
+// First-party proof on the homepage: every study in work-data.ts that carries
+// a verified metric. Stats and Tracks are other people's numbers; this is the
+// section that says what I shipped, so it sits directly after Stats.
+import BookingCTA from "./BookingCTA.astro";
+import {
+  caseStudyCount,
+  displayName,
+  featuredStudies,
+} from "../lib/work-data";
+---
+
+<section id="shipped" class="py-20 md:py-28">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="rule-heading mb-12">What shipped</h2>
+    <div class="grid md:grid-cols-3 gap-4">
+      {
+        featuredStudies.map((cs) => (
+          <a
+            href="/work"
+            class="flex flex-col gap-4 bg-bg-raise p-6 md:p-8 group"
+            data-ph-capture="cta_work"
+            data-ph-section="shipped_strip"
+          >
+            <p class="font-display text-6xl md:text-7xl leading-none text-accent group-hover:text-accent-hover transition-colors">
+              {cs.metric.value}
+            </p>
+            <p class="font-display text-xl md:text-2xl leading-snug text-text">
+              {cs.metric.label}
+            </p>
+            <div class="mt-auto pt-4 border-t border-rule space-y-1">
+              <p class="font-mono text-sm text-text">{displayName(cs)}</p>
+              <p class="font-mono text-xs text-text-muted">
+                {cs.format.join(" · ")}
+              </p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+    <div class="mt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <p class="text-lg text-text-body max-w-xl">
+        {caseStudyCount} engagements, anonymized until each client signs a
+        release. The details stay exact.
+      </p>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a
+          href="/work"
+          class="text-link text-accent hover:text-accent-hover"
+          data-ph-capture="cta_work"
+          data-ph-section="shipped_strip"
+        >
+          All {caseStudyCount} &rarr;
+        </a>
+        <BookingCTA section="shipped_strip" />
+      </div>
+    </div>
+  </div>
+</section>
