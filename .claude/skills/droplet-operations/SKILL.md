@@ -11,7 +11,9 @@ even when this skill is not loaded. This file holds the full procedures.
 
 ## How the server is laid out
 
-- **Droplet**: `167.71.169.225` (SSH as `saadiq`, root login disabled)
+- **Droplet**: `167.71.169.225` (SSH as `saadiq`, root login disabled), DigitalOcean droplet ID `553572439` for `doctl`
+- **OS**: Ubuntu 26.04.1 LTS since 2026-10-08 (22.04 → 24.04 on 2026-02-24, 24.04 → 26.04 on 2026-10-08). `sudo` is `sudo-rs` (classic sudo is still installed as `sudo.ws`), MySQL is 8.4, nginx 1.28.
+- **Ghost DB user** `ghost-908`@`127.0.0.1` authenticates with `caching_sha2_password`. MySQL 8.4 disables `mysql_native_password` by default, so never recreate the user with the old plugin. Admin access without the root password: `sudo mysql --defaults-file=/etc/mysql/debian.cnf`.
 - **Nginx config**: `/etc/nginx/sites-enabled/saadiq.xyz.conf`
 - **Static site files**: `/var/www/saadiq.xyz/` (this repo's `dist/` output)
 - **Ghost blog**: runs on `127.0.0.1:2368`, served at `/newsletter`
