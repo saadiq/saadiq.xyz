@@ -75,9 +75,20 @@ sudo needrestart -b | grep NEEDRESTART-K                               # KSTA 1 
 apt list --upgradable                                                  # non-security -updates are NOT auto-applied
 ```
 
-Before rebooting, confirm it will come back — this box previously needed a power-cycle, and a bad nginx conf is the known way to strand it: `sudo nginx -t` passes, `ls /etc/nginx/sites-enabled/` holds only `.conf` files, `systemctl is-enabled nginx mysql ghost_167-71-169-225` are all `enabled`, and `/swapfile` is still in `/etc/fstab`. With those green, `sudo systemctl reboot` took ~30s on 2026-08-15 and every service came back unattended.
+Before rebooting, confirm it will come back — this box previously needed a power-cycle, and a bad nginx conf is the known way to strand it: `sudo nginx -t` passes, `ls /etc/nginx/sites-enabled/` holds only `.conf` files, `systemctl is-enabled nginx mysql ghost_167-71-169-225` are all `enabled`, and `/swapfile` is still in `/etc/fstab`. With those green, `sudo systemctl reboot` took ~30s on 2026-08-15 and again on 2026-10-08 (6.8.0-139 → 146), and every service came back unattended both times.
 
-Most remaining `-updates` packages are base-image cruft irrelevant to a headless droplet (qemu, plymouth, ovmf, alsa, firmware). Taking all of them via `apt-get upgrade` is fine; note that `apparmor` sets `reboot-required` again afterwards.
+Most remaining `-updates` packages are base-image cruft irrelevant to a headless droplet (qemu, plymouth, ovmf, alsa, firmware). Take them all, but **pass `--with-new-pkgs`**. A new kernel arrives as a new `linux-image-<ver>` package that the `linux-generic` metapackage depends on, and plain `apt-get upgrade` holds back any upgrade that needs a package not already installed, so the kernel quietly stays put. Run it detached like `ghost update`, with `NEEDRESTART_MODE=l` so needrestart lists stale services instead of restarting them mid-upgrade (the reboot handles them):
+
+```bash
+sudo setsid nohup env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=l sh -c \
+  "apt-get update && apt-get -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold --with-new-pkgs upgrade" \
+  </dev/null > /tmp/apt-upgrade.log 2>&1 &
+# poll: pgrep -f "apt-get -[y]"
+```
+
+`apparmor` sets `reboot-required` again afterwards, so upgrade *before* rebooting and one reboot covers both. A package still in `apt list --upgradable` afterwards that `apt-cache policy <pkg>` marks `(phased N%)` is an Ubuntu staged rollout, not a hold. It installs itself when this machine's turn comes (`open-iscsi` on 2026-10-08).
+
+**Two third-party apt repos ride along: NodeSource (`nodejs`) and Tailscale.** A routine OS upgrade can therefore bump Node, and the NodeSource package strips the npm pin every time (22.23.2 → 22.23.3 reset npm to 10.9.9 on 2026-10-08). Re-pin npm after any upgrade that touched `nodejs` (see the npm section below), and confirm the new Node still satisfies the installed Ghost's `engines.node`.
 
 ## npm supply-chain hardening
 
