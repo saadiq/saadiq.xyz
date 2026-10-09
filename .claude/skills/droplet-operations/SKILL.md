@@ -59,6 +59,12 @@ A same-major Node bump (22.22 → 22.23) keeps the ABI, so Ghost's compiled nati
 
 **Automation notes**: `saadiq` has **passwordless sudo to `ghost-mgr`**, so the whole upgrade is drivable over non-interactive SSH (`sudo -n -u ghost-mgr true` to confirm). Stopping Ghost first frees its ~900MB, which is what gives the native-module compiles headroom.
 
+**Run `ghost doctor` before any `ghost stop` / `ghost restart`.** `ghost start` runs the same pre-flight checks and refuses to start on any failure, so a check that fails after `ghost stop` leaves `/newsletter` down. That happened on 2026-10-09. Two checks fail routinely:
+- **Theme permissions**: see below.
+- **Binary dependencies** after any Node patch bump, including one that arrives through a routine `apt-get upgrade`. ghost-cli compares the running Node version string against `node-version` in `/var/www/ghost/.ghost-cli`. If `node -p process.versions.modules` is unchanged (127 for all of Node 22), the compiled modules are still valid. Set that field to the running version (as `ghost-mgr`, preserving the file) instead of the suggested `ghost update <ver> --force` reinstall. A real Ghost update rewrites it anyway.
+
+If Ghost is down because a check failed, `sudo systemctl start ghost_167-71-169-225.service` starts it without the checks.
+
 **Theme file permissions fail the pre-flight most upgrades, and will keep doing so.** Deploying `journal-field-notes` leaves its assets mode `755`, and ghost-cli refuses to run until they are `664` (four files under `assets/` on 2026-08-15). ghost-cli prints a blanket `sudo find ./ ! -path "./versions/*" -type f -exec chmod 664 {} \;` — **chmod only the files it lists instead**, because the blanket form also widens `config.production.json` (holds mail credentials) to world-readable. The real fix is upstream in whatever deploys the theme setting the exec bit.
 
 **Verify after upgrading** (systemd `active` is not enough — check it actually serves):
