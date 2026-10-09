@@ -73,6 +73,7 @@ curl -so /dev/null -w '%{http_code}\n' https://saadiq.xyz/newsletter/           
 [ -f /var/run/reboot-required ] && cat /var/run/reboot-required.pkgs   # what is waiting
 sudo needrestart -b | grep NEEDRESTART-K                               # KSTA 1 = current, 3 = reboot needed
 apt list --upgradable                                                  # non-security -updates are NOT auto-applied
+systemctl --failed --no-legend                                         # expect empty; see fail2ban below
 ```
 
 Before rebooting, confirm it will come back — this box previously needed a power-cycle, and a bad nginx conf is the known way to strand it: `sudo nginx -t` passes, `ls /etc/nginx/sites-enabled/` holds only `.conf` files, `systemctl is-enabled nginx mysql ghost_167-71-169-225` are all `enabled`, and `/swapfile` is still in `/etc/fstab`. With those green, `sudo systemctl reboot` took ~30s on 2026-08-15 and again on 2026-10-08 (6.8.0-139 → 146), and every service came back unattended both times.
@@ -89,6 +90,20 @@ sudo setsid nohup env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=l sh -c \
 `apparmor` sets `reboot-required` again afterwards, so upgrade *before* rebooting and one reboot covers both. A package still in `apt list --upgradable` afterwards that `apt-cache policy <pkg>` marks `(phased N%)` is an Ubuntu staged rollout, not a hold. It installs itself when this machine's turn comes (`open-iscsi` on 2026-10-08).
 
 **Two third-party apt repos ride along: NodeSource (`nodejs`) and Tailscale.** A routine OS upgrade can therefore bump Node, and the NodeSource package strips the npm pin every time (22.23.2 → 22.23.3 reset npm to 10.9.9 on 2026-10-08). Re-pin npm after any upgrade that touched `nodejs` (see the npm section below), and confirm the new Node still satisfies the installed Ghost's `engines.node`.
+
+## fail2ban: check it is actually running
+
+fail2ban failed on every boot from at least 2026-04-22 (the oldest log) to 2026-10-08, and nothing flagged it. Two custom jails in `/etc/fail2ban/jail.d/ghost.conf` (`ghost-auth`, `ghost-ratelimit`) used failregexes with no `<HOST>` group. fail2ban rejects that with `RegexException: No failure-id group`, and **one bad jail aborts the whole server**, so the stock `sshd` jail was down with them. SSH itself was never exposed: keys only, root login off, and ufw `LIMIT` on 22.
+
+**`fail2ban-client -t` passed the entire time.** The config test does not compile the jails' regexes, so the error only appears when the server starts. Check the running server instead:
+
+```bash
+systemctl is-active fail2ban
+sudo fail2ban-client status                      # expect "Jail list: sshd"
+sudo grep -E "ERROR|NOK" /var/log/fail2ban.log*  # current file can be empty after rotation
+```
+
+Fixed 2026-10-08 by setting both Ghost jails to `enabled = false` (original kept at `/var/backups/fail2ban/ghost.conf.2026-10-08`), leaving `sshd` as the only jail. The Ghost jails were broken a second way too: `jail.d/defaults-debian.conf` sets `backend = systemd` in `[DEFAULT]`, so their `logpath` was ignored and they would have read the journal rather than Ghost's log files. Rebuilding them needs a `<HOST>` group in each `filter.d/` regex, a per-jail `backend = auto` so `logpath` applies, and confirming that Ghost's JSON logs carry the real client IP behind nginx (not yet checked). Until then, the Tor-exit block below is what stops signup abuse, not fail2ban.
 
 ## npm supply-chain hardening
 
