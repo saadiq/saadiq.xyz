@@ -115,6 +115,10 @@ sudo setsid nohup env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=l sh -c \
 
 **Leftovers, harmless:** `ubuntu.sources` now points at `archive.ubuntu.com` rather than DigitalOcean's mirror. `third-party.sources` holds the old noble mirror entries, disabled. Pre-upgrade copies of every sources file are in `/var/backups/apt-sources-2026-10-08/`.
 
+**Post-upgrade cleanup traps.** Both of these caused outages on 2026-10-09:
+- **Never purge the old `mysql-server-8.0` leftover (`rc` state).** Its postrm shares the `mysql.service` unit name with 8.4. Purging it stops MySQL, **disables** the unit, and deletes `/var/log/mysql`. MySQL then refuses to start (`Could not open file '/var/log/mysql/error.log'`). Recovery: `sudo install -d -m 2750 -o mysql -g adm /var/log/mysql && sudo systemctl enable --now mysql`, then restart Ghost. The data directory was untouched. Exclude it from any blanket `apt purge ~c`, or skip purging `rc` packages entirely, since they only hold config files.
+- **Never hand-delete `/lib/modules/<ver>` dirs, and never check their ownership with `dpkg -S /lib/...`.** On 26.04, dpkg registers module files under `/usr/lib/modules/`, so `dpkg -S /lib/modules/<running kernel>` reports "no path found" and the directory looks orphaned. Deleting it removed every module for the running kernel. The fix was `apt-get install --reinstall` on every `linux-*<ver>*` package, which also regenerates the initramfs. Let `apt autoremove` remove old kernels.
+
 ## fail2ban: check it is actually running
 
 fail2ban failed on every boot from at least 2026-04-22 (the oldest log) to 2026-10-08, and nothing flagged it. Two custom jails in `/etc/fail2ban/jail.d/ghost.conf` (`ghost-auth`, `ghost-ratelimit`) used failregexes with no `<HOST>` group. fail2ban rejects that with `RegexException: No failure-id group`, and **one bad jail aborts the whole server**, so the stock `sshd` jail was down with them. SSH itself was never exposed: keys only, root login off, and ufw `LIMIT` on 22.
