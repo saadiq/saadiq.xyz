@@ -14,6 +14,7 @@ even when this skill is not loaded. This file holds the full procedures.
 - **Droplet**: `167.71.169.225` (SSH as `saadiq`, root login disabled), DigitalOcean droplet ID `553572439` for `doctl`
 - **OS**: Ubuntu 26.04.1 LTS since 2026-10-08 (22.04 → 24.04 on 2026-02-24, 24.04 → 26.04 on 2026-10-08). `sudo` is `sudo-rs` (classic sudo is still installed as `sudo.ws`), MySQL is 8.4, nginx 1.28.
 - **Ghost DB user** `ghost-908`@`127.0.0.1` authenticates with `caching_sha2_password`. MySQL 8.4 disables `mysql_native_password` by default, so never recreate the user with the old plugin. Admin access without the root password: `sudo mysql --defaults-file=/etc/mysql/debian.cnf`.
+- **Memory tuning** (2026-10-09). With MySQL 8.4 and kernel 7.0, idle MySQL and Ghost memory sat in swap (mysqld at 17MB resident and 526MB swapped), and a cold `/newsletter` took 5.3s. Three changes fixed it: `/etc/sysctl.d/60-swappiness.conf` (`vm.swappiness = 10`), `/etc/mysql/mysql.conf.d/zz-small-droplet.cnf` (`performance_schema = OFF`, `innodb_log_buffer_size = 16M`; the whole DB is ~15MB), and `/etc/systemd/journald.conf.d/50-size.conf` (`SystemMaxUse=500M`; the journal had reached 2.1G, and fail2ban's sshd jail reads it continuously). The unused `lxd`, `core20` and `core22` snaps from the base image are gone too.
 - **Nginx config**: `/etc/nginx/sites-enabled/saadiq.xyz.conf`
 - **Static site files**: `/var/www/saadiq.xyz/` (this repo's `dist/` output)
 - **Ghost blog**: runs on `127.0.0.1:2368`, served at `/newsletter`
