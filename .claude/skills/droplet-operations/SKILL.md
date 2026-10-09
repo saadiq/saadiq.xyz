@@ -93,6 +93,27 @@ sudo setsid nohup env DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=l sh -c \
 
 **Two third-party apt repos ride along: NodeSource (`nodejs`) and Tailscale.** A routine OS upgrade can therefore bump Node, and the NodeSource package strips the npm pin every time (22.23.2 → 22.23.3 reset npm to 10.9.9 on 2026-10-08). Re-pin npm after any upgrade that touched `nodejs` (see the npm section below), and confirm the new Node still satisfies the installed Ghost's `engines.node`.
 
+## Ubuntu release upgrades
+
+24.04 → 26.04 ran on 2026-10-08. The upgrader itself took 18 minutes (01:01 → 01:19 UTC), and `/newsletter` was down for 24 minutes in total. The order that worked:
+
+1. **Fix anything the new MySQL would reject, on the old MySQL first.** 26.04 jumps MySQL 8.0 → 8.4, which disables `mysql_native_password`. The Ghost user was moved to `caching_sha2_password` beforehand with the same password, then Ghost was restarted to prove it reconnects. That makes the riskiest change reversible and tests it before the OS moves. Also grep `/etc/mysql/` for options 8.4 removed (`default_authentication_plugin`, `expire_logs_days` and similar); the stock config had none.
+2. **Back up.** `mysqldump --defaults-file=/etc/mysql/debian.cnf --single-transaction --routines --triggers --databases ghost_production` into `/var/backups/ghost/`. Then take a powered-off DigitalOcean snapshot: `doctl compute droplet-action shutdown 553572439 --wait`, then `snapshot --snapshot-name … --wait`, then `power-on --wait`. The whole site was down for about 3.5 minutes. Delete the snapshot once the new release has proved itself.
+3. **Stop Ghost, then upgrade detached and non-interactive:**
+   ```bash
+   sudo setsid nohup env RELEASE_UPGRADER_NO_SCREEN=1 UCF_FORCE_CONFFOLD=1 DEBIAN_FRONTEND=noninteractive NEEDRESTART_MODE=l \
+     do-release-upgrade -f DistUpgradeViewNonInteractive </dev/null > /var/tmp/release-upgrade.log 2>&1 &
+   # progress: sudo tail /var/log/dist-upgrade/main.log ; running while pgrep -f "[r]esolute --mode=server"
+   ```
+   The non-interactive view answers **no** to every dpkg conffile prompt, so locally edited files are kept. `nginx.conf` (the `sites-enabled/*.conf` guard) was the only prompt.
+4. **Re-enable the third-party repos, upgrade, reboot.** The upgrader disables every non-Ubuntu source. NodeSource gets `Enabled: no` added (delete the line; the `nodistro` suite needs no change). Tailscale and droplet-agent were rewritten as deb822 `.sources` files pointing at `resolute` and `main`. droplet-agent's repo had been disabled since the February upgrade, which left it at 1.3.2 while 1.4.3 was out. Then run the usual pre-reboot checks and reboot.
+
+**Two alarming moments that were transient:**
+- **SSH refused connections for about 5 minutes** while `openssh-server` was being configured (port 22 is socket-activated). The site kept serving. If it does not return, the DigitalOcean web console works through droplet-agent.
+- **`sudo: command not found`** for a few minutes while `sudo` / `sudo-rs` sat unpacked but not configured. Both setuid binaries kept working by full path the whole time: `sudo.ws` and `/usr/lib/cargo/bin/sudo`.
+
+**Leftovers, harmless:** `ubuntu.sources` now points at `archive.ubuntu.com` rather than DigitalOcean's mirror. `third-party.sources` holds the old noble mirror entries, disabled. Pre-upgrade copies of every sources file are in `/var/backups/apt-sources-2026-10-08/`.
+
 ## fail2ban: check it is actually running
 
 fail2ban failed on every boot from at least 2026-04-22 (the oldest log) to 2026-10-08, and nothing flagged it. Two custom jails in `/etc/fail2ban/jail.d/ghost.conf` (`ghost-auth`, `ghost-ratelimit`) used failregexes with no `<HOST>` group. fail2ban rejects that with `RegexException: No failure-id group`, and **one bad jail aborts the whole server**, so the stock `sshd` jail was down with them. SSH itself was never exposed: keys only, root login off, and ufw `LIMIT` on 22.
