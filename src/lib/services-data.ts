@@ -10,7 +10,7 @@ export const services = [
     format: ["one session · in person or remote", "briefs · written, 1-2 weeks"],
     who: "For leadership teams that need a concrete picture of what AI changes about how they build.",
     body:
-      "A 45 to 90 minute session built around live demos of real systems instead of slides. Your org sees working agents on actual business problems, then we take questions for as long as you want, and you keep a deck made to circulate. When a single decision needs depth rather than a room, I write executive briefs.",
+      "A 30 to 45 minute talk built around live demos of real systems instead of slides. Your org sees working agents on actual business problems, then we take questions for as long as you want, and you keep a deck made to circulate. When a single decision needs depth rather than a room, I write executive briefs.",
     proof:
       "A product-offsite talk for a global research firm was still being discussed two days later, and the deck went to everyone who missed the room. A panel on AI agents in a public library's AI literacy series drew about 80 people for live demos.",
   },
