@@ -21,7 +21,8 @@ const { section } = Astro.props;
     required
     placeholder="you@company.com"
     autocomplete="email"
-    class="flex-1 min-w-48 min-h-11 bg-transparent border border-rule px-4 py-2.5 font-mono text-sm text-text placeholder:text-text-muted/80 focus:border-accent transition-colors"
+    aria-describedby={`newsletter-msg-${section}`}
+    class="flex-1 min-w-48 min-h-11 bg-transparent border border-rule px-4 py-2.5 font-mono text-sm text-text placeholder:text-text-muted/80 focus:border-accent aria-[invalid=true]:border-accent transition-colors"
   />
   {/* Honeypot. Off-screen, out of the tab order, hidden from assistive tech, and
       named so no autofill heuristic matches it, so no real visitor can fill it. */}
@@ -42,7 +43,14 @@ const { section } = Astro.props;
   >
     Subscribe &rarr;
   </button>
-  <p data-newsletter-msg class="w-full font-mono text-xs text-text-muted min-h-4" aria-live="polite"></p>
+  {/* Errors switch to body size in the bright tier; status and success stay muted
+      metadata. A grey 12px error read as a caption and visitors missed it. */}
+  <p
+    id={`newsletter-msg-${section}`}
+    data-newsletter-msg
+    class="w-full font-mono text-xs text-text-muted min-h-4 data-[state=error]:text-sm data-[state=error]:text-text"
+    aria-live="polite"
+  ></p>
 </form>
 
 <script>
@@ -93,18 +101,35 @@ const { section } = Astro.props;
     return res.ok;
   }
 
+  function showMessage(msg: HTMLElement, text: string, error = false) {
+    msg.textContent = text;
+    if (error) msg.dataset.state = "error";
+    else delete msg.dataset.state;
+  }
+
   document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
     let sending = false;
+    const input = form.querySelector<HTMLInputElement>("input[type=email]");
+    const msg = form.querySelector<HTMLElement>("[data-newsletter-msg]");
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    if (!input || !msg) return;
+
+    // The error clears as soon as the visitor starts fixing it.
+    input.addEventListener("input", () => {
+      if (input.getAttribute("aria-invalid") !== "true") return;
+      input.removeAttribute("aria-invalid");
+      showMessage(msg, "");
+    });
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (sending) return;
-      const input = form.querySelector<HTMLInputElement>("input[type=email]");
-      const msg = form.querySelector<HTMLElement>("[data-newsletter-msg]");
-      const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
-      if (!input || !msg) return;
       const email = input.value.trim();
       if (!email || !input.checkValidity()) {
-        msg.textContent = "Enter a valid email.";
+        // Focus puts the gold outline on the field the visitor needs to fix.
+        input.setAttribute("aria-invalid", "true");
+        showMessage(msg, email ? "That email doesn't look right." : "Enter your email first.", true);
+        input.focus();
         return;
       }
       const hp = form.querySelector<HTMLInputElement>("[data-newsletter-hp]");
@@ -117,23 +142,24 @@ const { section } = Astro.props;
         (window as any).posthog?.capture("newsletter_signup_blocked", {
           section: form.dataset.phSection,
         });
-        msg.textContent = "Check your email to confirm.";
+        showMessage(msg, "Check your email to confirm.");
         input.value = "";
         return;
       }
       sending = true;
       if (button) button.disabled = true;
-      msg.textContent = "Sending...";
+      showMessage(msg, "Sending...");
       try {
         const ok = await subscribe(email).catch(() => false);
         if (ok) {
-          msg.textContent = "Check your email to confirm.";
+          showMessage(msg, "Check your email to confirm.");
           input.value = "";
           (window as any).posthog?.capture("newsletter_signup", {
             section: form.dataset.phSection,
           });
         } else {
           msg.innerHTML = FAILURE_HTML;
+          msg.dataset.state = "error";
         }
       } finally {
         sending = false;
