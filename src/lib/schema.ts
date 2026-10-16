@@ -1,3 +1,7 @@
+// Square edge of the Person image that src/pages/saadiq-rodgers-king.jpg.ts
+// renders, so the dimensions below can't drift from the file.
+export const PERSON_IMAGE_SIZE = 800;
+
 export const personSchema = {
   "@type": "Person" as const,
   "@id": "https://saadiq.xyz/#person",
@@ -8,9 +12,9 @@ export const personSchema = {
   "url": "https://saadiq.xyz/about",
   "image": {
     "@type": "ImageObject" as const,
-    "url": "https://saadiq.xyz/og.png",
-    "width": 2400,
-    "height": 1260,
+    "url": "https://saadiq.xyz/saadiq-rodgers-king.jpg",
+    "width": PERSON_IMAGE_SIZE,
+    "height": PERSON_IMAGE_SIZE,
   },
   "address": {
     "@type": "PostalAddress" as const,
@@ -21,6 +25,9 @@ export const personSchema = {
   "sameAs": [
     "https://www.linkedin.com/in/saadiq/",
     "https://github.com/saadiq",
+    "https://x.com/saadiq",
+    "https://www.threads.com/@saadiq",
+    "https://bsky.app/profile/saadiq.bsky.social",
   ],
   "alumniOf": [
     {
@@ -176,3 +183,4 @@ export const servicesBreadcrumbJsonLd = breadcrumbJsonLd("Services", "/services"
 export const aboutBreadcrumbJsonLd = breadcrumbJsonLd("About", "/about");
 export const workBreadcrumbJsonLd = breadcrumbJsonLd("Work", "/work");
 export const speakingBreadcrumbJsonLd = breadcrumbJsonLd("Speaking", "/speaking");
+
