@@ -20,6 +20,7 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 ## Related repo
 
 - **Ghost theme** (`journal-field-notes`, branch `field-notes`): `~/dev/journal`
+- **Social and newsletter cards** (Puppeteer-rendered HTML): `~/dev/cards` (`git@github.com:saadiq/cards.git`, private). Lived in `cards/` here until 2026-10-16. The cards hand-copy this site's tokens and nothing here imports from them; their `CLAUDE.md` says where to read the canonical values from.
 - The two do **not** share a palette, and syncing tokens between them is not the goal. The site is dark (`bg #0b0a09`); Field Notes is deliberately light (`--bg #f6f6f4`) because an archive is read, not scanned. What they share is a *vocabulary*: JetBrains Mono for metadata, `// section` eyebrow labels, the trailing-underscore terminal motif, a green live dot, and the gold `#d4a843` (the site's `accent`, the theme's `--accent-bright`). Keep that vocabulary in sync; let the grounds differ.
 - Field Notes darkens the accent to `#a47018` for its own body copy because `#d4a843` fails contrast on a light ground. That's correct, not drift.
 
