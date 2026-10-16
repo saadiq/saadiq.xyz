@@ -184,3 +184,12 @@ export const aboutBreadcrumbJsonLd = breadcrumbJsonLd("About", "/about");
 export const workBreadcrumbJsonLd = breadcrumbJsonLd("Work", "/work");
 export const speakingBreadcrumbJsonLd = breadcrumbJsonLd("Speaking", "/speaking");
 
+export const faqJsonLd = (items: { question: string; answer: string }[]) => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map(({ question, answer }) => ({
+    "@type": "Question" as const,
+    "name": question,
+    "acceptedAnswer": { "@type": "Answer" as const, "text": answer },
+  })),
+});

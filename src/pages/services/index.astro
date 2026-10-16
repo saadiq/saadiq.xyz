@@ -4,15 +4,16 @@ import Nav from "../../components/Nav.astro";
 import FooterCTA from "../../components/FooterCTA.astro";
 import StatusBar from "../../components/StatusBar.astro";
 import BookingCTA from "../../components/BookingCTA.astro";
-import { websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd } from "../../lib/schema";
+import { websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd, faqJsonLd } from "../../lib/schema";
 import { services } from "../../lib/services-data";
+import { faqs } from "../../lib/faq-data";
 ---
 
 <BaseLayout
   title="AI Consulting Services | Saadiq Rodgers-King"
   description="Five ways to work together on AI. Talks, executive AI advisory, 1-2 week discovery sprints, production agent builds, and embedded technical leadership."
   ogImage="/services/og.png"
-  jsonLd={[websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd]}
+  jsonLd={[websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd, faqJsonLd(faqs)]}
 >
   <Nav />
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
@@ -92,6 +93,21 @@ import { services } from "../../lib/services-data";
             </div>
           ))
         }
+      </div>
+
+      {/* The same entries feed faqJsonLd above. */}
+      <div id="questions" class="pt-12 md:pt-16">
+        <h2 class="rule-heading mb-8">Questions</h2>
+        <div class="panel divide-y divide-rule px-6 md:px-10">
+          {
+            faqs.map(({ question, answer }) => (
+              <div class="grid md:grid-cols-2 gap-3 md:gap-16 py-6 md:py-8">
+                <h3 class="font-display text-xl md:text-2xl leading-snug">{question}</h3>
+                <p class="text-text-body leading-relaxed">{answer}</p>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </main>
