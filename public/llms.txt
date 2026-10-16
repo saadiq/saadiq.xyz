@@ -1,18 +1,17 @@
-# Saadiq Rodgers-King — AI Transformation Consulting
+# Saadiq Rodgers-King, AI Transformation Consultant
 
-> Embedded AI consulting for tech companies. I get product and engineering teams unstuck.
+> AI transformation consulting for leadership teams that bought the AI tools and saw nothing change. Executive AI advisory, discovery sprints, agent and automation builds, embedded technical leadership, and talks.
 
 Saadiq Rodgers-King is an AI transformation consultant based in Brooklyn, NY.
-Princeton CS, MIT Sloan MBA. 20+ years across product, engineering, and strategy.
-He embeds with teams at tech companies to move AI initiatives from pilot to production.
+Princeton CS, MIT Sloan MBA. 20+ years in product and engineering, with four exits (to Facebook, GoDaddy, Gerber Life, and Yuga Labs).
 
 ## What I Do
 
-I work with CEOs and CPOs at tech companies where the team has AI tools but nothing has changed. I embed with product and engineering teams, work on their actual processes, and transfer the capability so it stays when I leave.
+I advise the executives making AI decisions and work hands-on with their teams until AI is part of how the work gets done. Clients range from a Fortune 500 company, where I advise the chief executive, to founder-led businesses where I serve as the technical lead.
 
-Product teams get live intelligence — customer support signals, sales conversations, competitive moves, and usage analytics synthesized in real time instead of waiting for quarterly research cycles.
+Most engagements start with one scoped, fixed-fee project, usually a one to two week discovery sprint or a single build. Executive AI advisory is a standing weekly session for CEOs and CPOs. Agent and automation builds are billed against milestones the client accepts, with human review designed in and a handoff so the client's team owns the system. Embedded technical leadership is a weekly cadence for founder-led companies that need senior technical leadership without a full-time hire. Talks run 30 to 45 minutes around live demos, plus Q&A.
 
-Engineering teams shift from grinding through tickets to building systems. Routine work gets executed by agents. Engineers focus on architecture, strategy, and the decisions that require judgment.
+Pricing is set when the work is scoped and isn't published.
 
 ## Pages
 
