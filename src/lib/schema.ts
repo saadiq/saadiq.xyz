@@ -8,7 +8,7 @@ export const personSchema = {
   "name": "Saadiq Rodgers-King",
   "jobTitle": "AI Transformation Consultant",
   "description":
-    "AI transformation consultant with 20+ years across product, engineering, and strategy. Princeton CS, MIT Sloan MBA. Embeds with product and engineering teams to move AI from pilot to production.",
+    "AI transformation consultant with 20+ years in product and engineering. Princeton CS, MIT Sloan MBA. Advises the executives making AI decisions and works hands-on with their teams until AI is part of how the work gets done.",
   "url": "https://saadiq.xyz/about",
   "image": {
     "@type": "ImageObject" as const,
@@ -119,7 +119,7 @@ export const defaultJsonLd = {
   "name": "Saadiq Rodgers-King — AI Transformation Consulting",
   "url": "https://saadiq.xyz",
   "description":
-    "Smart leaders are stuck on AI. I get their teams unstuck. Embedded consulting for tech companies with product and engineering teams.",
+    "AI transformation consulting for leadership teams that bought the AI tools and saw nothing change. Executive AI advisory, discovery sprints, agent and automation builds, embedded technical leadership, and talks.",
   "areaServed": {
     "@type": "Country" as const,
     "name": "United States",
@@ -140,7 +140,7 @@ export const websiteJsonLd = {
   "url": "https://saadiq.xyz",
   "name": "Saadiq Rodgers-King",
   "description":
-    "AI transformation consulting for tech companies with product and engineering teams.",
+    "AI transformation consulting for leadership teams that bought the AI tools and saw nothing change.",
   "publisher": { "@id": "https://saadiq.xyz/#person" },
 };
 
