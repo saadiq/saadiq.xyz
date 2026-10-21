@@ -146,7 +146,7 @@ body::before {
     }
   }
 
-  /* A raised object on the black: stats, case studies, receipts. The lighter
+  /* A raised object on the black: case studies, cards, tables. The lighter
      top edge is what makes it read as lifted, since a shadow alone barely
      registers on a near-black ground. */
   .panel {
