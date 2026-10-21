@@ -1,8 +1,6 @@
 ---
 // First-party proof on the homepage: every study in work-data.ts that carries
-// a verified metric. Stats and Tracks are other people's numbers; this is the
-// section that says what I shipped, so it sits directly after Stats.
-import BookingCTA from "./BookingCTA.astro";
+// a verified metric. It sits directly after the hero as the page's main proof.
 import {
   caseStudyCount,
   displayName,
@@ -58,19 +56,16 @@ import {
     <div class="mt-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
       <p class="text-lg text-text-body max-w-xl">
         {caseStudyCount} engagements, anonymized until each client signs a
-        release. The details stay exact.
+        release.
       </p>
-      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
-        <a
-          href="/work"
-          class="text-link text-accent hover:text-accent-hover"
-          data-ph-capture="cta_work"
-          data-ph-section="shipped_strip"
-        >
-          All {caseStudyCount} &rarr;
-        </a>
-        <BookingCTA section="shipped_strip" />
-      </div>
+      <a
+        href="/work"
+        class="text-link text-accent hover:text-accent-hover"
+        data-ph-capture="cta_work"
+        data-ph-section="shipped_strip"
+      >
+        All {caseStudyCount} &rarr;
+      </a>
     </div>
   </div>
 </section>
