@@ -1,38 +1,44 @@
 ---
-// Three failed approaches, set side by side as objects so the reader compares
-// them rather than reading a list.
-const tried = [
+// Each panel pairs an approach the reader has already tried with the reason
+// this engagement is different, so the comparison and the pitch are one read.
+// Rows in one panel, read across like a ledger, so the homepage doesn't run
+// three 3-up card grids back to back.
+const approaches = [
   {
-    title: "The internal champion.",
-    body: "A senior PM or engineer gets tapped as the AI person. But they have a day job. The old way is easier and less risky. AI stays a side project. This is my only job.",
+    approach: "an internal champion",
+    title: "This is my only job.",
+    body: "A champion with a day job drifts back to the old way, because it's easier and less risky.",
   },
   {
-    title: "The one-off training.",
-    body: "Everyone learns generic prompting tricks. Nobody goes back to work and knows what to do next. It doesn't stick because it's not connected to your actual processes. I work on your real data, your real sprint work, your real pipeline.",
+    approach: "a one-off training",
+    title: "It happens in your real work.",
+    body: "Generic prompting tips don't connect to anyone's job. I work in your data, your sprints, and your pipeline.",
   },
   {
-    title: "The status quo.",
-    body: "You feel the pressure. You bought the licenses. You keep talking about it. Nothing changes.",
+    approach: "a strategy deck",
+    title: "It runs after I leave.",
+    body: "A roadmap with no one to build it stays a document. Your team builds the workflows with me, and they keep running.",
   },
 ];
 ---
 
 <section class="py-16 md:py-20">
   <div class="container-wide">
-    <h2 class="rule-heading mb-10">What you've already tried</h2>
+    <h2 class="rule-heading mb-10">Why it sticks</h2>
 
-    <div class="grid md:grid-cols-3 gap-6">
-      {tried.map(({ title, body }) => (
-        <div class="panel flex flex-col gap-4 p-6 md:p-8">
-          <h3 class="font-display text-2xl md:text-3xl leading-tight">{title}</h3>
+    <div class="panel divide-y divide-rule px-6 md:px-10">
+      {approaches.map(({ approach, title, body }) => (
+        <div class="grid lg:grid-cols-[13rem_minmax(0,1fr)_minmax(0,1.15fr)] gap-x-10 gap-y-3 py-7 md:py-9 lg:items-baseline">
+          <p class="font-mono text-xs" aria-hidden="true">
+            <span class="text-text-muted">tried_</span>{" "}
+            <span class="text-text">{approach}</span>
+          </p>
+          <h3 class="font-display text-2xl md:text-3xl leading-tight">
+            <span class="sr-only">Tried {approach}: </span>{title}
+          </h3>
           <p class="text-text-body leading-relaxed">{body}</p>
         </div>
       ))}
     </div>
-
-    <p class="font-display text-3xl md:text-[2.5rem] leading-tight text-text max-w-4xl mt-12 md:mt-14">
-      All three fail for the same reason. There's no one showing your team what
-      good looks like in the context of your actual business.
-    </p>
   </div>
 </section>
