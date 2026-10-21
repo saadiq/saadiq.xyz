@@ -1,51 +1,73 @@
 ---
+// The span of the work, from the executive's decisions to production code. The
+// product is the expertise; building is what keeps it credible, so advisory
+// leads and builds are offered where they prove a point, not as the main sale.
+// One panel split into three columns, read left to right as a sequence. The
+// full lineup lives on /services; each step links to its service there.
 import { services } from "../lib/services-data";
+
+const steps = [
+  {
+    key: "01 advise_",
+    covers: "Executive advisory, talks",
+    slug: "advisory",
+    body: "A standing weekly session with the CEO or CPO on the AI decisions they can't delegate. Current clients include the chief executive of a Fortune 500 company. The usual starting point.",
+  },
+  {
+    key: "02 scope_",
+    covers: "Discovery sprint",
+    slug: "sprint",
+    body: "One to two weeks inside your company to find which problem is worth solving first. Ends with a scoped proposal for the first project.",
+  },
+  {
+    key: "03 build_",
+    covers: "Agent builds, embedded technical leadership",
+    slug: "builds",
+    body: "When building is the fastest way to prove the point, I ship it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
+  },
+];
+
+for (const { slug } of steps) {
+  if (!services.some((s) => s.slug === slug)) {
+    throw new Error(`ServicesTeaser: no service with slug "${slug}"`);
+  }
+}
 ---
 
 <section id="services" class="py-16 md:py-20">
   <div class="container-wide">
-    <h2 class="rule-heading mb-10">Services</h2>
+    <h2 class="rule-heading mb-10">How I work</h2>
 
-    <div class="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16 items-start">
-      <div>
-        <h3 class="font-display text-3xl md:text-[2.75rem] leading-tight mb-5">
-          Talks, advisory, sprints, builds, and embedded leadership.
-        </h3>
-        <p class="text-text-body leading-relaxed mb-8">
-          Five shapes of engagement, from a single talk to ongoing technical
-          leadership. Each one stands on its own and earns the next. For CEOs
-          facing decisions they can't delegate, a standing weekly advisory
-          session is the usual starting point.
-        </p>
-        <a
-          href="/services"
-          class="text-link text-accent hover:text-accent-hover"
-          data-ph-capture="cta_services"
-          data-ph-section="services_teaser"
-        >
-          How I work &rarr;
-        </a>
-      </div>
-
-      <div class="panel divide-y divide-rule px-5 md:px-7">
-        {services.map((service) => (
+    <div class="panel grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-rule">
+      {steps.map(({ key, covers, slug, body }) => {
+        const [num, label] = key.split(" ");
+        return (
           <a
-            href={`/services#${service.slug}`}
-            class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-1 py-4 group"
+            href={`/services#${slug}`}
+            class="flex flex-col gap-5 p-6 md:p-8 lg:p-10 group hover:bg-text/[0.02] transition-colors"
             data-ph-capture="cta_services"
             data-ph-section="services_teaser"
-            data-ph-destination={service.slug}
+            data-ph-destination={slug}
+            aria-labelledby={`step-${slug}`}
           >
-            <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
-              {service.name.toLowerCase()}_
-            </span>
-            <span class="order-last sm:order-none font-mono text-xs text-text-muted sm:text-right sm:row-span-2 sm:self-center">
-              {service.shape}
-            </span>
-            <span class="text-sm text-text-body">for {service.forShort}</span>
+            <div class="flex items-baseline gap-4" aria-hidden="true">
+              <span class="font-display text-6xl leading-none text-accent group-hover:text-accent-hover transition-colors">{num}</span>
+              <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">{label}</span>
+            </div>
+            <h3 id={`step-${slug}`} class="font-mono text-xs text-text-muted">{covers}</h3>
+            <p class="text-text-body leading-relaxed">{body}</p>
           </a>
-        ))}
-      </div>
+        );
+      })}
     </div>
+
+    <a
+      href="/services"
+      class="mt-10 text-link text-accent hover:text-accent-hover"
+      data-ph-capture="cta_services"
+      data-ph-section="services_teaser"
+    >
+      All {services.length} ways to work &rarr;
+    </a>
   </div>
 </section>

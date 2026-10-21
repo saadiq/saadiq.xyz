@@ -1,5 +1,5 @@
-// The five engagement shapes. /services renders them in full; the homepage
-// Services teaser renders the at-a-glance rows.
+// The five engagement shapes, rendered in full on /services. The homepage
+// How I work steps link into them by slug.
 export const services = [
   {
     slug: "talks",
