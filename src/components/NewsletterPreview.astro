@@ -1,7 +1,6 @@
 ---
 import { contentApiUrl, getRecentPosts } from "../lib/ghost";
 import type { GhostPost } from "../lib/ghost";
-import NewsletterSignup from "./NewsletterSignup.astro";
 
 let posts: GhostPost[] = [];
 try {
@@ -48,21 +47,15 @@ try {
       ))}
     </div>
 
-    <div class="mt-10 flex flex-col lg:flex-row lg:items-baseline lg:justify-between gap-6">
-      <div class="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-6">
-        <p class="text-text-body shrink-0">Get the next one in your inbox.</p>
-        <NewsletterSignup section="newsletter_preview" />
-      </div>
-      <a
-        href="/newsletter"
-        rel="noreferrer"
-        class="text-link text-accent hover:text-accent-hover shrink-0"
-        data-ph-capture="cta_newsletter"
-        data-ph-section="newsletter_preview"
-      >
-        Read all posts &rarr;
-      </a>
-    </div>
+    <a
+      href="/newsletter"
+      rel="noreferrer"
+      class="mt-10 text-link text-accent hover:text-accent-hover"
+      data-ph-capture="cta_newsletter"
+      data-ph-section="newsletter_preview"
+    >
+      Read all posts &rarr;
+    </a>
   </div>
 </section>
 
