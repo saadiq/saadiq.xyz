@@ -8,6 +8,9 @@ interface Props {
   description?: string;
   ogImage?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  // Temporary pages (event landing pages) stay out of search results, since
+  // they are deleted once the event ends.
+  noindex?: boolean;
 }
 
 const {
@@ -15,6 +18,7 @@ const {
   description = "AI transformation consultant for leadership teams that bought the AI tools and saw nothing change. Executive advisory, discovery sprints, and agent builds.",
   ogImage = "/og.png",
   jsonLd = defaultJsonLd,
+  noindex = false,
 } = Astro.props;
 
 const fontsUrl = "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap";
@@ -32,6 +36,7 @@ const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Saadiq Rodgers-King" />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL.href} />

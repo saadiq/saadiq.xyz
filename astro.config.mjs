@@ -9,7 +9,8 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'never',
   build: { format: 'file' },
-  integrations: [sitemap()],
+  // Event landing pages are temporary and noindexed; keep them out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes('/events/') })],
   vite: {
     plugins: [tailwindcss()],
     server: {
