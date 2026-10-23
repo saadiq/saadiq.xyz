@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # superpowers scratch files
 .superpowers/
+
+# git worktrees
+.claude/worktrees/
