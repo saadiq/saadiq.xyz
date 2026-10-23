@@ -116,6 +116,9 @@ const dismissClass =
   const url = new URL(window.location.href);
   const bounced = url.searchParams.get("from") === "events";
   if (bounced) {
+    // PostHog's pageview fires once array.js loads, after the marker below is
+    // gone, so record the bounce explicitly (the stub queues it until then).
+    (window as any).posthog?.capture("event_page_retired_visit");
     // Drop the marker so a reload or a shared link doesn't repeat the notice.
     url.searchParams.delete("from");
     history.replaceState(history.state, "", url.pathname + url.search + url.hash);
