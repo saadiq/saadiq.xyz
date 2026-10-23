@@ -1,0 +1,128 @@
+---
+// A dismissible toast for people who typed saadiq.xyz off a conference shirt
+// instead of scanning its QR code. Every event in events-data.ts renders hidden;
+// the script reveals the first one whose window is open, so the gate runs in the
+// browser and expires without a redeploy. The event's own page never shows its
+// toast. A visit that nginx bounced off a retired event page (?from=events)
+// gets the live event's toast if one is running, otherwise a one-line notice,
+// never both. Fixed above the status bar, so it causes no layout shift.
+import { events } from "../lib/events-data";
+import { normalizePath } from "../lib/paths";
+
+const path = normalizePath(Astro.url.pathname);
+const others = events.filter((e) => e.href !== path);
+
+const panelClass =
+  "event-toast panel hidden fixed z-50 left-4 right-4 md:left-auto md:right-10 md:max-w-sm bottom-[calc(3rem+env(safe-area-inset-bottom))] items-start gap-3 py-3 pl-4 pr-2";
+---
+
+{others.map((e) => (
+  <aside
+    class={panelClass}
+    aria-label={e.name}
+    data-event-toast={e.slug}
+    data-show-from={e.showFrom}
+    data-show-until={e.showUntil}
+  >
+    <p class="flex-1 text-sm leading-snug text-text-body py-1.5">
+      <span class="text-text font-medium">{e.toast}</span>{" "}
+      <a
+        href={e.href}
+        class="font-mono text-accent hover:text-accent-hover underline-offset-4 hover:underline transition-colors"
+        data-ph-capture="event_toast_click"
+        data-ph-section="event_toast"
+        data-ph-destination={e.slug}
+      >
+        Here's the page for you&nbsp;&rarr;
+      </a>
+    </p>
+    <button
+      type="button"
+      data-event-toast-dismiss
+      class="shrink-0 inline-flex items-center justify-center size-11 -my-1 font-mono text-lg text-text-muted hover:text-text transition-colors cursor-pointer"
+    >
+      <span aria-hidden="true">&times;</span><span class="sr-only">Dismiss</span>
+    </button>
+  </aside>
+))}
+
+<aside class={panelClass} aria-label="Event page ended" data-event-toast="retired">
+  <p class="flex-1 text-sm leading-snug text-text-body py-1.5">
+    That event page has been retired. Everything it covered is on this site.
+  </p>
+  <button
+    type="button"
+    data-event-toast-dismiss
+    class="shrink-0 inline-flex items-center justify-center size-11 -my-1 font-mono text-lg text-text-muted hover:text-text transition-colors cursor-pointer"
+  >
+    <span aria-hidden="true">&times;</span><span class="sr-only">Dismiss</span>
+  </button>
+</aside>
+
+<style>
+  .event-toast:not(.hidden) {
+    display: flex;
+    animation: event-toast-in 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes event-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-toast:not(.hidden) {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const KEY = "event-toast-dismissed:";
+
+  // Storage throws outright in some privacy modes; a toast that can't remember
+  // its dismissal just shows again next visit.
+  function dismissed(slug: string): boolean {
+    try {
+      return localStorage.getItem(KEY + slug) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function remember(slug: string) {
+    try {
+      localStorage.setItem(KEY + slug, "1");
+    } catch {}
+  }
+
+  const toasts = [...document.querySelectorAll<HTMLElement>("[data-event-toast]")];
+  const now = Date.now();
+  const live = toasts.find(({ dataset: d }) => {
+    if (d.eventToast === "retired" || dismissed(d.eventToast!)) return false;
+    const from = Date.parse(d.showFrom ?? "");
+    const until = Date.parse(d.showUntil ?? "");
+    return now >= from && now < until;
+  });
+
+  const url = new URL(window.location.href);
+  const bounced = url.searchParams.get("from") === "events";
+  if (bounced) {
+    // Drop the marker so a reload or a shared link doesn't repeat the notice.
+    url.searchParams.delete("from");
+    history.replaceState(history.state, "", url.pathname + url.search + url.hash);
+  }
+
+  const shown = live ?? (bounced ? toasts.find((t) => t.dataset.eventToast === "retired") : undefined);
+  if (shown) {
+    shown.classList.remove("hidden");
+    shown.querySelector("[data-event-toast-dismiss]")?.addEventListener("click", () => {
+      shown.classList.add("hidden");
+      const slug = shown.dataset.eventToast!;
+      if (slug !== "retired") remember(slug);
+      (window as any).posthog?.capture("event_toast_dismissed", { event: slug });
+    });
+  }
+</script>

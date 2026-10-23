@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import { defaultJsonLd, websiteJsonLd } from "../lib/schema";
 import { normalizePath } from "../lib/paths";
+import EventToast from "../components/EventToast.astro";
 
 interface Props {
   title?: string;
@@ -126,5 +127,6 @@ const jsonLdBlocks = Array.isArray(jsonLd) ? jsonLd : [websiteJsonLd, jsonLd];
   </head>
   <body class="bg-bg text-text antialiased">
     <slot />
+    <EventToast />
   </body>
 </html>
