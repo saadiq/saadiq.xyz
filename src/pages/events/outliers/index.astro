@@ -1,0 +1,216 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Nav from "../../../components/Nav.astro";
+import FooterCTA from "../../../components/FooterCTA.astro";
+import StatusBar from "../../../components/StatusBar.astro";
+import BookingCTA from "../../../components/BookingCTA.astro";
+import { Image } from "astro:assets";
+import speakingMic from "../../../assets/images/speaking-mic-mirrored.jpg";
+import { services } from "../../../lib/services-data";
+
+// Target of the QR codes on the Outliers Summit shirt and hoodie (Nov 5-6, 2026,
+// Melrose Ballroom, Long Island City). Visitors arrive on a phone having just
+// read the garment, so the h1 is the tee's front line and the panel below it is
+// the hoodie's back, and the first screen says who I am. Engagement copy is
+// drawn from services-data.ts and stays inside its proof constraints.
+const exits = ["Facebook", "GoDaddy", "Gerber Life", "Yuga Labs"];
+
+const steps = [
+  {
+    num: "01",
+    label: "strategy_",
+    slug: "advisory",
+    title: "Executive advisory",
+    body: "A standing weekly session with you on the AI decisions you can't delegate. Vendors, org design, what to believe in a demo, how fast to push.",
+  },
+  {
+    num: "02",
+    label: "scope_",
+    slug: "sprint",
+    title: "Discovery sprint",
+    body: "One to two weeks inside your company, in your meetings and your stack, to find which problem is worth solving first. Fixed fee, ending in a scoped proposal.",
+  },
+  {
+    num: "03",
+    label: "team_",
+    slug: "talks",
+    title: "Talks for your team",
+    body: "Live demos of working agents on real business problems, then questions for as long as your team has them.",
+  },
+  {
+    num: "04",
+    label: "execution_",
+    slug: "builds",
+    title: "Builds with your team",
+    body: "When building is the fastest way to prove the point, I ship it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
+  },
+];
+
+for (const { slug } of steps) {
+  if (!services.some((s) => s.slug === slug)) {
+    throw new Error(`events/outliers: no service with slug "${slug}"`);
+  }
+}
+
+const camps = [
+  { key: "optimists_", value: "put AI in everything" },
+  { key: "skeptics_", value: "won't touch it" },
+  { key: "everyone_else_", value: "uses it for the easy stuff" },
+];
+---
+
+<BaseLayout
+  title="Outliers Summit | Saadiq Rodgers-King"
+  description="Met Saadiq Rodgers-King at Outliers Summit? He makes founders' whole teams AI-native, from strategy through execution."
+  ogImage="/events/outliers/og.png"
+  noindex
+>
+  <Nav />
+  <main class="pt-36 md:pt-48">
+    <section class="pb-16 md:pb-20">
+      <div class="container-wide">
+        <p class="font-mono text-xs mb-3">
+          <span class="text-text-muted">hello_</span>{" "}
+          <span class="text-text">outliers summit · nov 5-6 · long island city</span>
+        </p>
+        <p class="text-lg md:text-xl text-text-body mb-6">
+          You saw me at Outliers. Good to meet you.
+        </p>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight mb-8 md:mb-10">
+          You're AI-native. Is your <em class="text-accent">team?</em><span class="cursor-blink text-accent" aria-hidden="true">_</span>
+        </h1>
+
+        <div class="flex items-center gap-4 mb-6">
+          <Image
+            src={speakingMic}
+            alt="Saadiq Rodgers-King speaking with a microphone"
+            widths={[128, 192, 256]}
+            sizes="(min-width: 768px) 80px, 64px"
+            class="w-16 h-20 md:w-20 md:h-24 object-cover object-[45%_30%] border border-rule shadow-panel"
+            loading="eager"
+          />
+          <div class="font-mono text-xs md:text-sm leading-relaxed">
+            <p class="text-text">Saadiq Rodgers-King</p>
+            <p class="text-accent">Strategy through execution.</p>
+            <p class="text-text-muted">{exits.length} exits · {exits.join(", ")}</p>
+          </div>
+        </div>
+
+        <p class="text-lg md:text-[1.375rem] text-text-body max-w-[45rem] mb-8 leading-relaxed">
+          I make founders' whole teams AI-native. I advise you on the calls only
+          you can make, then work hands-on with your team until AI is how the
+          work gets done.
+        </p>
+        <div class="flex flex-wrap items-center gap-x-8 gap-y-2">
+          <BookingCTA section="outliers_hero" />
+          <a
+            href="/newsletter"
+            rel="noreferrer"
+            class="text-link text-text-muted hover:text-text"
+            data-ph-capture="cta_newsletter"
+            data-ph-section="outliers_hero"
+          >
+            Read the newsletter &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* The hoodie's back, answered. */}
+    <section class="py-16 md:py-20">
+      <div class="container-wide">
+        <div class="panel grid md:grid-cols-2 gap-8 md:gap-16 p-6 md:p-10 lg:p-12">
+          <div>
+            <h2 class="font-display text-3xl md:text-5xl leading-tight mb-2">
+              Your AI optimists vs. your skeptics?
+            </h2>
+            <p class="font-display text-3xl md:text-5xl leading-tight text-accent mb-8">
+              I bring the whole team along.
+            </p>
+            <ul class="font-mono text-sm space-y-2">
+              {camps.map(({ key, value }) => (
+                <li>
+                  <span class="text-text-muted">{key}</span>{" "}
+                  <span class="text-text">{value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="md:self-end space-y-4 text-text-body leading-relaxed md:text-lg">
+            <p>
+              Getting a team to use AI is easy. Getting them to use it well, on
+              the work with the most impact, is what I do.
+            </p>
+            <p>
+              I set the strategy with you, then work it through with your team
+              in their real work. The skeptics see it pay off, and the optimists
+              stop running ahead on their own.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-20">
+      <div class="container-wide">
+        <h2 class="rule-heading mb-10">Strategy through execution</h2>
+
+        <div class="panel divide-y divide-rule">
+          {steps.map(({ num, label, slug, title, body }) => (
+            <a
+              href={`/services#${slug}`}
+              class="grid grid-cols-[3rem_minmax(0,1fr)] md:grid-cols-[5rem_14rem_minmax(0,1fr)] gap-x-4 md:gap-x-8 gap-y-2 p-6 md:px-10 md:py-8 items-baseline group hover:bg-text/[0.02] transition-colors"
+              data-ph-capture="cta_services"
+              data-ph-section="outliers_steps"
+              data-ph-destination={slug}
+              aria-labelledby={`step-${slug}`}
+            >
+              <span class="row-span-2 md:row-span-1 font-display text-5xl leading-none text-accent group-hover:text-accent-hover transition-colors" aria-hidden="true">{num}</span>
+              <div>
+                <p class="font-mono text-xs text-text-muted" aria-hidden="true">{label}</p>
+                <h3 id={`step-${slug}`} class="font-display text-2xl leading-tight">{title}</h3>
+              </div>
+              <p class="text-text-body leading-relaxed">{body}</p>
+            </a>
+          ))}
+        </div>
+
+        <p class="mt-10 font-mono text-xs text-text-muted mb-2">proof_</p>
+        <p class="text-text-body leading-relaxed max-w-3xl">
+          Three weeks embedded with a product team cut prototype iteration from
+          weeks to about three hours. At a hospitality company, the
+          non-technical founder now runs her own dev environment and merges her
+          own pull requests.
+        </p>
+        <a
+          href="/services"
+          class="mt-6 text-link text-accent hover:text-accent-hover"
+          data-ph-capture="cta_services"
+          data-ph-section="outliers_steps"
+        >
+          All {services.length} ways to work &rarr;
+        </a>
+      </div>
+    </section>
+
+    {/* The other half of the room: operators who came for the founders' energy
+        and already want the change.
+        TODO(Saadiq): confirm this copy. It addresses non-founders directly and
+        sends them to the same booking link. */}
+    <section class="pt-0 pb-16 md:pb-20">
+      <div class="container-wide">
+        <div class="panel panel-accent p-6 md:p-10 max-w-3xl">
+          <h2 class="font-display text-3xl md:text-4xl leading-tight mb-4">Not the founder?</h2>
+          <p class="text-text-body leading-relaxed mb-4">
+            If you're the one on your team pushing AI and you want the rest of
+            the team with you, let's talk anyway. It's the same problem, seen
+            from inside the team.
+          </p>
+          <BookingCTA section="outliers_operators" variant="text" />
+        </div>
+      </div>
+    </section>
+  </main>
+  <FooterCTA />
+  <StatusBar />
+</BaseLayout>
