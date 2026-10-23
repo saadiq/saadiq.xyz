@@ -7,14 +7,13 @@ import BookingCTA from "../../../components/BookingCTA.astro";
 import { Image } from "astro:assets";
 import speakingMic from "../../../assets/images/speaking-mic-mirrored.jpg";
 import { services } from "../../../lib/services-data";
+import { EXITS as exits } from "../../../lib/constants";
 
 // Target of the QR codes on the Outliers Summit shirt and hoodie (Nov 5-6, 2026,
 // Melrose Ballroom, Long Island City). Visitors arrive on a phone having just
 // read the garment, so the h1 is the tee's front line and the panel below it is
 // the hoodie's back, and the first screen says who I am. Engagement copy is
 // drawn from services-data.ts and stays inside its proof constraints.
-const exits = ["Facebook", "GoDaddy", "Gerber Life", "Yuga Labs"];
-
 const steps = [
   {
     num: "01",

@@ -2,12 +2,12 @@
 import { Image } from "astro:assets";
 import BookingCTA from "./BookingCTA.astro";
 import speakingMic from "../assets/images/speaking-mic-mirrored.jpg";
+import { EXITS as exits } from "../lib/constants";
 
 // The message leads and the person follows: the headline runs the full width,
 // and the photo sits small in the corner beside the credentials. The image is
 // mirrored so the gaze points back into the page instead of off its edge. On
 // mobile the photo drops to a thumbnail beside the name.
-const exits = ["Facebook", "GoDaddy", "Gerber Life", "Yuga Labs"];
 ---
 
 <section class="pt-40 md:pt-48 pb-16 md:pb-24">
