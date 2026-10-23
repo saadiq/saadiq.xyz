@@ -10,7 +10,10 @@ import { eventHref, events } from "../lib/events-data";
 import { normalizePath } from "../lib/paths";
 
 const path = normalizePath(Astro.url.pathname);
-const others = events.filter((e) => eventHref(e) !== path);
+// Past events are dropped at build time so their markup stops shipping; the
+// script still handles a window that closes between deploys.
+const now = Date.now();
+const others = events.filter((e) => eventHref(e) !== path && Date.parse(e.showUntil) > now);
 
 const panelClass =
   "event-toast panel hidden fixed z-50 left-4 right-4 md:left-auto md:right-10 md:max-w-sm bottom-[calc(3rem+env(safe-area-inset-bottom))] items-start gap-3 py-3 pl-4 pr-2";
@@ -101,10 +104,10 @@ const panelClass =
   const toasts = [...document.querySelectorAll<HTMLElement>("[data-event-toast]")];
   const now = Date.now();
   const live = toasts.find(({ dataset: d }) => {
-    if (d.eventToast === "retired" || dismissed(d.eventToast!)) return false;
+    if (d.eventToast === "retired") return false;
     const from = Date.parse(d.showFrom ?? "");
     const until = Date.parse(d.showUntil ?? "");
-    return now >= from && now < until;
+    return now >= from && now < until && !dismissed(d.eventToast!);
   });
 
   const url = new URL(window.location.href);
