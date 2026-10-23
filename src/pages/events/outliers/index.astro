@@ -16,28 +16,24 @@ import { EXITS as exits } from "../../../lib/constants";
 // drawn from services-data.ts and stays inside its proof constraints.
 const steps = [
   {
-    num: "01",
     label: "strategy_",
     slug: "advisory",
     title: "Executive advisory",
     body: "A standing weekly session with you on the AI decisions you can't delegate. Vendors, org design, what to believe in a demo, how fast to push.",
   },
   {
-    num: "02",
     label: "scope_",
     slug: "sprint",
     title: "Discovery sprint",
     body: "One to two weeks inside your company, in your meetings and your stack, to find which problem is worth solving first. Fixed fee, ending in a scoped proposal.",
   },
   {
-    num: "03",
     label: "team_",
     slug: "talks",
     title: "Talks for your team",
     body: "Live demos of working agents on real business problems, then questions for as long as your team has them.",
   },
   {
-    num: "04",
     label: "execution_",
     slug: "builds",
     title: "Builds with your team",
@@ -151,7 +147,7 @@ const camps = [
         <h2 class="rule-heading mb-10">Strategy through execution</h2>
 
         <div class="panel divide-y divide-rule">
-          {steps.map(({ num, label, slug, title, body }) => (
+          {steps.map(({ label, slug, title, body }, i) => (
             <a
               href={`/services#${slug}`}
               class="grid grid-cols-[3rem_minmax(0,1fr)] md:grid-cols-[5rem_14rem_minmax(0,1fr)] gap-x-4 md:gap-x-8 gap-y-2 p-6 md:px-10 md:py-8 items-baseline group hover:bg-text/[0.02] transition-colors"
@@ -160,7 +156,7 @@ const camps = [
               data-ph-destination={slug}
               aria-labelledby={`step-${slug}`}
             >
-              <span class="row-span-2 md:row-span-1 font-display text-5xl leading-none text-accent group-hover:text-accent-hover transition-colors" aria-hidden="true">{num}</span>
+              <span class="row-span-2 md:row-span-1 font-display text-5xl leading-none text-accent group-hover:text-accent-hover transition-colors" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <p class="font-mono text-xs text-text-muted" aria-hidden="true">{label}</p>
                 <h3 id={`step-${slug}`} class="font-display text-2xl leading-tight">{title}</h3>
