@@ -67,3 +67,13 @@ export const services = [
       "A year-plus engagement with a hospitality company grew from a single automation into voice and email agents and a full website replatform, and its non-technical founder now runs her own dev environment and merges her own pull requests. Three weeks embedded with a product team cut prototype iteration from weeks to about three hours.",
   },
 ];
+
+// Pages that link into /services by slug call this at build time, so a renamed
+// or removed service fails the build instead of shipping a dead anchor.
+export function assertServiceSlugs(slugs: string[], caller: string) {
+  for (const slug of slugs) {
+    if (!services.some((s) => s.slug === slug)) {
+      throw new Error(`${caller}: no service with slug "${slug}"`);
+    }
+  }
+}

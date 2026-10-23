@@ -4,7 +4,7 @@
 // leads and builds are offered where they prove a point, not as the main sale.
 // One panel split into three columns, read left to right as a sequence. The
 // full lineup lives on /services; each step links to its service there.
-import { services } from "../lib/services-data";
+import { assertServiceSlugs, services } from "../lib/services-data";
 
 const steps = [
   {
@@ -27,11 +27,7 @@ const steps = [
   },
 ];
 
-for (const { slug } of steps) {
-  if (!services.some((s) => s.slug === slug)) {
-    throw new Error(`ServicesTeaser: no service with slug "${slug}"`);
-  }
-}
+assertServiceSlugs(steps.map((s) => s.slug), "ServicesTeaser");
 ---
 
 <section id="services" class="py-16 md:py-20">
