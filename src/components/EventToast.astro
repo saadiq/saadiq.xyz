@@ -24,6 +24,7 @@ const dismissClass =
 {others.map((e) => (
   <aside
     class={panelClass}
+    role="status"
     aria-label={e.name}
     data-event-toast={e.slug}
     data-show-from={e.showFrom}
@@ -51,7 +52,7 @@ const dismissClass =
   </aside>
 ))}
 
-<aside class={panelClass} aria-label="Event page ended" data-event-toast="retired">
+<aside class={panelClass} role="status" aria-label="Event page ended" data-event-toast="retired">
   <p class="flex-1 text-sm leading-snug text-text-body py-1.5">
     That event page has been retired. Everything it covered is on this site.
   </p>
