@@ -6,11 +6,11 @@
 // toast. A visit that nginx bounced off a retired event page (?from=events)
 // gets the live event's toast if one is running, otherwise a one-line notice,
 // never both. Fixed above the status bar, so it causes no layout shift.
-import { events } from "../lib/events-data";
+import { eventHref, events } from "../lib/events-data";
 import { normalizePath } from "../lib/paths";
 
 const path = normalizePath(Astro.url.pathname);
-const others = events.filter((e) => e.href !== path);
+const others = events.filter((e) => eventHref(e) !== path);
 
 const panelClass =
   "event-toast panel hidden fixed z-50 left-4 right-4 md:left-auto md:right-10 md:max-w-sm bottom-[calc(3rem+env(safe-area-inset-bottom))] items-start gap-3 py-3 pl-4 pr-2";
@@ -27,7 +27,7 @@ const panelClass =
     <p class="flex-1 text-sm leading-snug text-text-body py-1.5">
       <span class="text-text font-medium">{e.toast}</span>{" "}
       <a
-        href={e.href}
+        href={eventHref(e)}
         class="font-mono text-accent hover:text-accent-hover underline-offset-4 hover:underline transition-colors"
         data-ph-capture="event_toast_click"
         data-ph-section="event_toast"

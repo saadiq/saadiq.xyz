@@ -10,18 +10,18 @@
 export interface SiteEvent {
   slug: string;
   name: string;
-  href: string;
   // Lead-in shown bold in the toast; the link text follows it.
   toast: string;
   showFrom: string;
   showUntil: string;
 }
 
+export const eventHref = (e: SiteEvent) => `/events/${e.slug}`;
+
 export const events: SiteEvent[] = [
   {
     slug: "outliers",
     name: "Outliers Summit",
-    href: "/events/outliers",
     toast: "At Outliers Summit this week?",
     showFrom: "2026-11-01T00:00:00-04:00",
     showUntil: "2026-11-10T00:00:00-05:00",
