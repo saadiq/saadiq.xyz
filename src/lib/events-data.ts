@@ -5,7 +5,9 @@
 // switches from -04:00 to -05:00 at 2am on Nov 1, 2026.
 //
 // Retire an event by deleting its page. nginx then 302s /events/<slug> to
-// /?from=events (server/ghost-redirects.conf), and the toast explains.
+// /?from=events (server/ghost-redirects.conf), and the toast explains. The /hi
+// short URL in that file names the current event and its utm_campaign too;
+// repoint both there.
 
 export interface SiteEvent {
   slug: string;
