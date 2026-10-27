@@ -15,6 +15,7 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 - **Never reintroduce a bare `proxy_pass https://ap.ghost.org;`.** It resolves DNS at config-parse time, so a transient hiccup fails `nginx -t` and nginx stops and stays down. Keep the `resolver 127.0.0.53 valid=300s;` + `set $ap_ghost …; proxy_pass $ap_ghost;` variable form.
 - **Never run ghost-cli's blanket `chmod 664` suggestion.** It also widens `config.production.json` (holds mail credentials) to world-readable. Chmod only the files ghost-cli lists.
 - **Remove the `llms.txt` `proxy_hide_header` workaround once Ghost fixes the hardcoded root-relative discovery paths upstream.** It silently masks their corrected header otherwise.
+- **The DigitalOcean web console needs the login user changed to `saadiq`.** It defaults to `root`, which sshd refuses, so it fails silently. It also rides public port 22, as do CI deploys, so don't close 22 without replacing both.
 - **Check `/var/run/reboot-required` on every visit.** `unattended-upgrades` installs kernel and glibc fixes but cannot reboot, so they sit inactive until someone restarts the box.
 
 ## Related repo
