@@ -119,7 +119,7 @@ export const defaultJsonLd = {
   "name": "Saadiq Rodgers-King — AI Transformation Consulting",
   "url": "https://saadiq.xyz",
   "description":
-    "AI transformation consulting for leadership teams that bought the AI tools and saw nothing change. Executive AI advisory, discovery sprints, agent and automation builds, embedded technical leadership, and talks.",
+    "AI strategy for CEOs and leadership teams, and hands-on work with their product and technology teams to put it to work. Executive AI advisory, discovery sprints, agent and automation builds, embedded technical leadership, and talks.",
   "areaServed": {
     "@type": "Country" as const,
     "name": "United States",
@@ -140,7 +140,7 @@ export const websiteJsonLd = {
   "url": "https://saadiq.xyz",
   "name": "Saadiq Rodgers-King",
   "description":
-    "AI transformation consulting for leadership teams that bought the AI tools and saw nothing change.",
+    "AI strategy for CEOs and leadership teams, and hands-on work with their product and technology teams to put it to work.",
   "publisher": { "@id": "https://saadiq.xyz/#person" },
 };
 

@@ -17,13 +17,13 @@ export const services = [
   {
     slug: "advisory",
     name: "Executive AI advisory",
-    forShort: "CEOs and CPOs",
+    forShort: "CEOs",
     shape: "weekly sessions on retainer",
     cta: "Book a conversation",
     format: ["monthly retainer · weekly sessions", "three-month initial term"],
-    who: "For CEOs and CPOs facing AI decisions they can't delegate.",
+    who: "For CEOs who need to get fluent on AI and set the company's strategy for it.",
     body:
-      "A standing weekly session on the topics you pick. Vendor evaluations, org design, what to believe in a demo, how fast to push. Deep enough to get into mechanics, with source-verified research briefs between sessions. I have no platform to sell you, so the read stays honest.",
+      "A standing weekly session on the topics you pick. What matters and what you can safely ignore, what competitors are doing, how to explain the plan to your team, how fast to push. Deep enough to get into mechanics, with source-verified research briefs between sessions. I have no platform to sell you, so the read stays honest.",
     proof:
       "Current engagements include weekly sessions with the chief executive of a Fortune 500 company and advisory to a senior technology leader navigating a company-wide rework of how the business operates and delivers its services.",
   },
