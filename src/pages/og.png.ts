@@ -2,6 +2,6 @@ import { ogEndpoint } from "../lib/og";
 
 export const GET = ogEndpoint({
   label: "// ai transformation",
-  heading: "Your competitors are moving on AI. I help CEOs get ahead of them.",
-  subtext: "Your team has the AI tools and isn't using them. I advise the executives making the calls and get hands-on with their teams.",
+  heading: "AI changes how companies run. I help CEOs decide how theirs will.",
+  subtext: "I help CEOs get fluent on AI and set the strategy, then work with their product and technology teams until it's how the work gets done.",
 });
