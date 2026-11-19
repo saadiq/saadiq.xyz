@@ -71,7 +71,7 @@ const serviceOffers = [
       "name": "Executive AI Advisory",
       "url": "https://saadiq.xyz/services",
       "description":
-        "A standing weekly session for CEOs and CPOs on AI decisions they can't delegate, with source-verified research briefs between sessions.",
+        "A standing weekly session for CEOs on what AI changes about the business and the strategy for it, with source-verified research briefs between sessions.",
     },
   },
   {

@@ -9,7 +9,7 @@ Princeton CS, MIT Sloan MBA. 20+ years in product and engineering, with four exi
 
 I advise the executives making AI decisions and work hands-on with their teams until AI is part of how the work gets done. Clients range from a Fortune 500 company, where I advise the chief executive, to founder-led businesses where I serve as the technical lead.
 
-Most engagements start with one scoped, fixed-fee project, usually a one to two week discovery sprint or a single build. Executive AI advisory is a standing weekly session for CEOs and CPOs. Agent and automation builds are billed against milestones the client accepts, with human review designed in and a handoff so the client's team owns the system. Embedded technical leadership is a weekly cadence for founder-led companies that need senior technical leadership without a full-time hire. Talks run 30 to 45 minutes around live demos, plus Q&A.
+Most engagements start with one scoped, fixed-fee project, usually a one to two week discovery sprint or a single build. Executive AI advisory is a standing weekly session for CEOs. Agent and automation builds are billed against milestones the client accepts, with human review designed in and a handoff so the client's team owns the system. Embedded technical leadership is a weekly cadence for founder-led companies that need senior technical leadership without a full-time hire. Talks run 30 to 45 minutes around live demos, plus Q&A.
 
 Pricing is set when the work is scoped and isn't published.
 
