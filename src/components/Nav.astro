@@ -1,6 +1,7 @@
 ---
 import BookingCTA from "./BookingCTA.astro";
 import NavLinks from "./NavLinks.astro";
+import Mark from "./Mark.astro";
 ---
 
 <nav
@@ -8,8 +9,12 @@ import NavLinks from "./NavLinks.astro";
   class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300 pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
 >
   <div class="flex items-center justify-between px-6 py-2 md:px-10 md:py-3">
-    <a href="/" class="inline-flex min-h-11 items-center font-display text-lg text-text tracking-wide no-underline">
-      saadiq_
+    <a href="/" class="inline-flex min-h-11 items-center gap-3 text-text no-underline">
+      <span class="flex size-8 items-center justify-center bg-text text-bg">
+        <Mark class="size-5" />
+      </span>
+      <span class="hidden sm:inline font-display text-lg font-extrabold tracking-tight">Saadiq Industries</span>
+      <span class="sr-only sm:hidden">Saadiq Industries</span>
     </a>
 
     <div class="flex items-center gap-5 md:gap-8 font-mono text-sm">
