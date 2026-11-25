@@ -4,16 +4,24 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const fontsDir = join(process.cwd(), "src/assets/fonts");
-const instrumentSerifData = readFileSync(join(fontsDir, "InstrumentSerif-Regular.ttf"));
+const interTightData = readFileSync(join(fontsDir, "InterTight-ExtraBold.ttf"));
 const interData = readFileSync(join(fontsDir, "Inter-Regular.ttf"));
 
 const COLORS = {
-  bg: "#0c0c0c",
-  text: "#f0ece4",
-  textMuted: "#ac9e90",
+  bg: "#0b0a09",
+  text: "#f2eee6",
+  textMuted: "#ab9d91",
   accent: "#d4a843",
-  rule: "#2a2a2a",
+  rule: "#2f2926",
 };
+
+// The Saadiq Industries monogram, dark on a cream tile, as satori takes images.
+const MARK_PATHS = readFileSync(join(process.cwd(), "public/brand/saadiq-industries-mark.svg"), "utf8")
+  .match(/<path[^>]*\/>/g)!
+  .join("");
+const markTile = `data:image/svg+xml;base64,${Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="164 156 926 940"><rect x="164" y="156" width="926" height="940" fill="${COLORS.text}"/><g fill="${COLORS.bg}">${MARK_PATHS}</g></svg>`,
+).toString("base64")}`;
 
 import type { APIRoute } from "astro";
 
@@ -56,10 +64,11 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
             type: "div",
             props: {
               style: {
-                fontSize: 52,
-                fontFamily: "Instrument Serif",
+                fontSize: 56,
+                fontFamily: "Inter Tight",
                 color: COLORS.text,
-                lineHeight: 1.15,
+                lineHeight: 1.02,
+                letterSpacing: -2,
                 marginBottom: subtext ? 28 : 0,
               },
               children: heading,
@@ -87,13 +96,20 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
             props: {
               style: {
                 position: "absolute",
-                bottom: 80,
+                bottom: 72,
                 left: 80,
-                fontSize: 18,
-                fontFamily: "Inter",
-                color: COLORS.accent,
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                fontSize: 20,
+                fontFamily: "Inter Tight",
+                color: COLORS.text,
               },
-              children: "saadiq.xyz",
+              children: [
+                { type: "img", props: { src: markTile, width: 40, height: 40 } },
+                { type: "div", props: { children: "Saadiq Industries" } },
+                { type: "div", props: { style: { color: COLORS.textMuted, fontFamily: "Inter" }, children: "saadiq.xyz" } },
+              ],
             },
           },
         ],
@@ -104,8 +120,9 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
       height: 630,
       fonts: [
         {
-          name: "Instrument Serif",
-          data: instrumentSerifData,
+          name: "Inter Tight",
+          data: interTightData,
+          weight: 800,
           style: "normal",
         },
         {
