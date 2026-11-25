@@ -19,7 +19,7 @@
   --color-accent: #d4a843;
   --color-accent-hover: #e8bd5a;
   --color-rule: #2f2926;
-  --font-display: "Instrument Serif", serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-body: "Inter", system-ui, sans-serif;
 
@@ -48,6 +48,16 @@ body {
   padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Inter Tight is the display cut of the body face, so display type earns its
+   rank from weight and tight tracking rather than a second family. In the base
+   layer so a call site's font-* or tracking-* utility still wins. */
+@layer base {
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
 }
 
 /* Noise texture overlay */
