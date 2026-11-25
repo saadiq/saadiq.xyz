@@ -2,8 +2,9 @@
 // The span of the work, from the executive's decisions to production code. The
 // product is the expertise; building is what keeps it credible, so advisory
 // leads and builds are offered where they prove a point, not as the main sale.
-// One panel split into three columns, read left to right as a sequence. The
-// full lineup lives on /services; each step links to its service there.
+// A ruled list of three big words, read top to bottom as a sequence; its form
+// differs from the case-study cards above on purpose. The full lineup lives on
+// /services; each step links to its service there.
 import { assertServiceSlugs, services } from "../lib/services-data";
 
 const steps = [
@@ -32,31 +33,30 @@ assertServiceSlugs(steps.map((s) => s.slug), "ServicesTeaser");
 
 <section id="services" class="py-16 md:py-20">
   <div class="container-wide">
-    <h2 class="rule-heading mb-10">How I work</h2>
-
-    <div class="panel grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-rule">
+    <h2 class="rule-heading mb-4">How I work</h2>
+    <div>
       {steps.map(({ key, covers, slug, body }) => {
         const [num, label] = key.split(" ");
         return (
           <a
             href={`/services#${slug}`}
-            class="flex flex-col gap-5 p-6 md:p-8 lg:p-10 group hover:bg-text/[0.02] transition-colors"
+            class="group grid gap-x-12 gap-y-3 border-b border-rule py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,0.8fr)] md:items-baseline"
             data-ph-capture="cta_services"
             data-ph-section="services_teaser"
             data-ph-destination={slug}
             aria-labelledby={`step-${slug}`}
           >
-            <div class="flex items-baseline gap-4" aria-hidden="true">
-              <span class="font-display text-6xl leading-none text-accent group-hover:text-accent-hover transition-colors">{num}</span>
-              <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">{label}</span>
-            </div>
-            <h3 id={`step-${slug}`} class="font-mono text-xs text-text-muted">{covers}</h3>
+            <h3 id={`step-${slug}`} class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none tracking-[-0.045em] text-text transition-colors group-hover:text-accent">
+              {label.replace("_", "").replace(/^./, (c) => c.toUpperCase())}
+            </h3>
             <p class="text-text-body leading-relaxed">{body}</p>
+            <p class="font-mono text-xs text-text-muted">
+              <span aria-hidden="true">{num} · </span>{covers}
+            </p>
           </a>
         );
       })}
     </div>
-
     <a
       href="/services"
       class="mt-10 text-link text-accent hover:text-accent-hover"
