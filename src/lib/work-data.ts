@@ -20,10 +20,20 @@ export interface CaseStudy {
   // constraints. The client descriptor renders beneath it, not above it.
   headline: string;
   // The one number a reader should leave with. Set only where the result is a
-  // verified figure; it leads the case study on /work and qualifies the study
-  // for the homepage What shipped strip. `label` must read on its own, and the
-  // claim is not repeated in `results`.
+  // verified figure; it leads the case study on /work. `label` must read on its
+  // own, and the claim is not repeated in `results`.
   metric?: { value: string; label: string };
+  // Set on the studies the homepage shows. Every engagement is advising, so
+  // `advising` names who was advised, not a service type; builds come in as
+  // proof where they happened. Copy here is shorter than challenge/work above
+  // and bound by the same proof constraints.
+  home?: {
+    advising: string;
+    cadence: string;
+    situation: string;
+    work: string;
+    result: string;
+  };
   format: string[];
   challenge: string;
   work: string;
@@ -53,6 +63,14 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         nameCleared: false,
         headline: "A standing weekly AI session with the chief executive",
         format: ["executive AI advisory", "weekly one-on-one with the CEO"],
+        home: {
+          advising: "Advising the CEO",
+          cadence: "weekly",
+          situation:
+            "The chief executive needed to reason about AI at the level of mechanics, not vendor decks. The decisions couldn't wait for a team still forming its own view.",
+          work: "A standing weekly session on the decisions on his desk, from model evaluation and build economics to token cost and prompt-injection risk.",
+          result: "Delivered weekly to the chief executive directly, not to a delegate.",
+        },
         challenge:
           "The chief executive needed to reason about AI at the level of mechanics rather than vendor decks. The decisions in front of him could not be delegated to a team still forming its own view.",
         work: "A standing weekly session on the decisions actually on his desk. Model evaluation, retrieval versus fine-tuning economics, token cost modeling, hallucination and prompt-injection risk. Each session runs on source-verified research. I have no platform to sell, so the read stays honest.",
@@ -91,9 +109,18 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           label: "of manual calling per request, replaced by a voice agent in production",
         },
         format: [
-          "embedded technical leadership",
+          "technical advisory to the founder, with builds",
           "thirteen months and running",
         ],
+        home: {
+          advising: "Advising the founder",
+          cadence: "13 months",
+          situation:
+            "A corporate-housing company running its core operations by hand. Sourcing one housing request meant hours of searching and property calls.",
+          work: "Grew from one email automation into the founder's standing technical advisor. Where a build proved the point, we shipped it together.",
+          result:
+            "8 to 12 hours of calling per request, now handled by a voice agent in production. The founder merges her own pull requests.",
+        },
         challenge:
           "Core operations ran by hand. Sourcing a single housing request took hours of manual search and property calls, and triaging property emails consumed the team's day.",
         work: "The engagement started with one email automation and grew into fractional technical leadership. A voice agent went into production making first-pass qualification calls. The website was replatformed. The team was in the work the whole way, so the capability stayed.",
@@ -122,10 +149,19 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A children's literacy nonprofit",
         nameCleared: false,
         headline: "Partner tracking moved from spreadsheets to automated status updates",
-        format: ["operations automation", "pro bono"],
+        format: ["advisory and operations build", "pro bono, since 2025"],
+        home: {
+          advising: "Advising the leadership",
+          cadence: "pro bono",
+          situation:
+            "A children's literacy nonprofit with a small staff and volunteer developers, running hospital partnerships on spreadsheets and photographed receipts.",
+          work: "Translating how the organization runs into work AI can carry, and advising the tech team on what to build next.",
+          result:
+            "Partners tracked with automated status updates, and a plan to grow monthly book revenue from $3K toward $20K.",
+        },
         challenge:
           "The nonprofit tracked hospital book partnerships in spreadsheets, phone calls, and photographed shipping receipts. The manual load capped how many hospital partners the team could serve.",
-        work: "Replaced the manual workflow with an integrated tracking system the staff manages themselves, mapped 30-plus volunteers to work that fit their skills, and set up AI-assisted training content the team can update without a production budget.",
+        work: "Translated how the organization runs into work AI can carry. Replaced the manual partner workflow with a tracking system the staff manages themselves, mapped 30-plus volunteers to work that fit their skills, and advise the tech team on what to build next.",
         results: [
           "Partner tracking moved from spreadsheets to a system with automated status updates",
           "A framework to scale monthly book revenue from $3K toward a $20K target",
@@ -186,8 +222,10 @@ export const pendingNote = (cs: CaseStudy) =>
 
 const allStudies = caseStudyGroups.flatMap((g) => g.studies);
 
-export const featuredStudies = allStudies.filter(
-  (cs): cs is CaseStudy & Required<Pick<CaseStudy, "metric">> => !!cs.metric,
+// Homepage case studies, in page order: the CEO engagement leads because it is
+// the engagement the hero describes.
+export const homeStudies = allStudies.filter(
+  (cs): cs is CaseStudy & Required<Pick<CaseStudy, "home">> => !!cs.home,
 );
 
 export const caseStudyCount = allStudies.length;
