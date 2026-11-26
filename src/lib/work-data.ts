@@ -230,6 +230,17 @@ export const pendingNote = (cs: CaseStudy) =>
 
 const allStudies = caseStudyGroups.flatMap((g) => g.studies);
 
+// displayName() only gates the heading, so a client name written into the
+// prose would still ship. Fail the build if an uncleared study's copy names it.
+for (const { client, anonym, nameCleared, ...copy } of allStudies) {
+  if (nameCleared) continue;
+  if (new RegExp(`\\b${client}\\b`).test(JSON.stringify(copy))) {
+    throw new Error(
+      `work-data: "${client}" is not nameCleared but its copy names it. Rewrite the copy or clear the name.`,
+    );
+  }
+}
+
 // Homepage case studies, in caseStudyGroups order, so reordering /work reorders
 // the homepage too. Keep the CEO engagement first: it is the one the hero describes.
 export const homeStudies = allStudies.filter(
