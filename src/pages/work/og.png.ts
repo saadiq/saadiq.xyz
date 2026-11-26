@@ -2,6 +2,6 @@ import { ogEndpoint } from "../../lib/og";
 
 export const GET = ogEndpoint({
   label: "// work",
-  heading: "What shipped",
-  subtext: "Production agents, discovery sprints, and embedded engagements.",
+  heading: "Case studies",
+  subtext: "Advising a Fortune 500 CEO, and the builds that proved the point.",
 });

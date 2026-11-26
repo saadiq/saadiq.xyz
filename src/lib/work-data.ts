@@ -97,7 +97,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
     ],
   },
   {
-    group: "Embedded delivery",
+    group: "Advisory with builds",
     studies: [
       {
         client: "Lanyard Stays",
@@ -170,7 +170,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
     ],
   },
   {
-    group: "Enablement and strategy",
+    group: "Sprints and enablement",
     studies: [
       {
         client: "TigerData",

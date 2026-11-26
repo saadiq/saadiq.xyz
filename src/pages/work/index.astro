@@ -35,10 +35,11 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
   <main class="pt-40 md:pt-48 pb-20 md:pb-28">
     <div class="container-wide">
       <h1 class="page-title">
-        What shipped
+        Case studies
       </h1>
       <p class="text-xl md:text-2xl text-text-body mb-16 max-w-3xl">
-        What changed across {caseStudyCount} engagements. Clients are anonymized
+        What changed across {caseStudyCount} engagements, from advising a
+        Fortune 500 CEO to builds that proved the point. Clients are anonymized
         until a written release lands. The details stay exact, and I'm happy to
         talk through any of them.
       </p>
@@ -53,7 +54,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                   <div>
                     {cs.metric && (
                       <>
-                        <p class="font-display text-7xl md:text-8xl leading-none text-accent mb-2">
+                        <p class="font-display font-extrabold text-7xl md:text-8xl leading-none tracking-[-0.045em] text-accent mb-2">
                           {cs.metric.value}
                         </p>
                         <p class="font-mono text-xs text-text-muted mb-6">
