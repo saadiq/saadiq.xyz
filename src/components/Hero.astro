@@ -13,9 +13,13 @@ import { EXITS as exits } from "../lib/constants";
   <div class="container-wide">
     <div class="flex flex-wrap items-stretch gap-10 md:gap-14">
       <div class="flex min-w-0 flex-[999_1_36rem] flex-col justify-between gap-10 md:gap-12">
-        <h1 class="display-heavy text-5xl md:text-7xl lg:text-8xl xl:text-[7.25rem] leading-[0.95] md:leading-[0.92]">
-          AI changes how companies run. I help CEOs <span class="text-accent">decide how theirs will.</span>
-        </h1>
+        <div>
+          {/* The nameplate carries the name from lg up; below that, this line does. */}
+          <p class="mb-5 font-mono text-xs text-text-muted lg:hidden">Saadiq Rodgers-King · Brooklyn, NY</p>
+          <h1 class="display-heavy text-5xl md:text-7xl lg:text-8xl xl:text-[7.25rem] leading-[0.95] md:leading-[0.92]">
+            AI changes how companies run. I help CEOs <span class="text-accent">decide how theirs will.</span>
+          </h1>
+        </div>
         <div class="flex flex-wrap items-end justify-between gap-8">
           <p class="text-lg md:text-xl text-text-body max-w-[38rem] leading-relaxed">
             I help CEOs get fluent on AI, decide what it changes about the business, and set the next moves. Then I work with their product and technology teams until it's how the work gets done.
