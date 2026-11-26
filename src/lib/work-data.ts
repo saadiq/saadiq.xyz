@@ -116,18 +116,18 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           advising: "Advising the founder",
           cadence: "18 months",
           situation:
-            "They win on fresh availability. The team sources every housing request by calling properties directly, so clients see what's open now. As demand grew, those calls took up more and more of the day.",
-          work: "Grew from one email automation into the founder's standing technical advisor, with a voice agent and a website replatform built along the way.",
+            "Lanyard finds corporate housing that is open right now, so the team phones properties directly for every request. As demand grew, one request could take a full day of calls.",
+          work: "I advise the founder on technology and AI. Along the way we built a voice agent that makes the first round of property calls, automated property email, and rebuilt the website.",
           result:
-            "8 to 12 hours of calling per request, now handled by a voice agent in production. The founder merges her own pull requests.",
+            "The voice agent now handles the 8 to 12 hours of calling each request used to take. The founder ships her own code changes.",
         },
         challenge:
-          "Clients come to them for current availability, which the team gets by calling properties directly for every request. As demand grew, sourcing took hours per request, and property email could fill the rest of the day.",
-        work: "The engagement started with one email automation and grew into fractional technical leadership. A voice agent went into production making first-pass qualification calls. The website was replatformed. The team was in the work the whole way, so the capability stayed.",
+          "Clients come to Lanyard for housing that is available now, and the team finds it by phoning properties directly for every request. As demand grew, one request could take 8 to 12 hours of calls, and property email filled the rest of the day.",
+        work: "I started by automating one email workflow. Eighteen months later I am the founder's standing technical advisor. We built a voice agent that makes the first round of calls to properties and checks whether they fit the request, and we moved the website to a new platform. The team worked alongside me throughout, so they can run and extend what we built.",
         results: [
           "Property email triage automated",
           "Website replatform shipped",
-          "The non-technical founder now runs her own dev environment and merges her own pull requests",
+          "The non-technical founder now runs her own development setup and ships her own code changes",
         ],
       },
       {
