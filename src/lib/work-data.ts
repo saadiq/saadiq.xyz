@@ -102,7 +102,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
       {
         client: "Lanyard Stays",
         anonym: "A B2B corporate-housing company",
-        nameCleared: false,
+        nameCleared: true, // Named by Saadiq 2026-11-25.
         headline: "A voice agent in production, replacing 8 to 12 hours of calling per request",
         metric: {
           value: "8–12 hrs",
@@ -147,7 +147,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
       {
         client: "Our Kids Read",
         anonym: "A children's literacy nonprofit",
-        nameCleared: false,
+        nameCleared: true, // Named by Saadiq 2026-11-25.
         headline: "Partner tracking moved from spreadsheets to automated status updates",
         format: ["advisory and operations build", "pro bono, since 2025"],
         home: {
