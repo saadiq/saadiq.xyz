@@ -1,7 +1,7 @@
-// The five engagement shapes, rendered in full on /services, in the order of
-// the homepage How I work steps (advise, scope, build), which link into them by
-// slug. Advisory leads: it is the usual starting point and the main thing to
-// hire for. Builds are an option, not the main sale.
+// The five engagement shapes, rendered in full on /services. The homepage How
+// I work steps (advise, scope, build) link into them by slug. Advisory leads:
+// it is the usual starting point and the main thing to hire for. Builds are an
+// option, not the main sale.
 export const services = [
   {
     slug: "advisory",

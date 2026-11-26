@@ -51,7 +51,7 @@ export interface ThemeGroup {
 
 export const themeGroups: ThemeGroup[] = [
   {
-    group: "for leadership teams",
+    group: "For leadership teams",
     themes: [
       {
         title: "99% Adoption and Still Stuck",
@@ -68,7 +68,7 @@ export const themeGroups: ThemeGroup[] = [
     ],
   },
   {
-    group: "for product and engineering orgs",
+    group: "For product and engineering orgs",
     themes: [
       {
         title: "The Product Development Factory",
@@ -86,7 +86,7 @@ export const themeGroups: ThemeGroup[] = [
     ],
   },
   {
-    group: "for mixed rooms",
+    group: "For mixed rooms",
     themes: [
       {
         title: "You Don't Need to Know What an Agent Is",
