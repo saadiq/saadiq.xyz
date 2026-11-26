@@ -24,68 +24,82 @@ import Mark from "./Mark.astro";
     <div class="flex items-center gap-4 md:gap-6 lg:gap-8 text-sm font-medium">
       <NavLinks linkClass="hidden md:inline-flex min-h-11" />
       <BookingCTA section="nav" variant="outline" label="Book" />
-      <button
-        id="nav-menu-toggle"
-        type="button"
-        class="inline-flex min-h-11 items-center text-text-muted hover:text-text md:hidden"
-        aria-expanded="false"
-        aria-controls="nav-menu"
-      >
-        Menu
-      </button>
+      <!-- A native <details> so the menu opens without JavaScript; the script
+           only adds closing on outside click, Escape, and link taps. -->
+      <details id="nav-menu-toggle" class="group md:hidden">
+        <summary
+          class="inline-flex min-h-11 cursor-pointer list-none items-center text-text-muted hover:text-text [&::-webkit-details-marker]:hidden"
+          aria-controls="nav-menu"
+        >
+          <span class="group-open:hidden">Menu</span>
+          <span class="hidden group-open:inline">Close</span>
+        </summary>
+      </details>
     </div>
   </div>
 
-  <div
-    id="nav-menu"
-    class="hidden px-6 pb-4 md:hidden"
-  >
+  <div id="nav-menu" class="px-6 pb-4">
     <div class="flex flex-col text-lg font-medium">
       <NavLinks linkClass="flex min-h-12 border-t border-rule" />
     </div>
   </div>
 </nav>
 
+<style>
+  /* The menu shows while the <details> toggle is open, and the bar goes solid
+     with one bottom rule under the menu rather than a second one above it. */
+  #nav-menu {
+    display: none;
+  }
+  @media (width < 48rem) {
+    #main-nav:has(#nav-menu-toggle[open]) {
+      background-color: color-mix(in oklab, var(--color-bg) 95%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-rule);
+    }
+    #main-nav:has(#nav-menu-toggle[open]) #nav-menu {
+      display: block;
+    }
+  }
+</style>
+
 <script>
   const nav = document.getElementById("main-nav");
-  const toggle = document.getElementById("nav-menu-toggle");
+  const toggle = document.getElementById("nav-menu-toggle") as HTMLDetailsElement | null;
   const menu = document.getElementById("nav-menu");
 
   if (nav && toggle && menu) {
-    let open = false;
-    // The nav takes its glass background and single bottom rule once scrolled,
-    // or while the menu is open, so the menu never draws a second rule.
+    // The nav takes its glass background and bottom rule once scrolled. The
+    // open-menu look is CSS (above), so it works without this script.
     const paint = () => {
-      const solid = open || window.scrollY > 50;
-      for (const c of ["backdrop-blur-md", "border-b", "border-rule"]) {
+      const solid = window.scrollY > 50;
+      for (const c of ["backdrop-blur-md", "border-b", "border-rule", "bg-bg/80"]) {
         nav.classList.toggle(c, solid);
       }
-      nav.classList.toggle("bg-bg/80", solid && !open);
-      nav.classList.toggle("bg-bg/95", open);
     };
-    const setOpen = (next: boolean) => {
-      open = next;
-      menu.classList.toggle("hidden", !open);
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.textContent = open ? "Close" : "Menu";
-      paint();
+    const close = () => {
+      toggle.open = false;
     };
 
     window.addEventListener("scroll", paint, { passive: true });
     paint();
 
-    toggle.addEventListener("click", () => setOpen(!open));
     menu.addEventListener("click", (e) => {
-      if ((e.target as HTMLElement).closest("a")) setOpen(false);
+      if ((e.target as HTMLElement).closest("a")) close();
     });
     document.addEventListener("click", (e) => {
-      if (open && !nav.contains(e.target as Node)) setOpen(false);
+      if (toggle.open && !nav.contains(e.target as Node)) close();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && open) {
-        setOpen(false);
-        toggle.focus();
+      if (e.key === "Escape" && toggle.open) {
+        close();
+        toggle.querySelector("summary")?.focus();
       }
+    });
+    // The toggle is gone from md up, so close the menu there rather than leave
+    // it open for the next time the viewport narrows.
+    window.matchMedia("(min-width: 48rem)").addEventListener("change", (e) => {
+      if (e.matches) close();
     });
   }
 </script>
