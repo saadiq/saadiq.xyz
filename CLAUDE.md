@@ -22,7 +22,7 @@ This is an **Astro static site** served at `https://saadiq.xyz`. It shares a Dig
 
 - **Ghost theme** (`journal-field-notes`, branch `field-notes`): `~/dev/journal`
 - **Social and newsletter cards** (Puppeteer-rendered HTML): `~/dev/cards` (`git@github.com:saadiq/cards.git`, private). Lived in `cards/` here until 2026-10-16. The cards hand-copy this site's tokens and nothing here imports from them; their `CLAUDE.md` says where to read the canonical values from.
-- The two do **not** share a palette, and syncing tokens between them is not the goal. The site is dark (`bg #0b0a09`); Field Notes is deliberately light (`--bg #f6f6f4`) because an archive is read, not scanned. What they share is a *vocabulary*: JetBrains Mono for metadata, a green live dot, and the gold `#d4a843` (the site's `accent`, the theme's `--accent-bright`). Keep that vocabulary in sync; let the grounds differ. **The site dropped its terminal motifs on 2026-11-25** (see below); Field Notes still carries `// section` eyebrows and trailing underscores and should follow in its own pass.
+- The two do **not** share a palette, and syncing tokens between them is not the goal. The site is dark (`bg #0b0a09`); Field Notes is deliberately light (`--bg #f6f6f4`) because an archive is read, not scanned. What they share is a *vocabulary*: JetBrains Mono for metadata, a green live dot, and the gold `#d4a843` (the site's `accent`, the theme's `--accent-bright`). Keep that vocabulary in sync; let the grounds differ. Field Notes still carries the old terminal motifs (`// section` eyebrows, trailing underscores), which the site dropped on 2026-11-25.
 - Field Notes darkens the accent to `#a47018` for its own body copy because `#d4a843` fails contrast on a light ground. That's correct, not drift.
 
 ## Color tokens (in `src/styles/global.css`)
@@ -57,7 +57,7 @@ The site carries the **Saadiq Industries** mark: an S whose counters form an I (
 
 The hero puts the headline beside a **nameplate**: the monogram on a cream (`text`) plate with the shadow, the one block of light above the fold, hidden below `md`. It replaced the hero photo; the portrait lives in About. Credentials run as one mono strip under both (Advising / Exits / Before), so the exits are still said once. No italics in headlines.
 
-**No terminal motifs** (2026-11-25). AI has outgrown the terminal, and the leftovers read as habit rather than choice. Gone: the blinking cursor, trailing-underscore labels (`result_`, `proof_`), the `> saadiq` status-bar prompt, `// label` prefixes (OG cards, 404), and slash-prefixed or lowercase nav (`/newsletter`, `work`). Labels are plain words in sentence case. JetBrains Mono stays, but only as typography for small metadata labels and text links; nav is in the body face. Don't reintroduce a terminal device as decoration.
+Labels are plain words in sentence case. JetBrains Mono is used for small metadata labels and text links; nav is in the body face. (The terminal motifs the site used to carry, such as the blinking cursor and `result_`-style labels, were removed 2026-11-25. They are no longer part of the identity.)
 
 Design canvas with the treatments that led here: https://claude.ai/artifact/Y2rS3ZjaK33S8rRFNsuT3p
 
