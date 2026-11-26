@@ -1,7 +1,7 @@
 import { ogEndpoint } from "../../lib/og";
 
 export const GET = ogEndpoint({
-  label: "// about",
+  label: "About",
   heading: "Saadiq Rodgers-King",
-  subtext: "I get product and engineering teams actually using AI.",
+  subtext: "I help CEOs get fluent on AI and set the strategy for it.",
 });

@@ -19,7 +19,7 @@
   --color-accent: #d4a843;
   --color-accent-hover: #e8bd5a;
   --color-rule: #2f2926;
-  --font-display: "Instrument Serif", serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-body: "Inter", system-ui, sans-serif;
 
@@ -29,8 +29,8 @@
 
 html {
   scroll-behavior: smooth;
-  /* Keep anchor targets clear of the fixed nav and status bar. */
-  scroll-padding-block: 7rem 3.5rem;
+  /* Keep anchor targets clear of the fixed nav. */
+  scroll-padding-top: 7rem;
   background-color: var(--color-bg);
   color: var(--color-text);
 }
@@ -44,10 +44,20 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   /* viewport-fit=cover: keep in-flow content clear of notches in landscape.
-     Fixed bars (Nav, StatusBar) handle their own insets. */
+     The fixed Nav handles its own insets. */
   padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Inter Tight is the display cut of the body face, so display type earns its
+   rank from weight and tight tracking rather than a second family. In the base
+   layer so a call site's font-* or tracking-* utility still wins. */
+@layer base {
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
 }
 
 /* Noise texture overlay */
@@ -63,28 +73,9 @@ body::before {
   background-size: 200px 200px;
 }
 
-/* Blinking cursor animation */
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .cursor-blink {
-    animation: none;
   }
 }
 
@@ -102,6 +93,15 @@ body::before {
     transition-duration: 200ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+}
+
+/* The heavy display recipe: the hero, subpage h1s, How I work's big words,
+   and /work metrics. Sizes stay at the call site. A utility, not a component
+   class, so .page-title can @apply it. */
+@utility display-heavy {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
 }
 
 /* Section heading that carries its own hairline, so the label and the rule are
@@ -158,7 +158,7 @@ body::before {
 
   /* The one subpage h1 scale. */
   .page-title {
-    @apply font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight mb-8;
+    @apply display-heavy text-5xl md:text-7xl lg:text-8xl leading-[0.98] mb-8;
   }
 
   /* Case-study cards: a panel that leads with a gold edge. */

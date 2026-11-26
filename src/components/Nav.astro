@@ -1,6 +1,12 @@
 ---
+// Persistent: the mark (home and brand) and Book (the one conversion). On
+// desktop the page links and /newsletter sit in the bar; below md they fold
+// into a menu so the bar stays one row. The footer form covers the newsletter
+// on every page, so it never needs a persistent slot on mobile.
 import BookingCTA from "./BookingCTA.astro";
 import NavLinks from "./NavLinks.astro";
+import Mark from "./Mark.astro";
+
 ---
 
 <nav
@@ -8,42 +14,92 @@ import NavLinks from "./NavLinks.astro";
   class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300 pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
 >
   <div class="flex items-center justify-between px-6 py-2 md:px-10 md:py-3">
-    <a href="/" class="inline-flex min-h-11 items-center font-display text-lg text-text tracking-wide no-underline">
-      saadiq_
+    <a href="/" class="inline-flex min-h-11 items-center gap-3 text-text no-underline">
+      <span class="flex size-8 items-center justify-center bg-text text-bg">
+        <Mark class="size-5" />
+      </span>
+      <span class="max-sm:sr-only whitespace-nowrap font-display text-lg font-extrabold tracking-tight">Saadiq Industries</span>
     </a>
 
-    <div class="flex items-center gap-5 md:gap-8 font-mono text-sm">
+    <div class="flex items-center gap-4 md:gap-6 lg:gap-8 text-sm font-medium">
       <NavLinks linkClass="hidden md:inline-flex min-h-11" />
-      <a
-        href="/newsletter"
-        rel="noreferrer"
-        class="inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
-        data-ph-capture="nav_click"
-        data-ph-section="nav"
-        data-ph-destination="newsletter"
-      >
-        /newsletter
-      </a>
-      <BookingCTA section="nav" variant="outline" label="book" />
+      <BookingCTA section="nav" variant="outline" label="Book" />
+      <!-- A native <details> so the menu opens without JavaScript; the script
+           only adds closing on outside click, Escape, and link taps. -->
+      <details id="nav-menu-toggle" class="group md:hidden">
+        <summary
+          class="inline-flex min-h-11 cursor-pointer list-none items-center text-text-muted hover:text-text [&::-webkit-details-marker]:hidden"
+          aria-controls="nav-menu"
+        >
+          <span class="group-open:hidden">Menu</span>
+          <span class="hidden group-open:inline">Close</span>
+        </summary>
+      </details>
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center gap-x-6 gap-y-0 px-6 pb-1 font-mono text-[13px] md:hidden">
-    <NavLinks linkClass="inline-flex min-h-11" />
+  <div id="nav-menu" class="px-6 pb-4">
+    <div class="flex flex-col text-lg font-medium">
+      <NavLinks linkClass="flex min-h-12 border-t border-rule" />
+    </div>
   </div>
 </nav>
 
+<style>
+  /* The menu shows while the <details> toggle is open, and the bar goes solid
+     with one bottom rule under the menu rather than a second one above it. */
+  #nav-menu {
+    display: none;
+  }
+  @media (width < 48rem) {
+    #main-nav:has(#nav-menu-toggle[open]) {
+      background-color: color-mix(in oklab, var(--color-bg) 95%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-rule);
+    }
+    #main-nav:has(#nav-menu-toggle[open]) #nav-menu {
+      display: block;
+    }
+  }
+</style>
+
 <script>
   const nav = document.getElementById("main-nav");
-  if (nav) {
-    const onScroll = () => {
-      if (window.scrollY > 50) {
-        nav.classList.add("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
-      } else {
-        nav.classList.remove("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
+  const toggle = document.getElementById("nav-menu-toggle") as HTMLDetailsElement | null;
+  const menu = document.getElementById("nav-menu");
+
+  if (nav && toggle && menu) {
+    // The nav takes its glass background and bottom rule once scrolled. The
+    // open-menu look is CSS (above), so it works without this script.
+    const paint = () => {
+      const solid = window.scrollY > 50;
+      for (const c of ["backdrop-blur-md", "border-b", "border-rule", "bg-bg/80"]) {
+        nav.classList.toggle(c, solid);
       }
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    const close = () => {
+      toggle.open = false;
+    };
+
+    window.addEventListener("scroll", paint, { passive: true });
+    paint();
+
+    menu.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) close();
+    });
+    document.addEventListener("click", (e) => {
+      if (toggle.open && !nav.contains(e.target as Node)) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && toggle.open) {
+        close();
+        toggle.querySelector("summary")?.focus();
+      }
+    });
+    // The toggle is gone from md up, so close the menu there rather than leave
+    // it open for the next time the viewport narrows.
+    window.matchMedia("(min-width: 48rem)").addEventListener("change", (e) => {
+      if (e.matches) close();
+    });
   }
 </script>

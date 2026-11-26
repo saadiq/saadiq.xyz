@@ -20,10 +20,24 @@ export interface CaseStudy {
   // constraints. The client descriptor renders beneath it, not above it.
   headline: string;
   // The one number a reader should leave with. Set only where the result is a
-  // verified figure; it leads the case study on /work and qualifies the study
-  // for the homepage What shipped strip. `label` must read on its own, and the
-  // claim is not repeated in `results`.
+  // verified figure; it leads the case study on /work. `label` must read on its
+  // own, and the claim is not repeated in `results`.
   metric?: { value: string; label: string };
+  // For ongoing engagements whose outcomes are qualitative, not measured:
+  // relabels the result block ("Result" / "Results") so it doesn't read as a
+  // verified figure.
+  outcomeLabel?: string;
+  // Set on the studies the homepage shows. Every engagement is advising, so
+  // `advising` names who was advised, not a service type; builds come in as
+  // proof where they happened. Copy here is shorter than challenge/work above
+  // and bound by the same proof constraints.
+  home?: {
+    advising: string;
+    cadence: string;
+    situation: string;
+    work: string;
+    result: string;
+  };
   format: string[];
   challenge: string;
   work: string;
@@ -52,13 +66,23 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A Fortune 500 company",
         nameCleared: false,
         headline: "A standing weekly AI session with the chief executive",
-        format: ["executive AI advisory", "weekly one-on-one with the CEO"],
+        outcomeLabel: "So far",
+        format: ["executive AI advisory", "weekly one-on-one with the CEO", "ongoing"],
+        home: {
+          advising: "Advising the CEO",
+          cadence: "weekly",
+          situation:
+            "The chief executive wanted to understand AI well enough to make the calls himself, instead of relying on vendor pitches or a team still forming its own view.",
+          work: "A standing weekly session on the AI decisions in front of him, covering which models to trust, what building would cost, and where the risks are.",
+          result:
+            "He weighs AI proposals on how they actually work, and decides for himself where AI is worth applying across the company.",
+        },
         challenge:
-          "The chief executive needed to reason about AI at the level of mechanics rather than vendor decks. The decisions in front of him could not be delegated to a team still forming its own view.",
-        work: "A standing weekly session on the decisions actually on his desk. Model evaluation, retrieval versus fine-tuning economics, token cost modeling, hallucination and prompt-injection risk. Each session runs on source-verified research. I have no platform to sell, so the read stays honest.",
+          "The chief executive wanted to understand AI well enough to make the calls himself, instead of relying on vendor pitches. The decisions in front of him could not wait for a team still forming its own view.",
+        work: "A standing weekly session on the decisions actually on his desk. We cover how to judge which AI models to trust, when to build versus buy and what each costs, and where AI creates new risks for the company. Each session runs on checked research. I have no platform to sell, so the read stays honest.",
         results: [
-          "A weekly cadence delivered directly to the chief executive, not to a delegate",
-          "Mechanics covered at depth, from model evaluation through token cost modeling to prompt-injection risk",
+          "A chief executive who can judge AI proposals on how they work, not on the pitch",
+          "Clearer calls on where AI is worth applying across the company, and where it is not",
         ],
       },
       {
@@ -79,62 +103,68 @@ export const caseStudyGroups: CaseStudyGroup[] = [
     ],
   },
   {
-    group: "Embedded delivery",
+    group: "Advisory with builds",
     studies: [
       {
-        client: "Lanyard Stays",
+        client: "Lanyard",
         anonym: "A B2B corporate-housing company",
-        nameCleared: false,
+        nameCleared: true, // Named by Saadiq 2026-11-25.
         headline: "A voice agent in production, replacing 8 to 12 hours of calling per request",
         metric: {
           value: "8–12 hrs",
           label: "of manual calling per request, replaced by a voice agent in production",
         },
         format: [
-          "embedded technical leadership",
-          "thirteen months and running",
+          "technical advisory to the founder, with builds",
+          "eighteen months and running",
         ],
+        home: {
+          advising: "Advising the founder",
+          cadence: "18 months",
+          situation:
+            "Lanyard finds corporate housing that is open right now, so the team phones properties directly for every request. As demand grew, one request could take a full day of calls.",
+          work: "I advise the founder on technology and AI. Along the way we built a voice agent that makes the first round of property calls, automated property email, and rebuilt the website.",
+          result:
+            "The voice agent now handles the 8 to 12 hours of calling each request used to take. The founder ships her own code changes.",
+        },
         challenge:
-          "Core operations ran by hand. Sourcing a single housing request took hours of manual search and property calls, and triaging property emails consumed the team's day.",
-        work: "The engagement started with one email automation and grew into fractional technical leadership. A voice agent went into production making first-pass qualification calls. The website was replatformed. The team was in the work the whole way, so the capability stayed.",
+          "Clients come to Lanyard for housing that is available now, and the team finds it by phoning properties directly for every request. As demand grew, one request could take 8 to 12 hours of calls, and property email filled the rest of the day.",
+        work: "I started by automating one email workflow. Eighteen months later I am the founder's standing technical advisor. We built a voice agent that makes the first round of calls to properties and checks whether they fit the request, and we moved the website to a new platform. The team worked alongside me throughout, so they can run and extend what we built.",
         results: [
           "Property email triage automated",
           "Website replatform shipped",
-          "The non-technical founder now runs her own dev environment and merges her own pull requests",
-        ],
-      },
-      {
-        client: "Avaaz",
-        anonym: "A 70-million-member advocacy organization",
-        nameCleared: false,
-        headline: "A campaign-setup agent, built and accepted milestone by milestone",
-        format: ["agent and automation build", "milestone billed"],
-        challenge:
-          "Campaign setup was manual work repeated across a global organization. Every hour spent standing a campaign up was an hour not spent on the campaign itself.",
-        work: "An AI campaign-setup agent with human review designed in from the start. It was built to execute through the organization's own CMS and messaging APIs, so it fits inside their systems rather than beside them.",
-        results: [
-          "Agent built and accepted, milestone by milestone",
-          "Human review at every step, so the agent never acts on its own",
+          "The non-technical founder now runs her own development setup and ships her own code changes",
         ],
       },
       {
         client: "Our Kids Read",
         anonym: "A children's literacy nonprofit",
-        nameCleared: false,
-        headline: "Partner tracking moved from spreadsheets to automated status updates",
-        format: ["operations automation", "pro bono"],
+        nameCleared: true, // Named by Saadiq 2026-11-25.
+        headline: "Standing tech and AI operations advisor to a growing nonprofit",
+        format: ["tech and AI operations advisory", "pro bono, since 2025"],
+        home: {
+          advising: "Advising the founder and tech team",
+          cadence: "pro bono",
+          situation:
+            "A nonprofit that sends books to children in hospitals, run by a small staff and volunteers. It needed help deciding how technology and AI should run its operations, and what to build next.",
+          work: "I advise the founder and the volunteer tech team on how the organization runs on technology, from hosting and code ownership to using AI for grant research. It started with a book-ordering system I built in 2025.",
+          result:
+            "The grants team has an AI workflow for researching funders, and the ordering system runs on Our Kids Read's own accounts.",
+        },
         challenge:
-          "The nonprofit tracked hospital book partnerships in spreadsheets, phone calls, and photographed shipping receipts. The manual load capped how many hospital partners the team could serve.",
-        work: "Replaced the manual workflow with an integrated tracking system the staff manages themselves, mapped 30-plus volunteers to work that fit their skills, and set up AI-assisted training content the team can update without a production budget.",
+          "Our Kids Read sends books to children in hospitals. Its operations ran on spreadsheets, phone calls, and photos of shipping receipts, which capped how many hospitals it could serve. As the program grew, the founder needed help deciding how technology and AI should carry the work, and steering a mostly volunteer tech team.",
+        work: "I advise the founder and the volunteer tech team, which sets direction and leaves the building to a pro bono development studio. The advice covers where the platform should be hosted, how the code stays in the organization's hands, and where AI can take on operations work like grant research. It started with a book-ordering system I built in 2025, so hospitals order online and staff can see every shipment.",
         results: [
-          "Partner tracking moved from spreadsheets to a system with automated status updates",
-          "A framework to scale monthly book revenue from $3K toward a $20K target",
+          "An AI workflow for researching grant funders, set up with the grants team",
+          "Code and hosting moved into Our Kids Read's own accounts, so no single volunteer holds the keys",
+          "Book ordering moved from spreadsheets and phone calls to an online system the staff runs",
+          "A plan to grow monthly book revenue from $3K toward $20K",
         ],
       },
     ],
   },
   {
-    group: "Enablement and strategy",
+    group: "Sprints and builds",
     studies: [
       {
         client: "TigerData",
@@ -172,6 +202,20 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           "Users reacted to working software, which sharpened every feedback cycle",
         ],
       },
+      {
+        client: "Avaaz",
+        anonym: "A 70-million-member advocacy organization",
+        nameCleared: false,
+        headline: "A campaign-setup agent, built and accepted milestone by milestone",
+        format: ["agent and automation build", "milestone billed"],
+        challenge:
+          "Campaign setup was manual work repeated across a global organization. Every hour spent standing a campaign up was an hour not spent on the campaign itself.",
+        work: "An AI campaign-setup agent with human review designed in from the start. It was built to execute through the organization's own CMS and messaging APIs, so it fits inside their systems rather than beside them.",
+        results: [
+          "Agent built and accepted, milestone by milestone",
+          "Human review at every step, so the agent never acts on its own",
+        ],
+      },
     ],
   },
 ];
@@ -186,11 +230,22 @@ export const pendingNote = (cs: CaseStudy) =>
 
 const allStudies = caseStudyGroups.flatMap((g) => g.studies);
 
-export const featuredStudies = allStudies.filter(
-  (cs): cs is CaseStudy & Required<Pick<CaseStudy, "metric">> => !!cs.metric,
-);
+// displayName() only gates the heading, so a client name written into the
+// prose would still ship. Fail the build if an uncleared study's copy names it.
+for (const { client, anonym, nameCleared, ...copy } of allStudies) {
+  if (nameCleared) continue;
+  if (new RegExp(`\\b${client}\\b`).test(JSON.stringify(copy))) {
+    throw new Error(
+      `work-data: "${client}" is not nameCleared but its copy names it. Rewrite the copy or clear the name.`,
+    );
+  }
+}
 
-export const caseStudyCount = allStudies.length;
+// Homepage case studies, in caseStudyGroups order, so reordering /work reorders
+// the homepage too. Keep the CEO engagement first: it is the one the hero describes.
+export const homeStudies = allStudies.filter(
+  (cs): cs is CaseStudy & Required<Pick<CaseStudy, "home">> => !!cs.home,
+);
 
 export const testimonials: Testimonial[] = [
   {

@@ -1,19 +1,8 @@
-// The five engagement shapes, rendered in full on /services. The homepage
-// How I work steps link into them by slug.
+// The five engagement shapes, rendered in full on /services. The homepage How
+// I work steps (advise, scope, build) link into them by slug. Advisory leads:
+// it is the usual starting point and the main thing to hire for. Builds are an
+// option, not the main sale.
 export const services = [
-  {
-    slug: "talks",
-    name: "Talks and executive briefings",
-    forShort: "leadership teams",
-    shape: "one session, or a written brief",
-    cta: "Book a talk",
-    format: ["one session · in person or remote", "briefs · written, 1-2 weeks"],
-    who: "For leadership teams that need a concrete picture of what AI changes about how they build.",
-    body:
-      "A 30 to 45 minute talk built around live demos of real systems instead of slides. Your org sees working agents on actual business problems, then we take questions for as long as you want, and you keep a deck made to circulate. When a single decision needs depth rather than a room, I write executive briefs.",
-    proof:
-      "A product-offsite talk for a global research firm was still being discussed two days later, and the deck went to everyone who missed the room. A panel on AI agents in a public library's AI literacy series drew about 80 people for live demos.",
-  },
   {
     slug: "advisory",
     name: "Executive AI advisory",
@@ -26,6 +15,19 @@ export const services = [
       "A standing weekly session on the topics you pick. What matters and what you can safely ignore, what competitors are doing, how to explain the plan to your team, how fast to push. Deep enough to get into mechanics, with source-verified research briefs between sessions. I have no platform to sell you, so the read stays honest.",
     proof:
       "Current engagements include weekly sessions with the chief executive of a Fortune 500 company and advisory to a senior technology leader navigating a company-wide rework of how the business operates and delivers its services.",
+  },
+  {
+    slug: "talks",
+    name: "Talks and executive briefings",
+    forShort: "leadership teams",
+    shape: "one session, or a written brief",
+    cta: "Book a talk",
+    format: ["one session · in person or remote", "briefs · written, 1-2 weeks"],
+    who: "For leadership teams that need a concrete picture of what AI changes about how they build.",
+    body:
+      "A 30 to 45 minute talk built around live demos of real systems instead of slides. Your org sees working agents on actual business problems, then we take questions for as long as you want, and you keep a deck made to circulate. When a single decision needs depth rather than a room, I write executive briefs.",
+    proof:
+      "A product-offsite talk for a global research firm was still being discussed two days later, and the deck went to everyone who missed the room. A panel on AI agents in a public library's AI literacy series drew about 80 people for live demos.",
   },
   {
     slug: "sprint",
@@ -47,7 +49,7 @@ export const services = [
     shape: "4-8 weeks per phase, milestones",
     cta: "Scope a build",
     format: ["fixed fee · milestone billed", "4-8 weeks per phase"],
-    who: "For companies whose skilled people burn hours on manual work across systems.",
+    who: "For companies whose skilled people burn hours on manual work across systems, once the first problem is clear.",
     body:
       "A production agent or automation that keeps running after I leave. Human review is designed in from the start, so the agent never hits send on its own. Billing is tied to milestones you accept, and handoff includes the knowledge transfer your team needs to own and extend the system.",
     proof:
@@ -60,9 +62,9 @@ export const services = [
     shape: "weekly cadence on retainer",
     cta: "Book a conversation",
     format: ["monthly retainer · weekly cadence", "starts with one scoped win"],
-    who: "For established founder-led companies that need senior technical leadership without the full-time hire.",
+    who: "For founders of established companies who want a standing technical advisor who also ships, without the full-time hire.",
     body:
-      "I run a weekly cadence as your de facto technical lead. Agents, integrations, and replatforms get shipped. Vendor and cost decisions get owned. Your team levels up along the way because they're in the work, not watching it. Engagements start with a scoped first project that stands on its own. The mandate grows from results.",
+      "I advise the founder on a weekly cadence and act as the de facto technical lead. Agents, integrations, and replatforms get shipped. Vendor and cost decisions get owned. Your team levels up along the way because they're in the work, not watching it. Engagements start with a scoped first project that stands on its own. The mandate grows from results.",
     proof:
       "A year-plus engagement with a hospitality company grew from a single automation into voice and email agents and a full website replatform, and its non-technical founder now runs her own dev environment and merges her own pull requests. Three weeks embedded with a product team cut prototype iteration from weeks to about three hours.",
   },

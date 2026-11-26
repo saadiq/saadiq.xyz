@@ -2,7 +2,6 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Nav from "../../../components/Nav.astro";
 import FooterCTA from "../../../components/FooterCTA.astro";
-import StatusBar from "../../../components/StatusBar.astro";
 import BookingCTA from "../../../components/BookingCTA.astro";
 import { Image } from "astro:assets";
 import speakingMic from "../../../assets/images/speaking-mic-mirrored.jpg";
@@ -16,37 +15,37 @@ import { EXITS as exits } from "../../../lib/constants";
 // drawn from services-data.ts and stays inside its proof constraints.
 const steps = [
   {
-    label: "strategy_",
+    label: "Strategy",
     slug: "advisory",
     title: "Executive advisory",
     body: "A standing weekly session with you on the AI decisions you can't delegate. Vendors, org design, what to believe in a demo, how fast to push.",
   },
   {
-    label: "scope_",
+    label: "Scope",
     slug: "sprint",
     title: "Discovery sprint",
     body: "One to two weeks inside your company, in your meetings and your stack, to find which problem is worth solving first. Fixed fee, ending in a scoped proposal.",
   },
   {
-    label: "team_",
+    label: "Team",
     slug: "talks",
     title: "Talks for your team",
     body: "Live demos of working agents on real business problems, then questions for as long as your team has them.",
   },
   {
-    label: "execution_",
+    label: "Execution",
     slug: "builds",
     title: "Builds with your team",
-    body: "When building is the fastest way to prove the point, I ship it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
+    body: "Some questions only get answered once something is running. Then I build it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
   },
 ];
 
 assertServiceSlugs(steps.map((s) => s.slug), "events/outliers");
 
 const camps = [
-  { key: "optimists_", value: "put AI in everything" },
-  { key: "skeptics_", value: "won't touch it" },
-  { key: "everyone_else_", value: "uses it for the easy stuff" },
+  { key: "Optimists", value: "put AI in everything" },
+  { key: "Skeptics", value: "won't touch it" },
+  { key: "Everyone else", value: "uses it for the easy stuff" },
 ];
 ---
 
@@ -60,15 +59,12 @@ const camps = [
   <main class="pt-36 md:pt-48">
     <section class="pb-16 md:pb-20">
       <div class="container-wide">
-        <p class="font-mono text-xs mb-3">
-          <span class="text-text-muted">hello_</span>{" "}
-          <span class="text-text">outliers summit · nov 5-6 · long island city</span>
-        </p>
+        <p class="font-mono text-xs text-text mb-3">Outliers Summit · Nov 5-6 · Long Island City</p>
         <p class="text-lg md:text-xl text-text-body mb-6">
           You saw me at Outliers. Good to meet you.
         </p>
         <h1 class="page-title md:mb-10">
-          You're AI-native. Is your <em class="text-accent">team?</em><span class="cursor-blink text-accent" aria-hidden="true">_</span>
+          You're AI-native. Is your <span class="text-accent">team?</span>
         </h1>
 
         <div class="flex items-center gap-4 mb-6">
@@ -166,7 +162,7 @@ const camps = [
           ))}
         </div>
 
-        <p class="mt-10 font-mono text-xs text-text-muted mb-2">proof_</p>
+        <p class="mt-10 font-mono text-xs text-text-muted mb-2">Proof</p>
         <p class="text-text-body leading-relaxed max-w-3xl">
           Three weeks embedded with a product team cut prototype iteration from
           weeks to about three hours. At a hospitality company, the
@@ -201,5 +197,4 @@ const camps = [
     </section>
   </main>
   <FooterCTA />
-  <StatusBar />
 </BaseLayout>

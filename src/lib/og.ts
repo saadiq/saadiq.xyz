@@ -4,16 +4,27 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const fontsDir = join(process.cwd(), "src/assets/fonts");
-const instrumentSerifData = readFileSync(join(fontsDir, "InstrumentSerif-Regular.ttf"));
+const interTightData = readFileSync(join(fontsDir, "InterTight-ExtraBold.ttf"));
 const interData = readFileSync(join(fontsDir, "Inter-Regular.ttf"));
 
 const COLORS = {
-  bg: "#0c0c0c",
-  text: "#f0ece4",
-  textMuted: "#ac9e90",
+  bg: "#0b0a09",
+  text: "#f2eee6",
+  textMuted: "#ab9d91",
   accent: "#d4a843",
-  rule: "#2a2a2a",
+  rule: "#2f2926",
 };
+
+// The Saadiq Industries monogram, dark on a cream tile, as satori takes images.
+// The tile pads the mark's own viewBox, so a redrawn mark stays centred.
+const MARK_SVG = readFileSync(join(process.cwd(), "public/brand/saadiq-industries-mark.svg"), "utf8");
+const MARK_PATHS = MARK_SVG.match(/<path[^>]*\/>/g)!.join("");
+const TILE_PAD = 80;
+const [mx, my, mw, mh] = MARK_SVG.match(/viewBox="([^"]+)"/)![1].split(/\s+/).map(Number);
+const tile = { x: mx - TILE_PAD, y: my - TILE_PAD, w: mw + 2 * TILE_PAD, h: mh + 2 * TILE_PAD };
+const markTile = `data:image/svg+xml;base64,${Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tile.x} ${tile.y} ${tile.w} ${tile.h}"><rect x="${tile.x}" y="${tile.y}" width="${tile.w}" height="${tile.h}" fill="${COLORS.text}"/><g fill="${COLORS.bg}">${MARK_PATHS}</g></svg>`,
+).toString("base64")}`;
 
 import type { APIRoute } from "astro";
 
@@ -56,10 +67,11 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
             type: "div",
             props: {
               style: {
-                fontSize: 52,
-                fontFamily: "Instrument Serif",
+                fontSize: 56,
+                fontFamily: "Inter Tight",
                 color: COLORS.text,
-                lineHeight: 1.15,
+                lineHeight: 1.02,
+                letterSpacing: -2,
                 marginBottom: subtext ? 28 : 0,
               },
               children: heading,
@@ -87,13 +99,20 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
             props: {
               style: {
                 position: "absolute",
-                bottom: 80,
+                bottom: 72,
                 left: 80,
-                fontSize: 18,
-                fontFamily: "Inter",
-                color: COLORS.accent,
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                fontSize: 20,
+                fontFamily: "Inter Tight",
+                color: COLORS.text,
               },
-              children: "saadiq.xyz",
+              children: [
+                { type: "img", props: { src: markTile, width: 40, height: 40 } },
+                { type: "div", props: { children: "Saadiq Industries" } },
+                { type: "div", props: { style: { color: COLORS.textMuted, fontFamily: "Inter" }, children: "saadiq.xyz" } },
+              ],
             },
           },
         ],
@@ -104,8 +123,9 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
       height: 630,
       fonts: [
         {
-          name: "Instrument Serif",
-          data: instrumentSerifData,
+          name: "Inter Tight",
+          data: interTightData,
+          weight: 800,
           style: "normal",
         },
         {

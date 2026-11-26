@@ -1,0 +1,17 @@
+---
+// The Saadiq Industries monogram: an S whose counters form an I. The geometry
+// lives once, in public/brand/saadiq-industries-mark.svg (og.ts reads it too);
+// this inlines that file so it takes currentColor. Always decorative: callers
+// name the brand in adjacent text.
+import svg from "../../public/brand/saadiq-industries-mark.svg?raw";
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const html = svg
+  .trim()
+  .replace("<svg ", `<svg aria-hidden="true"${className ? ` class="${className}"` : ""} `);
+---
+
+<Fragment set:html={html} />

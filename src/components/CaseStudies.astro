@@ -1,0 +1,49 @@
+---
+// First-party proof on the homepage, as case studies rather than bare
+// metrics: each one labels the situation, what I did, and the result, so the
+// numbers that survive carry their context. Every engagement is advising, so
+// the tag names who was advised; the spread runs from a Fortune 500 CEO to a
+// nonprofit's leadership. Copy lives in work-data.ts (`home`), gated by the
+// same naming rules as /work.
+import { displayName, homeStudies } from "../lib/work-data";
+---
+
+<section id="case-studies" class="py-16 md:py-20">
+  <div class="container-wide">
+    <div class="mb-10 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <h2 class="rule-heading flex-1">Case studies</h2>
+      <a
+        href="/work"
+        class="text-link text-accent hover:text-accent-hover whitespace-nowrap"
+        data-ph-capture="cta_work"
+        data-ph-section="case_studies"
+      >
+        All case studies &rarr;
+      </a>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-3">
+      {
+        homeStudies.map((cs) => (
+          <article class="panel panel-accent flex flex-col gap-5 p-6 md:p-8">
+            <p class="font-mono text-xs text-accent">
+              {cs.home.advising} · {cs.home.cadence}
+            </p>
+            <h3 class="font-display text-2xl md:text-3xl leading-tight">{displayName(cs)}</h3>
+            <div>
+              <p class="mb-2 font-mono text-xs text-text-muted">Situation</p>
+              <p class="text-text-body leading-relaxed">{cs.home.situation}</p>
+            </div>
+            <div>
+              <p class="mb-2 font-mono text-xs text-text-muted">What I did</p>
+              <p class="text-text-body leading-relaxed">{cs.home.work}</p>
+            </div>
+            <div class="mt-auto border-t border-rule pt-5">
+              <p class="mb-2 font-mono text-xs text-text-muted">{cs.outcomeLabel ?? "Result"}</p>
+              <p class="text-lg font-semibold leading-snug text-text">{cs.home.result}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import FooterCTA from "../../components/FooterCTA.astro";
-import StatusBar from "../../components/StatusBar.astro";
 import BookingCTA from "../../components/BookingCTA.astro";
 import { Image } from "astro:assets";
 import nyplDemo from "../../assets/images/nypl-demo.jpg";
@@ -93,7 +92,7 @@ const stagePhotos = [
                     {a.title}
                   </h3>
                   <p class="font-mono text-xs text-text-muted mt-2">
-                    {a.role.toLowerCase()}_ &middot; {a.date.toLowerCase()}
+                    {a.role} &middot; {a.date}
                   </p>
                 </div>
                 <div>
@@ -129,7 +128,7 @@ const stagePhotos = [
           {
             themeGroups.map(({ group, themes }) => (
               <div>
-                <h3 class="font-mono text-xs text-text-muted mb-5">{group}_</h3>
+                <h3 class="font-mono text-xs text-text-muted mb-5">{group}</h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {themes.map((t) => (
                     <div class="panel flex flex-col gap-4 p-6 md:p-8">
@@ -139,7 +138,7 @@ const stagePhotos = [
                         </h4>
                         {t.delivered && (
                           <p class="font-mono text-xs text-accent mt-1">
-                            delivered live_
+                            Delivered live
                           </p>
                         )}
                       </div>
@@ -159,5 +158,4 @@ const stagePhotos = [
     </div>
   </main>
   <FooterCTA />
-  <StatusBar />
 </BaseLayout>

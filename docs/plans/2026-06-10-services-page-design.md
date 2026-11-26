@@ -34,6 +34,9 @@ Every proof sentence on the page must stay inside these lines:
 - Lanyard email triage: never cite "99% accuracy" (traces to an unverified internal draft). Voice agent live in production and the 8-12 hours per request figure are verified. Replatform live. Admin platform and Sarah email phase 2 are in-flight, not claimable as shipped.
 - Avaaz: built and accepted is claimable; "17 languages" and "in production at the client" are not.
 - BookPortal (Our Kids Read) is not AI-meaty; do not use as an agent-build proof.
+- Our Kids Read is claimable as advising (added 2026-11-25): translating how the organization runs into work AI can carry, weekly advice to the tech team on what to build next, the partner tracking system, the $3K toward $20K revenue plan, the AI grant-research workflow set up with the grants team, and moving code and hosting into the organization's own accounts (confirmed by Saadiq 2026-11-26). Still not an agent-build proof.
+- Every engagement is framed as advising; builds are proof where they happened (2026-11-25). Lanyard reads as technical advisory to the founder, with builds.
+- MLB is not claimable anywhere, even anonymized, until the engagement has delivered results and its contract's publicity terms are checked (decided 2026-11-25; SOW signed 2026-11-20).
 - Takes: three weeks embedded, prototype iteration weeks to ~3 hours, verified and claimable (anonymized as "a product team").
 - Lanyard founder upskilling (own dev environment, merges own PRs) verified and claimable.
 

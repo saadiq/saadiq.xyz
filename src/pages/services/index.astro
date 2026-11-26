@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Nav from "../../components/Nav.astro";
 import FooterCTA from "../../components/FooterCTA.astro";
-import StatusBar from "../../components/StatusBar.astro";
 import BookingCTA from "../../components/BookingCTA.astro";
 import { websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd, faqJsonLd } from "../../lib/schema";
 import { services } from "../../lib/services-data";
@@ -11,7 +10,7 @@ import { faqs } from "../../lib/faq-data";
 
 <BaseLayout
   title="AI Consulting Services | Saadiq Rodgers-King"
-  description="Five ways to work together on AI. Talks, executive AI advisory, 1-2 week discovery sprints, production agent builds, and embedded technical leadership."
+  description="AI strategy for CEOs. Executive AI advisory, talks, 1-2 week discovery sprints, production agent builds, and embedded technical leadership."
   ogImage="/services/og.png"
   jsonLd={[websiteJsonLd, servicesJsonLd, servicesBreadcrumbJsonLd, faqJsonLd(faqs)]}
 >
@@ -22,14 +21,15 @@ import { faqs } from "../../lib/faq-data";
         How I work
       </h1>
       <p class="text-xl md:text-2xl text-text-body mb-6 max-w-3xl">
-        I get product and engineering teams actually using AI. For companies
-        without those teams, I build the systems and stay until they run
-        without me.
+        I help CEOs get fluent on AI, decide what it changes about the
+        business, and set the next moves. Then I work with their product and
+        technology teams until it's how the work gets done.
       </p>
       <p class="text-text-body leading-relaxed mb-16 max-w-2xl">
-        A talk seeds the idea, a sprint proves it on your real work, a build
-        ships it. Engagements start with a scoped, fixed-fee first project.
-        Scope expands only when results earn it.
+        Advisory is the usual starting point. A sprint finds the first problem
+        worth solving, and when a working system answers the question faster
+        than analysis, I build it with your team. Sprints and builds are fixed fee, and scope expands
+        only when results earn it.
       </p>
 
       <div class="pt-12 mb-16 md:mb-20">
@@ -48,7 +48,7 @@ import { faqs } from "../../lib/faq-data";
                 data-ph-destination={service.slug}
               >
                 <span class="font-mono text-sm text-accent group-hover:text-accent-hover transition-colors">
-                  {service.name.toLowerCase()}_
+                  {service.name}
                 </span>
                 <span class="text-sm text-text-body">for {service.forShort}</span>
                 <span class="font-mono text-xs text-text-muted md:text-right">{service.shape}</span>
@@ -80,7 +80,7 @@ import { faqs } from "../../lib/faq-data";
                 <p class="text-text-body leading-relaxed mb-6">
                   {service.body}
                 </p>
-                <p class="font-mono text-xs text-text-muted mb-2">proof_</p>
+                <p class="font-mono text-xs text-text-muted mb-2">Proof</p>
                 <p class="text-sm text-text-body leading-relaxed mb-6">
                   {service.proof}
                 </p>
@@ -112,5 +112,4 @@ import { faqs } from "../../lib/faq-data";
     </div>
   </main>
   <FooterCTA />
-  <StatusBar />
 </BaseLayout>
