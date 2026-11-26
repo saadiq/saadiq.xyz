@@ -58,20 +58,20 @@ const serviceOffers = [
     "@type": "Offer" as const,
     "itemOffered": {
       "@type": "Service" as const,
-      "name": "Talks and Executive Briefings",
+      "name": "Executive AI Advisory",
       "url": "https://saadiq.xyz/services",
       "description":
-        "Live-demo sessions for leadership teams on what AI changes about how they build, plus standalone written executive briefs.",
+        "A standing weekly session for CEOs on what AI changes about the business and the strategy for it, with source-verified research briefs between sessions.",
     },
   },
   {
     "@type": "Offer" as const,
     "itemOffered": {
       "@type": "Service" as const,
-      "name": "Executive AI Advisory",
+      "name": "Talks and Executive Briefings",
       "url": "https://saadiq.xyz/services",
       "description":
-        "A standing weekly session for CEOs on what AI changes about the business and the strategy for it, with source-verified research briefs between sessions.",
+        "Live-demo sessions for leadership teams on what AI changes about how they build, plus standalone written executive briefs.",
     },
   },
   {
