@@ -67,7 +67,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                     <p class="font-mono text-sm text-text mb-1">{cs.displayName}</p>
                     {cs.pendingNote && (
                       <p class="font-mono text-xs text-accent mb-1">
-                        name pending release_ ({cs.pendingNote})
+                        Name pending release ({cs.pendingNote})
                       </p>
                     )}
                     <div class="space-y-1">
@@ -81,7 +81,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                     <p class="text-text-body leading-relaxed mb-6">{cs.work}</p>
                     {cs.results.length > 0 && (
                       <p class="font-mono text-xs text-text-muted mb-2">
-                        {cs.metric ? "also shipped_" : "results_"}
+                        {cs.metric ? "Also shipped" : "Results"}
                       </p>
                     )}
                     <ul class="space-y-2">
@@ -113,7 +113,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                   <footer class="font-mono text-sm text-text-body">
                     {t.name} · {t.title}
                     {!t.cleared && SHOW_PENDING && (
-                      <span class="text-accent"> · pending release_</span>
+                      <span class="text-accent"> · pending release</span>
                     )}
                   </footer>
                 </blockquote>

@@ -29,15 +29,15 @@ const newsletterAttrs = {
       <span class="sr-only sm:hidden">Saadiq Industries</span>
     </a>
 
-    <div class="flex items-center gap-4 md:gap-8 font-mono text-sm">
+    <div class="flex items-center gap-4 md:gap-8 text-sm font-medium">
       <NavLinks linkClass="hidden md:inline-flex min-h-11" />
       <a
         {...newsletterAttrs}
         class="hidden md:inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
       >
-        /newsletter
+        Newsletter
       </a>
-      <BookingCTA section="nav" variant="outline" label="book" />
+      <BookingCTA section="nav" variant="outline" label="Book" />
       <button
         id="nav-menu-toggle"
         type="button"
@@ -45,7 +45,7 @@ const newsletterAttrs = {
         aria-expanded="false"
         aria-controls="nav-menu"
       >
-        menu
+        Menu
       </button>
     </div>
   </div>
@@ -54,13 +54,13 @@ const newsletterAttrs = {
     id="nav-menu"
     class="hidden border-b border-rule bg-bg/95 backdrop-blur-md px-6 pb-4 md:hidden"
   >
-    <div class="flex flex-col font-mono text-base">
+    <div class="flex flex-col text-lg font-medium">
       <NavLinks linkClass="flex min-h-12 border-t border-rule" />
       <a
         {...newsletterAttrs}
         class="flex min-h-12 items-center border-t border-rule text-text-muted hover:text-text"
       >
-        /newsletter
+        Newsletter
       </a>
     </div>
   </div>
@@ -87,7 +87,7 @@ const newsletterAttrs = {
     const setOpen = (open: boolean) => {
       menu.classList.toggle("hidden", !open);
       toggle.setAttribute("aria-expanded", String(open));
-      toggle.textContent = open ? "close" : "menu";
+      toggle.textContent = open ? "Close" : "Menu";
     };
     toggle.addEventListener("click", () => setOpen(menu.classList.contains("hidden")));
     menu.addEventListener("click", (e) => {

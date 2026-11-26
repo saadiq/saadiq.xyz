@@ -9,19 +9,19 @@ import { assertServiceSlugs, services } from "../lib/services-data";
 
 const steps = [
   {
-    key: "01 advise_",
+    key: "01 Advise",
     covers: "Executive advisory, talks",
     slug: "advisory",
     body: "A standing weekly session with the CEO on what matters, what to safely ignore, and what competitors are doing. Current clients include the chief executive of a Fortune 500 company. The usual starting point.",
   },
   {
-    key: "02 scope_",
+    key: "02 Scope",
     covers: "Discovery sprint",
     slug: "sprint",
     body: "One to two weeks inside your company to find which problem is worth solving first. Ends with a scoped proposal for the first project.",
   },
   {
-    key: "03 build_",
+    key: "03 Build",
     covers: "Agent builds, embedded technical leadership",
     slug: "builds",
     body: "When building is the fastest way to prove the point, I ship it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
@@ -47,7 +47,7 @@ assertServiceSlugs(steps.map((s) => s.slug), "ServicesTeaser");
             aria-labelledby={`step-${slug}`}
           >
             <h3 id={`step-${slug}`} class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none tracking-[-0.045em] text-text transition-colors group-hover:text-accent">
-              {label.replace("_", "").replace(/^./, (c) => c.toUpperCase())}
+              {label}
             </h3>
             <p class="text-text-body leading-relaxed">{body}</p>
             <p class="font-mono text-xs text-text-muted">

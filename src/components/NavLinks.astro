@@ -4,10 +4,10 @@
 import { normalizePath } from "../lib/paths";
 
 const links = [
-  { href: "/work", label: "work" },
-  { href: "/services", label: "services" },
-  { href: "/speaking", label: "speaking" },
-  { href: "/about", label: "about" },
+  { href: "/work", label: "Work" },
+  { href: "/services", label: "Services" },
+  { href: "/speaking", label: "Speaking" },
+  { href: "/about", label: "About" },
 ];
 
 interface Props {
@@ -30,7 +30,7 @@ const path = normalizePath(Astro.url.pathname);
       ]}
       data-ph-capture="nav_click"
       data-ph-section="nav"
-      data-ph-destination={label}
+      data-ph-destination={label.toLowerCase()}
     >
       {label}
     </a>
