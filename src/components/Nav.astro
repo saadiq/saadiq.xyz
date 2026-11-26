@@ -38,7 +38,7 @@ import Mark from "./Mark.astro";
 
   <div
     id="nav-menu"
-    class="hidden border-b border-rule bg-bg/95 backdrop-blur-md px-6 pb-4 md:hidden"
+    class="hidden px-6 pb-4 md:hidden"
   >
     <div class="flex flex-col text-lg font-medium">
       <NavLinks linkClass="flex min-h-12 border-t border-rule" />
@@ -51,30 +51,38 @@ import Mark from "./Mark.astro";
   const toggle = document.getElementById("nav-menu-toggle");
   const menu = document.getElementById("nav-menu");
 
-  if (nav) {
-    const onScroll = () => {
-      const scrolled = window.scrollY > 50;
-      nav.classList.toggle("backdrop-blur-md", scrolled);
-      nav.classList.toggle("bg-bg/80", scrolled);
-      nav.classList.toggle("border-b", scrolled);
-      nav.classList.toggle("border-rule", scrolled);
+  if (nav && toggle && menu) {
+    let open = false;
+    // The nav takes its glass background and single bottom rule once scrolled,
+    // or while the menu is open, so the menu never draws a second rule.
+    const paint = () => {
+      const solid = open || window.scrollY > 50;
+      for (const c of ["backdrop-blur-md", "border-b", "border-rule"]) {
+        nav.classList.toggle(c, solid);
+      }
+      nav.classList.toggle("bg-bg/80", solid && !open);
+      nav.classList.toggle("bg-bg/95", open);
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  }
-
-  if (toggle && menu) {
-    const setOpen = (open: boolean) => {
+    const setOpen = (next: boolean) => {
+      open = next;
       menu.classList.toggle("hidden", !open);
       toggle.setAttribute("aria-expanded", String(open));
       toggle.textContent = open ? "Close" : "Menu";
+      paint();
     };
-    toggle.addEventListener("click", () => setOpen(menu.classList.contains("hidden")));
+
+    window.addEventListener("scroll", paint, { passive: true });
+    paint();
+
+    toggle.addEventListener("click", () => setOpen(!open));
     menu.addEventListener("click", (e) => {
       if ((e.target as HTMLElement).closest("a")) setOpen(false);
     });
+    document.addEventListener("click", (e) => {
+      if (open && !nav.contains(e.target as Node)) setOpen(false);
+    });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+      if (e.key === "Escape" && open) {
         setOpen(false);
         toggle.focus();
       }
