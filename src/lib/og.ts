@@ -16,11 +16,14 @@ const COLORS = {
 };
 
 // The Saadiq Industries monogram, dark on a cream tile, as satori takes images.
-const MARK_PATHS = readFileSync(join(process.cwd(), "public/brand/saadiq-industries-mark.svg"), "utf8")
-  .match(/<path[^>]*\/>/g)!
-  .join("");
+// The tile pads the mark's own viewBox, so a redrawn mark stays centred.
+const MARK_SVG = readFileSync(join(process.cwd(), "public/brand/saadiq-industries-mark.svg"), "utf8");
+const MARK_PATHS = MARK_SVG.match(/<path[^>]*\/>/g)!.join("");
+const TILE_PAD = 80;
+const [mx, my, mw, mh] = MARK_SVG.match(/viewBox="([^"]+)"/)![1].split(/\s+/).map(Number);
+const tile = { x: mx - TILE_PAD, y: my - TILE_PAD, w: mw + 2 * TILE_PAD, h: mh + 2 * TILE_PAD };
 const markTile = `data:image/svg+xml;base64,${Buffer.from(
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="164 156 926 940"><rect x="164" y="156" width="926" height="940" fill="${COLORS.text}"/><g fill="${COLORS.bg}">${MARK_PATHS}</g></svg>`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${tile.x} ${tile.y} ${tile.w} ${tile.h}"><rect x="${tile.x}" y="${tile.y}" width="${tile.w}" height="${tile.h}" fill="${COLORS.text}"/><g fill="${COLORS.bg}">${MARK_PATHS}</g></svg>`,
 ).toString("base64")}`;
 
 import type { APIRoute } from "astro";
