@@ -1,7 +1,7 @@
 // The five engagement shapes, rendered in full on /services, in the order of
 // the homepage How I work steps (advise, scope, build), which link into them by
 // slug. Advisory leads: it is the usual starting point and the main thing to
-// hire for. Builds are offered where they prove the point.
+// hire for. Builds are an option, not the main sale.
 export const services = [
   {
     slug: "advisory",
@@ -49,7 +49,7 @@ export const services = [
     shape: "4-8 weeks per phase, milestones",
     cta: "Scope a build",
     format: ["fixed fee · milestone billed", "4-8 weeks per phase"],
-    who: "For when building is the fastest way to prove the point, usually where skilled people burn hours on manual work across systems.",
+    who: "For companies whose skilled people burn hours on manual work across systems, once the first problem is clear.",
     body:
       "A production agent or automation that keeps running after I leave. Human review is designed in from the start, so the agent never hits send on its own. Billing is tied to milestones you accept, and handoff includes the knowledge transfer your team needs to own and extend the system.",
     proof:

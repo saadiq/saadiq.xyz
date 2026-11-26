@@ -6,7 +6,7 @@ export const faqs = [
   {
     question: "What does an AI transformation consultant do?",
     answer:
-      "An AI transformation consultant helps a company go from owning AI tools to changing how its work gets done with them. I advise the CEO on what AI changes about the business and what to do next, find the problems worth solving first, and work with the product and technology teams until it's how the work gets done. Where building is the fastest way to prove the point, I build with them.",
+      "An AI transformation consultant helps a company go from owning AI tools to changing how its work gets done with them. I advise the CEO on what AI changes about the business and what to do next, find the problems worth solving first, and work with the product and technology teams until it's how the work gets done. When a working system answers the question faster than analysis, I build it with them.",
   },
   {
     question: "How does an engagement start?",

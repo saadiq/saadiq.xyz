@@ -117,7 +117,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           cadence: "13 months",
           situation:
             "A corporate-housing company running its core operations by hand. Sourcing one housing request meant hours of searching and property calls.",
-          work: "Grew from one email automation into the founder's standing technical advisor. Where a build proved the point, we shipped it together.",
+          work: "Grew from one email automation into the founder's standing technical advisor, with a voice agent and a website replatform built along the way.",
           result:
             "8 to 12 hours of calling per request, now handled by a voice agent in production. The founder merges her own pull requests.",
         },
