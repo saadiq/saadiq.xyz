@@ -82,7 +82,7 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                     <p class="text-text-body leading-relaxed mb-6">{cs.work}</p>
                     {cs.results.length > 0 && (
                       <p class="font-mono text-xs text-text-muted mb-2">
-                        {cs.metric ? "Also shipped" : "Results"}
+                        {cs.outcomeLabel ?? (cs.metric ? "Also shipped" : "Results")}
                       </p>
                     )}
                     <ul class="space-y-2">

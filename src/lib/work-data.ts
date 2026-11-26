@@ -23,6 +23,10 @@ export interface CaseStudy {
   // verified figure; it leads the case study on /work. `label` must read on its
   // own, and the claim is not repeated in `results`.
   metric?: { value: string; label: string };
+  // For ongoing engagements whose outcomes are qualitative, not measured:
+  // relabels the result block ("Result" / "Results") so it doesn't read as a
+  // verified figure.
+  outcomeLabel?: string;
   // Set on the studies the homepage shows. Every engagement is advising, so
   // `advising` names who was advised, not a service type; builds come in as
   // proof where they happened. Copy here is shorter than challenge/work above
