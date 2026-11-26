@@ -116,13 +116,13 @@ export const caseStudyGroups: CaseStudyGroup[] = [
           advising: "Advising the founder",
           cadence: "13 months",
           situation:
-            "A corporate-housing company with more requests coming in than its team could source. Each one took hours of searching and property calls.",
+            "Their edge is fresh availability. Every housing request gets real calls to real properties, so clients see what's open today, not a stale listing. As demand grew, that legwork had to scale without losing the personal touch.",
           work: "Grew from one email automation into the founder's standing technical advisor, with a voice agent and a website replatform built along the way.",
           result:
             "8 to 12 hours of calling per request, now handled by a voice agent in production. The founder merges her own pull requests.",
         },
         challenge:
-          "Demand was outpacing the team. Every housing request took hours of search and property calls to source, and property email alone could fill the day.",
+          "Their clients get availability that's current, because every request is sourced with real calls to real properties. As demand grew, that legwork ran to hours per request, and property email alone could fill the day.",
         work: "The engagement started with one email automation and grew into fractional technical leadership. A voice agent went into production making first-pass qualification calls. The website was replatformed. The team was in the work the whole way, so the capability stayed.",
         results: [
           "Property email triage automated",
