@@ -1,7 +1,19 @@
 ---
+// Persistent: the mark (home and brand) and Book (the one conversion). On
+// desktop the page links and /newsletter sit in the bar; below md they fold
+// into a menu so the bar stays one row. The footer form covers the newsletter
+// on every page, so it never needs a persistent slot on mobile.
 import BookingCTA from "./BookingCTA.astro";
 import NavLinks from "./NavLinks.astro";
 import Mark from "./Mark.astro";
+
+const newsletterAttrs = {
+  href: "/newsletter",
+  rel: "noreferrer",
+  "data-ph-capture": "nav_click",
+  "data-ph-section": "nav",
+  "data-ph-destination": "newsletter",
+};
 ---
 
 <nav
@@ -17,38 +29,75 @@ import Mark from "./Mark.astro";
       <span class="sr-only sm:hidden">Saadiq Industries</span>
     </a>
 
-    <div class="flex items-center gap-5 md:gap-8 font-mono text-sm">
+    <div class="flex items-center gap-4 md:gap-8 font-mono text-sm">
       <NavLinks linkClass="hidden md:inline-flex min-h-11" />
       <a
-        href="/newsletter"
-        rel="noreferrer"
-        class="inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
-        data-ph-capture="nav_click"
-        data-ph-section="nav"
-        data-ph-destination="newsletter"
+        {...newsletterAttrs}
+        class="hidden md:inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
       >
         /newsletter
       </a>
       <BookingCTA section="nav" variant="outline" label="book" />
+      <button
+        id="nav-menu-toggle"
+        type="button"
+        class="inline-flex min-h-11 items-center text-text-muted hover:text-text md:hidden"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+      >
+        menu
+      </button>
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center gap-x-6 gap-y-0 px-6 pb-1 font-mono text-[13px] md:hidden">
-    <NavLinks linkClass="inline-flex min-h-11" />
+  <div
+    id="nav-menu"
+    class="hidden border-b border-rule bg-bg/95 backdrop-blur-md px-6 pb-4 md:hidden"
+  >
+    <div class="flex flex-col font-mono text-base">
+      <NavLinks linkClass="flex min-h-12 border-t border-rule" />
+      <a
+        {...newsletterAttrs}
+        class="flex min-h-12 items-center border-t border-rule text-text-muted hover:text-text"
+      >
+        /newsletter
+      </a>
+    </div>
   </div>
 </nav>
 
 <script>
   const nav = document.getElementById("main-nav");
+  const toggle = document.getElementById("nav-menu-toggle");
+  const menu = document.getElementById("nav-menu");
+
   if (nav) {
     const onScroll = () => {
-      if (window.scrollY > 50) {
-        nav.classList.add("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
-      } else {
-        nav.classList.remove("backdrop-blur-md", "bg-bg/80", "border-b", "border-rule");
-      }
+      const scrolled = window.scrollY > 50;
+      nav.classList.toggle("backdrop-blur-md", scrolled);
+      nav.classList.toggle("bg-bg/80", scrolled);
+      nav.classList.toggle("border-b", scrolled);
+      nav.classList.toggle("border-rule", scrolled);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+  }
+
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle("hidden", !open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "close" : "menu";
+    };
+    toggle.addEventListener("click", () => setOpen(menu.classList.contains("hidden")));
+    menu.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
   }
 </script>
