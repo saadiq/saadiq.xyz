@@ -154,23 +154,25 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         client: "Our Kids Read",
         anonym: "A children's literacy nonprofit",
         nameCleared: true, // Named by Saadiq 2026-11-25.
-        headline: "Partner tracking moved from spreadsheets to automated status updates",
-        format: ["advisory and operations build", "pro bono, since 2025"],
+        headline: "Standing tech and AI operations advisor to a growing nonprofit",
+        format: ["tech and AI operations advisory", "pro bono, since 2025"],
         home: {
-          advising: "Advising the leadership",
+          advising: "Advising the founder and tech team",
           cadence: "pro bono",
           situation:
-            "A children's literacy nonprofit with a small staff and volunteer developers, running hospital partnerships on spreadsheets and photographed receipts.",
-          work: "Translating how the organization runs into work AI can carry, and advising the tech team on what to build next.",
+            "A nonprofit that sends books to children in hospitals, run by a small staff and volunteers. It needed help deciding how technology and AI should run its operations, and what to build next.",
+          work: "I advise the founder and the volunteer tech team on how the organization runs on technology, from hosting and code ownership to using AI for grant research. It started with a book-ordering system I built in 2025.",
           result:
-            "Partners tracked with automated status updates, and a plan to grow monthly book revenue from $3K toward $20K.",
+            "The grants team has an AI workflow for researching funders, and the ordering system runs on Our Kids Read's own accounts.",
         },
         challenge:
-          "The nonprofit tracked hospital book partnerships in spreadsheets, phone calls, and photographed shipping receipts. The manual load capped how many hospital partners the team could serve.",
-        work: "Translated how the organization runs into work AI can carry. Replaced the manual partner workflow with a tracking system the staff manages themselves, mapped 30-plus volunteers to work that fit their skills, and advise the tech team on what to build next.",
+          "Our Kids Read sends books to children in hospitals. Its operations ran on spreadsheets, phone calls, and photos of shipping receipts, which capped how many hospitals it could serve. As the program grew, the founder needed help deciding how technology and AI should carry the work, and steering a mostly volunteer tech team.",
+        work: "I advise the founder and the volunteer tech team, which sets direction and leaves the building to a pro bono development studio. The advice covers where the platform should be hosted, how the code stays in the organization's hands, and where AI can take on operations work like grant research. It started with a book-ordering system I built in 2025, so hospitals order online and staff can see every shipment.",
         results: [
-          "Partner tracking moved from spreadsheets to a system with automated status updates",
-          "A framework to scale monthly book revenue from $3K toward a $20K target",
+          "An AI workflow for researching grant funders, set up with the grants team",
+          "Code and hosting moved into Our Kids Read's own accounts, so no single volunteer holds the keys",
+          "Book ordering moved from spreadsheets and phone calls to an online system the staff runs",
+          "A plan to grow monthly book revenue from $3K toward $20K",
         ],
       },
     ],
