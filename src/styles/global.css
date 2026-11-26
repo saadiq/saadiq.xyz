@@ -29,8 +29,8 @@
 
 html {
   scroll-behavior: smooth;
-  /* Keep anchor targets clear of the fixed nav and status bar. */
-  scroll-padding-block: 7rem 3.5rem;
+  /* Keep anchor targets clear of the fixed nav. */
+  scroll-padding-top: 7rem;
   background-color: var(--color-bg);
   color: var(--color-text);
 }
@@ -44,7 +44,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   /* viewport-fit=cover: keep in-flow content clear of notches in landscape.
-     Fixed bars (Nav, StatusBar) handle their own insets. */
+     The fixed Nav handles its own insets. */
   padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
