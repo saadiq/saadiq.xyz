@@ -95,6 +95,15 @@ body::before {
   }
 }
 
+/* The heavy display recipe: the hero, subpage h1s, How I work's big words,
+   and /work metrics. Sizes stay at the call site. A utility, not a component
+   class, so .page-title can @apply it. */
+@utility display-heavy {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
 /* Section heading that carries its own hairline, so the label and the rule are
    one device instead of two stacked ones. The rule starts after the label
    rather than spanning the container, so it reads as a heading and not as a
@@ -147,9 +156,9 @@ body::before {
     box-shadow: var(--shadow-panel);
   }
 
-  /* The one subpage h1 scale, set like the hero: 800 with tight tracking. */
+  /* The one subpage h1 scale. */
   .page-title {
-    @apply font-display font-extrabold text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-[-0.04em] mb-8;
+    @apply display-heavy text-5xl md:text-7xl lg:text-8xl leading-[0.98] mb-8;
   }
 
   /* Case-study cards: a panel that leads with a gold edge. */

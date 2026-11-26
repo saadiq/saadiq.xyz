@@ -228,7 +228,6 @@ export const homeStudies = allStudies.filter(
   (cs): cs is CaseStudy & Required<Pick<CaseStudy, "home">> => !!cs.home,
 );
 
-
 export const testimonials: Testimonial[] = [
   {
     quote:

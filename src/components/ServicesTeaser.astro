@@ -9,19 +9,19 @@ import { assertServiceSlugs, services } from "../lib/services-data";
 
 const steps = [
   {
-    key: "01 Advise",
+    label: "Advise",
     covers: "Executive advisory, talks",
     slug: "advisory",
     body: "A standing weekly session with the CEO on what matters, what to safely ignore, and what competitors are doing. Current clients include the chief executive of a Fortune 500 company. The usual starting point.",
   },
   {
-    key: "02 Scope",
+    label: "Scope",
     covers: "Discovery sprint",
     slug: "sprint",
     body: "One to two weeks inside your company to find which problem is worth solving first. Ends with a scoped proposal for the first project.",
   },
   {
-    key: "03 Build",
+    label: "Build",
     covers: "Agent builds, embedded technical leadership",
     slug: "builds",
     body: "When building is the fastest way to prove the point, I ship it with your team, as a scoped project or as your weekly technical lead. Your team owns it after.",
@@ -34,29 +34,27 @@ assertServiceSlugs(steps.map((s) => s.slug), "ServicesTeaser");
 <section id="services" class="py-16 md:py-20">
   <div class="container-wide">
     <h2 class="rule-heading mb-4">How I work</h2>
-    <div>
-      {steps.map(({ key, covers, slug, body }) => {
-        const [num, label] = key.split(" ");
-        return (
-          <a
-            href={`/services#${slug}`}
-            class="group grid gap-x-12 gap-y-3 border-b border-rule py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,0.8fr)] md:items-baseline"
-            data-ph-capture="cta_services"
-            data-ph-section="services_teaser"
-            data-ph-destination={slug}
-            aria-labelledby={`step-${slug}`}
-          >
-            <h3 id={`step-${slug}`} class="font-display font-extrabold text-5xl md:text-6xl lg:text-7xl leading-none tracking-[-0.045em] text-text transition-colors group-hover:text-accent">
-              {label}
-            </h3>
-            <p class="text-text-body leading-relaxed">{body}</p>
-            <p class="font-mono text-xs text-text-muted">
-              <span aria-hidden="true">{num} · </span>{covers}
-            </p>
-          </a>
-        );
-      })}
-    </div>
+    {steps.map(({ label, covers, slug, body }, i) => {
+      const num = String(i + 1).padStart(2, "0");
+      return (
+        <a
+          href={`/services#${slug}`}
+          class="group grid gap-x-12 gap-y-3 border-b border-rule py-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,0.8fr)] md:items-baseline"
+          data-ph-capture="cta_services"
+          data-ph-section="services_teaser"
+          data-ph-destination={slug}
+          aria-labelledby={`step-${slug}`}
+        >
+          <h3 id={`step-${slug}`} class="display-heavy text-5xl md:text-6xl lg:text-7xl leading-none text-text transition-colors group-hover:text-accent">
+            {label}
+          </h3>
+          <p class="text-text-body leading-relaxed">{body}</p>
+          <p class="font-mono text-xs text-text-muted">
+            <span aria-hidden="true">{num} · </span>{covers}
+          </p>
+        </a>
+      );
+    })}
     <a
       href="/services"
       class="mt-10 text-link text-accent hover:text-accent-hover"

@@ -7,13 +7,6 @@ import BookingCTA from "./BookingCTA.astro";
 import NavLinks from "./NavLinks.astro";
 import Mark from "./Mark.astro";
 
-const newsletterAttrs = {
-  href: "/newsletter",
-  rel: "noreferrer",
-  "data-ph-capture": "nav_click",
-  "data-ph-section": "nav",
-  "data-ph-destination": "newsletter",
-};
 ---
 
 <nav
@@ -25,18 +18,11 @@ const newsletterAttrs = {
       <span class="flex size-8 items-center justify-center bg-text text-bg">
         <Mark class="size-5" />
       </span>
-      <span class="hidden sm:inline font-display text-lg font-extrabold tracking-tight">Saadiq Industries</span>
-      <span class="sr-only sm:hidden">Saadiq Industries</span>
+      <span class="max-sm:sr-only font-display text-lg font-extrabold tracking-tight">Saadiq Industries</span>
     </a>
 
     <div class="flex items-center gap-4 md:gap-8 text-sm font-medium">
       <NavLinks linkClass="hidden md:inline-flex min-h-11" />
-      <a
-        {...newsletterAttrs}
-        class="hidden md:inline-flex min-h-11 items-center text-text-muted transition-colors duration-200 hover:text-text"
-      >
-        Newsletter
-      </a>
       <BookingCTA section="nav" variant="outline" label="Book" />
       <button
         id="nav-menu-toggle"
@@ -56,12 +42,6 @@ const newsletterAttrs = {
   >
     <div class="flex flex-col text-lg font-medium">
       <NavLinks linkClass="flex min-h-12 border-t border-rule" />
-      <a
-        {...newsletterAttrs}
-        class="flex min-h-12 items-center border-t border-rule text-text-muted hover:text-text"
-      >
-        Newsletter
-      </a>
     </div>
   </div>
 </nav>

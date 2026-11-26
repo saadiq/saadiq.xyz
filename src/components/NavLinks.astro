@@ -8,6 +8,8 @@ const links = [
   { href: "/services", label: "Services" },
   { href: "/speaking", label: "Speaking" },
   { href: "/about", label: "About" },
+  // rel=noreferrer: see Member attribution in CLAUDE.md.
+  { href: "/newsletter", label: "Newsletter", rel: "noreferrer" },
 ];
 
 interface Props {
@@ -19,9 +21,10 @@ const path = normalizePath(Astro.url.pathname);
 ---
 
 {
-  links.map(({ href, label }) => (
+  links.map(({ href, label, rel }) => (
     <a
       href={href}
+      rel={rel}
       aria-current={path === href ? "page" : undefined}
       class:list={[
         "items-center transition-colors duration-200",
