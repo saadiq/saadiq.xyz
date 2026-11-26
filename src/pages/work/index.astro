@@ -76,7 +76,9 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
                     </div>
                   </div>
                   <div>
-                    <p class="text-text leading-relaxed mb-4">{cs.challenge}</p>
+                    <p class="font-mono text-xs text-text-muted mb-2">Situation</p>
+                    <p class="text-text leading-relaxed mb-6">{cs.challenge}</p>
+                    <p class="font-mono text-xs text-text-muted mb-2">What I did</p>
                     <p class="text-text-body leading-relaxed mb-6">{cs.work}</p>
                     {cs.results.length > 0 && (
                       <p class="font-mono text-xs text-text-muted mb-2">
