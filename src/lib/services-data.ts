@@ -10,7 +10,7 @@ export const services = [
     shape: "weekly sessions on retainer",
     cta: "Book a conversation",
     format: ["monthly retainer · weekly sessions", "three-month initial term"],
-    who: "For CEOs who need to get fluent on AI and set the company's strategy for it.",
+    who: "For CEOs leading their companies through AI.",
     body:
       "A standing weekly session on the topics you pick. What matters and what you can safely ignore, what competitors are doing, how to explain the plan to your team, how fast to push. Deep enough to get into mechanics, with source-verified research briefs between sessions. I have no platform to sell you, so the read stays honest.",
     proof:
