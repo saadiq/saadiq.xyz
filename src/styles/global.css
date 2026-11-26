@@ -166,9 +166,9 @@ body::before {
     box-shadow: var(--shadow-panel);
   }
 
-  /* The one subpage h1 scale. */
+  /* The one subpage h1 scale, set like the hero: 800 with tight tracking. */
   .page-title {
-    @apply font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight mb-8;
+    @apply font-display font-extrabold text-5xl md:text-7xl lg:text-8xl leading-[0.98] tracking-[-0.04em] mb-8;
   }
 
   /* Case-study cards: a panel that leads with a gold edge. */
