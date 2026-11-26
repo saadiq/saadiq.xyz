@@ -66,21 +66,23 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         anonym: "A Fortune 500 company",
         nameCleared: false,
         headline: "A standing weekly AI session with the chief executive",
-        format: ["executive AI advisory", "weekly one-on-one with the CEO"],
+        outcomeLabel: "So far",
+        format: ["executive AI advisory", "weekly one-on-one with the CEO", "ongoing"],
         home: {
           advising: "Advising the CEO",
           cadence: "weekly",
           situation:
-            "The chief executive needed to reason about AI at the level of mechanics, not vendor decks. The decisions couldn't wait for a team still forming its own view.",
-          work: "A standing weekly session on the decisions on his desk, from model evaluation and build economics to token cost and prompt-injection risk.",
-          result: "Delivered weekly to the chief executive directly, not to a delegate.",
+            "The chief executive wanted to understand AI well enough to make the calls himself, instead of relying on vendor pitches or a team still forming its own view.",
+          work: "A standing weekly session on the AI decisions in front of him, covering which models to trust, what building would cost, and where the risks are.",
+          result:
+            "He weighs AI proposals on how they actually work, and decides for himself where AI is worth applying across the company.",
         },
         challenge:
-          "The chief executive needed to reason about AI at the level of mechanics rather than vendor decks. The decisions in front of him could not be delegated to a team still forming its own view.",
-        work: "A standing weekly session on the decisions actually on his desk. Model evaluation, retrieval versus fine-tuning economics, token cost modeling, hallucination and prompt-injection risk. Each session runs on source-verified research. I have no platform to sell, so the read stays honest.",
+          "The chief executive wanted to understand AI well enough to make the calls himself, instead of relying on vendor pitches. The decisions in front of him could not wait for a team still forming its own view.",
+        work: "A standing weekly session on the decisions actually on his desk. We cover how to judge which AI models to trust, when to build versus buy and what each costs, and where AI creates new risks for the company. Each session runs on checked research. I have no platform to sell, so the read stays honest.",
         results: [
-          "A weekly cadence delivered directly to the chief executive, not to a delegate",
-          "Mechanics covered at depth, from model evaluation through token cost modeling to prompt-injection risk",
+          "A chief executive who can judge AI proposals on how they work, not on the pitch",
+          "Clearer calls on where AI is worth applying across the company, and where it is not",
         ],
       },
       {
