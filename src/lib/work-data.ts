@@ -230,8 +230,8 @@ export const pendingNote = (cs: CaseStudy) =>
 
 const allStudies = caseStudyGroups.flatMap((g) => g.studies);
 
-// Homepage case studies, in page order: the CEO engagement leads because it is
-// the engagement the hero describes.
+// Homepage case studies, in caseStudyGroups order, so reordering /work reorders
+// the homepage too. Keep the CEO engagement first: it is the one the hero describes.
 export const homeStudies = allStudies.filter(
   (cs): cs is CaseStudy & Required<Pick<CaseStudy, "home">> => !!cs.home,
 );
