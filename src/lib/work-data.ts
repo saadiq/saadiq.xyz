@@ -137,20 +137,6 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         ],
       },
       {
-        client: "Avaaz",
-        anonym: "A 70-million-member advocacy organization",
-        nameCleared: false,
-        headline: "A campaign-setup agent, built and accepted milestone by milestone",
-        format: ["agent and automation build", "milestone billed"],
-        challenge:
-          "Campaign setup was manual work repeated across a global organization. Every hour spent standing a campaign up was an hour not spent on the campaign itself.",
-        work: "An AI campaign-setup agent with human review designed in from the start. It was built to execute through the organization's own CMS and messaging APIs, so it fits inside their systems rather than beside them.",
-        results: [
-          "Agent built and accepted, milestone by milestone",
-          "Human review at every step, so the agent never acts on its own",
-        ],
-      },
-      {
         client: "Our Kids Read",
         anonym: "A children's literacy nonprofit",
         nameCleared: true, // Named by Saadiq 2026-11-25.
@@ -178,7 +164,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
     ],
   },
   {
-    group: "Sprints and enablement",
+    group: "Sprints and builds",
     studies: [
       {
         client: "TigerData",
@@ -214,6 +200,20 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         results: [
           "Engineering need dropped from a full-time CTO plus two developers to office hours and a fraction of one",
           "Users reacted to working software, which sharpened every feedback cycle",
+        ],
+      },
+      {
+        client: "Avaaz",
+        anonym: "A 70-million-member advocacy organization",
+        nameCleared: false,
+        headline: "A campaign-setup agent, built and accepted milestone by milestone",
+        format: ["agent and automation build", "milestone billed"],
+        challenge:
+          "Campaign setup was manual work repeated across a global organization. Every hour spent standing a campaign up was an hour not spent on the campaign itself.",
+        work: "An AI campaign-setup agent with human review designed in from the start. It was built to execute through the organization's own CMS and messaging APIs, so it fits inside their systems rather than beside them.",
+        results: [
+          "Agent built and accepted, milestone by milestone",
+          "Human review at every step, so the agent never acts on its own",
         ],
       },
     ],
