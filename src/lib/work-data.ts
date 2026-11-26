@@ -110,11 +110,11 @@ export const caseStudyGroups: CaseStudyGroup[] = [
         },
         format: [
           "technical advisory to the founder, with builds",
-          "thirteen months and running",
+          "eighteen months and running",
         ],
         home: {
           advising: "Advising the founder",
-          cadence: "13 months",
+          cadence: "18 months",
           situation:
             "They win on fresh availability. The team sources every housing request by calling properties directly, so clients see what's open now. As demand grew, those calls took up more and more of the day.",
           work: "Grew from one email automation into the founder's standing technical advisor, with a voice agent and a website replatform built along the way.",
