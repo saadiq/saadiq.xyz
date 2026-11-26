@@ -100,7 +100,7 @@ export const caseStudyGroups: CaseStudyGroup[] = [
     group: "Advisory with builds",
     studies: [
       {
-        client: "Lanyard Stays",
+        client: "Lanyard",
         anonym: "A B2B corporate-housing company",
         nameCleared: true, // Named by Saadiq 2026-11-25.
         headline: "A voice agent in production, replacing 8 to 12 hours of calling per request",
