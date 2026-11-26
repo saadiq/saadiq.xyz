@@ -6,7 +6,6 @@ import StatusBar from "../../components/StatusBar.astro";
 import { websiteJsonLd, workBreadcrumbJsonLd } from "../../lib/schema";
 import {
   caseStudyGroups,
-  caseStudyCount,
   testimonials,
   SHOW_PENDING,
   displayName,
@@ -38,10 +37,10 @@ const grouped = caseStudyGroups.map(({ group, studies }) => ({
         Case studies
       </h1>
       <p class="text-xl md:text-2xl text-text-body mb-16 max-w-3xl">
-        What changed across {caseStudyCount} engagements, from advising a
-        Fortune 500 CEO to builds that proved the point. Some clients stay anonymized
-        until a written release lands. The details stay exact, and I'm happy to
-        talk through any of them.
+        What changed for clients, from advising a Fortune 500 CEO to builds
+        that proved the point. Some clients stay anonymized until a written
+        release lands. The details stay exact, and I'm happy to talk through
+        any of them.
       </p>
 
       {
