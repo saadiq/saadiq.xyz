@@ -42,6 +42,9 @@ export async function generateOgImage({ label, heading, subtext }: OgImageOption
         style: {
           width: "100%",
           height: "100%",
+          // Newer satori defaults to content-box, which pushes the padding
+          // outside the 1200x630 canvas and shifts every card down and right.
+          boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
