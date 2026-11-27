@@ -65,8 +65,3 @@ Pushing to `main` deploys automatically: `.github/workflows/deploy.yml` builds w
 - `bun run dev` — local dev server (`bun run dev -- --host 0.0.0.0` to reach it over Tailscale; allowed hostnames are in `astro.config.mjs` `vite.server.allowedHosts`)
 - `bun run build` — production build to `dist/`
 - `SHOW_PENDING=1` before either command reveals gated client names and testimonials on `/work` (never set in CI)
-
-## Repo skills (`.claude/skills/`)
-
-- `droplet-operations` — the full server runbook (see Server operations above)
-- `search-console` — Google Search Console auth setup and API recipes for `sc-domain:saadiq.xyz`
